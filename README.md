@@ -12,48 +12,60 @@ Die TeamControl Software unterstützt das durch folgende Funktionen:
 * Protokollierung der Fahrerwechsel
 * Bereitstellen von sekundengenauen Anzeigen für Teams und Rennleitung
 
-This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
-provided by the [RailsApps Project](http://railsapps.github.io/).
+## Aufbau
 
-Rails Composer is supported by developers who purchase our RailsApps tutorials.
+TeamControl besteht aus **einem Server** und **optionalen Lesestationen**. Die Software der Lesestationen findet sich [im SWC Gitlab](https://gitlab.software-consultant.net/swc/teamcontrol-reader).
 
-Problems? Issues?
------------
+## Ablauf eines Rennens
 
-Need help? Ask on Stack Overflow with the tag 'railsapps.'
+1. Definition der Stammdaten eines Rennens: Dauer, max. Fahrzeiten ua.
+2. Definition der Teams
+   * Zuweisung der Fahrer zu den Teams
+3. Registrieren der NFC Tags für die Fahrer
+4. Start des Rennens
+   * Fahrer erzeugen kommen/gehen Buchungen je nach Konfiguration
+   * laufende Auswertung über alle Teams und in der individuellen Teamansicht
+5. Ende des Rennens
+   * Abschluss aller uU nicht abgeschlossenen Fahrerdaten
+   
+Im laufenden Betrieb kann es dabei zu besonderen Aktionen kommen. Diese sind:
 
-Your application contains diagnostics in the README file. Please provide a copy of the README file when reporting any issues.
+* manuelle Buchung vergessener kommen/gehen Daten durch die Rennleitung
+* Erfassung von Ersatz-Tags für Fahrer
 
-If the application doesn't work as expected, please [report an issue](https://github.com/RailsApps/rails_apps_composer/issues)
-and include the diagnostics.
+## Registrierungsschema
 
-Ruby on Rails
--------------
+Wir verwenden die technische ID auf jedem NFC Tag zur Registrierung und Identifikation eines Fahrers. Die Lesestation überträgt die ID der gelesenen Karte, der Server antwortet darauf wie folgt:
 
-This application requires:
+Ist die übertragene ID *unbekannt*
 
-- Ruby 2.2.4
-- Rails 4.2.5.1
+- registriert der Server diese **für die erste (älteste) Fahrerzuordnung**
+- bzw antwortet mit einer **Fehlermeldung** wenn keine Fahrerzuordnung ohne ID zu finden ist
 
-Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
+Ist die übertragene ID bekannt, dh existiert eine Fahrerzuordnung für diese ID, dann
 
-Getting Started
----------------
+- im **kommend/gehend** Modus
+  - legt der Server eine **kommend** Buchung an, wenn der registrierte Fahrer nicht gleich dem aktuellen Fahrer ist
+  - legt der Server einen **gehend** Buchung an, wenn der registrierte Fahrer gleich dem aktuellen Fahrer ist, und erzeugt einen Fahrzeiteintrag für diesen Fahrer. Dessen Dauer wird bestimmt vom Zeitpunkt der letzten kommend-Buchung des gleichen Fahrers, frühestens dem Beginn des Rennens.
+- im **gehend** Modus
+  - legt der Server eine **gehend** Buchung an, und erzeugt einen Fahrzeiteintrag für diesen Fahrer. Dessen Dauer wird bestimmt vom Zeitpunkt der letzten gehend-Buchung des gleichen Teams, alternativ dem Beginn des Rennens.
+  
+## Entitäten
 
-Documentation and Support
--------------------------
+* **Rennen** `race`  
+  Stammdaten zum Rennen
+* **Team** `team`  
+  Name und Logo des Teams, gehört zum Rennen
+* **Fahrer** `driver`  
+  Name des Fahrers
+* **Teilnahme** `attendance`  
+  Gehört zu Team & Fahrer, beinhaltet die NFC ID des Fahrers in diesem Rennen
+* **Ereignis** `event`  
+  Gehört zu Team & Fahrer, beinhaltet kommen/gehen Buchungen und Registrierungen mit einem Zeitstempel
+* **Fahrzeit** `turn`  
+  Gehört zu Team & Fahrer, beinhaltet die Dauer des Einsatzes
+  
+## Auswertung
 
-Issues
--------------
-
-Similar Projects
-----------------
-
-Contributing
-------------
-
-Credits
--------
-
-License
--------
+- Fahrzeit pro Fahrer: Summe aller Fahrzeiten
+- Fahrzeiten pro Team: Summe aller Fahrzeiten aller Fahrer dieses Teams
