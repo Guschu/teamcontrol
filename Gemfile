@@ -1,5 +1,13 @@
 source 'https://rubygems.org'
 ruby '2.2.4'
+
+gem 'bootstrap-sass'
+gem 'haml-rails'
+gem 'high_voltage'
+gem 'mysql2', '~> 0.3.18'
+gem 'simple_form'
+gem 'font-awesome-rails'
+
 gem 'rails', '4.2.5.1'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -32,13 +40,6 @@ group :development do
   gem 'rails_layout'
   gem 'spring-commands-rspec'
 end
-
-gem 'bootstrap-sass'
-gem 'haml-rails'
-gem 'high_voltage'
-gem 'mysql2', '~> 0.3.18'
-gem 'simple_form'
-gem 'font-awesome-rails'
 
 group :test do
   gem 'capybara'
