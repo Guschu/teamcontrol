@@ -43,6 +43,7 @@ db/*.sqlite3
 /public/stylesheets/compiled
 /public/system/*
 /spec/tmp/*
+/spec/examples.txt
 /cache
 /capybara*
 /capybara-*.html
@@ -75,6 +76,9 @@ pickle-email-*.html
 
 # vim artifacts
 **.swp
+
+# Sublime project files
+*.sublime-*
 
 # Environment files that may contain sensitive data
 .env

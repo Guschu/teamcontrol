@@ -11,6 +11,7 @@ Die TeamControl Software unterstützt das durch folgende Funktionen:
 * Organisation der Teams
 * Protokollierung der Fahrerwechsel
 * Bereitstellen von sekundengenauen Anzeigen für Teams und Rennleitung
+
 This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
 provided by the [RailsApps Project](http://railsapps.github.io/).
 
