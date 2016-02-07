@@ -1,0 +1,16 @@
+de:
+  activerecord:
+    models:
+      race:
+        one: Rennen
+        other: Rennen
+    attributes:
+      race:
+        name: Titel
+        duration: Dauer
+        max_drive: Fahrzeit insgesamt
+        max_turn: Fahrzeit pro Durchgang
+        break_time: Länger der Pause
+        waiting_period: Karenzzeit
+        created_at: Angelegt am
+        updated_at: Bearbeitet am

@@ -1,0 +1,21 @@
+.container
+
+  %h1 Listing races
+
+  %table.table
+    %thead
+      %tr
+        %th
+        %th
+        %th
+
+    %tbody
+      - @races.each do |race|
+        %tr
+          %td= link_to 'Show', race
+          %td= link_to 'Edit', edit_race_path(race)
+          %td= link_to 'Destroy', race, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+  %br
+
+  = link_to 'New Race', new_race_path, class:'btn btn-primary'
