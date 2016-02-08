@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :races
+  resources :drivers
+
+  resources :races do
+    resources :teams
+  end
 
   root to: 'races#index'
 end

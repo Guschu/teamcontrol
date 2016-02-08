@@ -1,4 +1,4 @@
-%nav.navbar.navbar-default.navbar-fixed-top
+%nav.navbar.navbar-inverse.navbar-fixed-top
   .container
     .navbar-header
       %button.navbar-toggle{ type:'button', data:{ target:'.navbar-collapse', toggle:'collapse'} }
@@ -9,4 +9,5 @@
       = link_to 'Home', root_path, class: 'navbar-brand'
     .collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-right
+        %li= link_to 'Fahrer', drivers_path
         %li= link_to 'Rennen', races_path

@@ -1,14 +1,13 @@
-= simple_form_for(@race) do |f|
+= simple_form_for @race do |f|
   = f.error_notification
 
-  .form-inputs
-    = f.input :name
-    = f.input :duration
-    = f.input :max_drive
-    = f.input :max_turn
-    = f.input :break_time
-    = f.input :waiting_period
+  = f.input :name
+  = f.input :duration
+  = f.input :max_drive
+  = f.input :max_turn
+  = f.input :break_time
+  = f.input :waiting_period
 
-  .form-actions.col-sm-offset-3
-    = f.button :submit
+  .form-actions
+    = f.button :submit, class:'btn-primary'
     = link_to 'Abbrechen', races_path, class:'btn btn-link'

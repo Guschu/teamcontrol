@@ -1,0 +1,23 @@
+%h1 Alle Fahrer
+
+%table.table
+  %colgroup
+    %col
+    %col{ width:80 }
+    %col{ width:80 }
+  %thead
+    %tr
+      %th Name
+      %th
+      %th
+
+  %tbody
+    - @drivers.each do |driver|
+      %tr
+        %td= link_to driver.name, driver
+        %td= link_to 'Edit', edit_driver_path(driver)
+        %td= link_to 'Destroy', driver, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+= paginate @drivers
+
+= link_to 'New Driver', new_driver_path

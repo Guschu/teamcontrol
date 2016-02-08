@@ -4,11 +4,14 @@
     %meta{name: "viewport", content: "width=device-width, initial-scale=1.0"}
     %title= content_for?(:title) ? yield(:title) : 'Teamcontrol'
     = stylesheet_link_tag 'application', media: 'all'
-    = javascript_include_tag 'application'
     = csrf_meta_tags
   %body
     %header
       = render 'layouts/navigation'
     .main{ role:'main' }
-      = render 'layouts/messages'
-      = yield
+      .container
+        = render 'layouts/messages'
+        = yield
+    %footer
+      = render 'layouts/footer'
+    = javascript_include_tag 'application'

@@ -1,21 +1,22 @@
-.container
+%h1 Alle Rennen
 
-  %h1 Listing races
+%table.table
+  %colgroup
+    %col
+    %col{ width:80 }
+    %col{ width:80 }
+  %thead
+    %tr
+      %th Name
+      %th
+      %th
 
-  %table.table
-    %thead
+  %tbody
+    - @races.each do |race|
       %tr
-        %th
-        %th
-        %th
+        %td= link_to race.name, race
+        %td= link_to 'Edit', edit_race_path(race)
+        %td= link_to 'Destroy', race, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-    %tbody
-      - @races.each do |race|
-        %tr
-          %td= link_to 'Show', race
-          %td= link_to 'Edit', edit_race_path(race)
-          %td= link_to 'Destroy', race, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-  %br
-
-  = link_to 'New Race', new_race_path, class:'btn btn-primary'
+%p
+  = link_to 'Neues Rennen', new_race_path, class:'btn btn-primary'

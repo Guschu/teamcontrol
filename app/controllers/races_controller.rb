@@ -14,7 +14,7 @@ class RacesController < ApplicationController
 
   # GET /races/new
   def new
-    @race = Race.new
+    @race = Race.new Race::DEFAULTS
   end
 
   # GET /races/1/edit
@@ -64,11 +64,11 @@ class RacesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_race
-      @race = Race.find(params[:id])
+      @race = Race.friendly.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def race_params
-      params.require(:race).permit :name
+      params.require(:race).permit :name, :duration, :max_drive, :max_turn, :break_time, :waiting_period
     end
 end
