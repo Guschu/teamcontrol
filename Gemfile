@@ -25,6 +25,7 @@ group :development, :test do
   gem 'forgery'
   gem 'rspec-rails'
   gem 'thin'
+  gem 'rubocop', require: false
 end
 
 group :development do
@@ -45,6 +46,7 @@ group :development do
 end
 
 group :test do
+  gem 'simplecov', require: false
   gem 'capybara'
   gem 'database_cleaner'
   gem 'launchy'
