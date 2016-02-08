@@ -1,0 +1,28 @@
+image: ruby:2.2
+variables:
+  MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+test:
+  script:
+    - apt-get update -qy
+    - apt-get install -y nodejs
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install --deployment --without production --jobs=3 --quiet --path /cache
+    - cp config/database.yml.example config/database.yml
+    - bundle exec rake db:create RAILS_ENV=test
+    - bundle exec rake spec SPEC_OPTS="--format progress" SIMPLECOV=1
+  tags:
+    - ruby
+    - mysql
+rubocop:
+  only:
+    - master
+  allow_failure: true
+  script:
+    - apt-get update -qy
+    - apt-get install -y nodejs
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install --deployment --without production --jobs=3 --quiet --path /cache
+    - cp config/database.yml.example config/database.yml
+    - bundle exec rubocop --format simple
+  tags:
+    - ruby
