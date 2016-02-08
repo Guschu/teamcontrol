@@ -1,25 +1,23 @@
-%div
-  %ul.nav.nav-tabs{ role:'tablist' }
-    %li.active{ role:'presentation' }= link_to 'Teams', '#teams', role:'tab', data:{ toggle:'tab' }
-    %li{ role:'presentation' }= link_to 'Einstellungen', '#settings', role:'tab', data:{ toggle:'tab' }
+%ul.nav.nav-tabs{ role:'tablist' }
+  %li.active{ role:'presentation' }= link_to 'Teams', '#teams', role:'tab', data:{ toggle:'tab' }
+  %li{ role:'presentation' }= link_to 'Einstellungen', '#settings', role:'tab', data:{ toggle:'tab' }
 
-  .tab-content
-    .tab-pane.active#teams{ role:'tabpanel' }
-      .block-grid-xs-2.block-grid-sm-4.block-grid-md-6
-        - @race.teams.each do |team|
-          .panel.panel-default
-            .panel-heading
-              %h4.panel-title= team.name
-            .panel-body
-
+.tab-content
+  .tab-pane.active#teams{ role:'tabpanel' }
+    .block-grid-xs-2.block-grid-sm-4.block-grid-md-6
+      - @race.teams.each do |team|
+        .panel.panel-default
+          .panel-heading
+            %h4.panel-title= team.name
+          .panel-body
 
 
-    .tab-pane#settings{ role:'tabpanel' }
-      %table.table
-        %tbody
-          %tr
-            %th Name
-            %td= @race.name
-      %p
-        = link_to 'Bearbeiten', edit_race_path(@race), class:'btn btn-primary'
-        = link_to 'Zurück', races_path, class:'btn btn-default'
+  .tab-pane#settings{ role:'tabpanel' }
+    %table.table
+      %tbody
+        %tr
+          %th Name
+          %td= @race.name
+    %p
+      = link_to 'Bearbeiten', edit_race_path(@race), class:'btn btn-primary'
+      = link_to 'Zurück', races_path, class:'btn btn-default'
