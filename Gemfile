@@ -19,6 +19,13 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 
+# API related Gems
+gem 'grape'
+gem 'grape-swagger'
+gem 'grape-entity'
+gem 'grape_logging'
+gem 'sinatra', require: false
+
 group :development, :test do
   gem 'awesome_print'
   gem 'byebug'

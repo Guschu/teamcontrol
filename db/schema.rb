@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160208195856) do
+ActiveRecord::Schema.define(version: 20160209112248) do
 
   create_table "attendances", force: :cascade do |t|
     t.integer  "team_id",    limit: 4
@@ -58,6 +58,14 @@ ActiveRecord::Schema.define(version: 20160208195856) do
   end
 
   add_index "races", ["slug"], name: "index_races_on_slug", using: :btree
+
+  create_table "stations", force: :cascade do |t|
+    t.string   "token",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "stations", ["token"], name: "index_stations_on_token", using: :btree
 
   create_table "teams", force: :cascade do |t|
     t.integer  "race_id",           limit: 4

@@ -32,3 +32,17 @@ footer {
     }
   }
 }
+
+.panel-compact {
+  border-radius: 2px;
+  margin-bottom: 6px;
+
+  .panel-heading {
+    border-radius: 0;
+    padding: 6px;
+  }
+
+  .panel-title {
+    font-size: 12px;
+  }
+}

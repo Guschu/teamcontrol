@@ -5,11 +5,16 @@
 .tab-content
   .tab-pane.active#teams{ role:'tabpanel' }
     .block-grid-xs-2.block-grid-sm-4.block-grid-md-6
-      - @race.teams.each do |team|
-        .panel.panel-default
-          .panel-heading
-            %h4.panel-title= team.name
-          .panel-body
+      - @race.teams.includes(:attendances).each do |team|
+        %div
+          .panel.panel-default.panel-info.panel-compact
+            .panel-heading
+              %h4.panel-title= link_to team.name, '#'
+            %table.table.table-condensed
+              %tbody
+                %tr
+                  %th Fahrer
+                  %td= team.attendances.size
 
 
   .tab-pane#settings{ role:'tabpanel' }

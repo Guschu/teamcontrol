@@ -2,11 +2,13 @@
 
 %table.table.table-striped
   %colgroup
+    %col{ width:80 }
     %col
     %col{ width:80 }
     %col{ width:80 }
   %thead
     %tr
+      %th Status
       %th Name
       %th
       %th
@@ -14,6 +16,7 @@
   %tbody
     - @races.each do |race|
       %tr
+        %td= race.state
         %td= link_to race.name, race
         %td= link_to 'Edit', edit_race_path(race)
         %td= link_to 'Destroy', race, :method => :delete, :data => { :confirm => 'Are you sure?' }
