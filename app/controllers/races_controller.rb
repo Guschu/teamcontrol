@@ -25,7 +25,8 @@ class RacesController < ApplicationController
   # GET /races
   # GET /races.json
   def index
-    @races = Race.all
+    page = (params[:page] || '1').to_i
+    @races = Race.order(:state, :name).page(page)
   end
 
   # GET /races/1

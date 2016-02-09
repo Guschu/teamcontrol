@@ -1,7 +1,7 @@
 .container-fluid
   %ul.footer-links.text-right
+    %li= link_to 'API', '/docs/api/'
     %li
-      = link_to 'https://software-berater.net', target:'_blank' do
-        Made with
-        =fa_icon 'heart'
-        in Siegburg.
+      Made with
+      = link_to fa_icon('heart'), 'https://software-berater.net', target:'_blank'
+      in Siegburg.

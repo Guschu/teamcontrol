@@ -1,0 +1,29 @@
+%h1 Registrierte Lesestationen
+
+%table.table.table-striped
+  %colgroup
+    %col
+    %col{ width:80 }
+    %col{ width:80 }
+  %thead
+    %tr
+      %th Token
+      %th
+      %th
+
+  - if @stations.any?
+    %tbody
+      - @stations.each do |station|
+        %tr
+          %td.monospace= link_to station.token, [:admin, station]
+          %td= link_to 'Bearbeiten', edit_admin_station_path(station)
+          %td= link_to 'Löschen', [:admin, station], :method => :delete, :data => { :confirm => 'Are you sure?' }
+  - else
+    %tbody
+      %tr.info
+        %td{ colspan:3 }
+          %p.text-center Keine Stationen angelegt.
+
+= paginate @stations
+
+= link_to 'Neue Lesestation', new_admin_station_path, class:'btn btn-primary'

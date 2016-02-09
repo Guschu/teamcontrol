@@ -24,5 +24,5 @@
           %th Name
           %td= @race.name
     %p
-      = link_to 'Bearbeiten', edit_race_path(@race), class:'btn btn-primary'
-      = link_to 'Zurück', races_path, class:'btn btn-default'
+      = link_to t('edit'), edit_race_path(@race), class:'btn btn-primary'
+      = link_to t('back'), races_path, class:'btn btn-default'

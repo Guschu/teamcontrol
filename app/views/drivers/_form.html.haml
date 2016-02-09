@@ -1,7 +1,7 @@
 = simple_form_for(@driver) do |f|
   = f.error_notification
 
-  .form-inputs
+  = f.input :name
 
-  .form-actions
-    = f.button :submit
+  = f.button :submit
+  = link_to t('cancel'), drivers_path, class:'btn btn-text'

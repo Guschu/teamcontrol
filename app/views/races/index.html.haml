@@ -13,13 +13,21 @@
       %th
       %th
 
-  %tbody
-    - @races.each do |race|
-      %tr
-        %td= race.state
-        %td= link_to race.name, race
-        %td= link_to 'Edit', edit_race_path(race)
-        %td= link_to 'Destroy', race, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  - if @races.any?
+    %tbody
+      - @races.each do |race|
+        %tr
+          %td= race.state
+          %td= link_to race.name, race
+          %td= link_to t('edit'), edit_race_path(race)
+          %td= link_to t('destroy'), race, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  - else
+    %tbody
+      %tr.info
+        %td{ colspan:4 }
+          %p.text-center Keine Rennen angelegt.
+
+= paginate @races
 
 %p
   = link_to 'Neues Rennen', new_race_path, class:'btn btn-primary'

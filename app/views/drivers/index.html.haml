@@ -11,12 +11,19 @@
       %th
       %th
 
-  %tbody
-    - @drivers.each do |driver|
-      %tr
-        %td= link_to driver.name, driver
-        %td= link_to 'Edit', edit_driver_path(driver)
-        %td= link_to 'Destroy', driver, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  - if @drivers.any?
+    %tbody
+      - @drivers.each do |driver|
+        %tr
+          %td= link_to driver.name, driver
+          %td= link_to t('edit'), edit_driver_path(driver)
+          %td= link_to t('destroy'), driver, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  - else
+    %tbody
+      %tr.info
+        %td{ colspan:4 }
+          %p.text-center Keine Fahrer angelegt.
+
 
 = paginate @drivers
 

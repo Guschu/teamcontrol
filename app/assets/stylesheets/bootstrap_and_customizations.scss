@@ -5,6 +5,8 @@
 
 .main {
   padding-top: 60px;
+  padding-bottom: 40px;
+  background-color: white;
 }
 
 .navbar-brand {
@@ -14,9 +16,7 @@
 }
 
 footer {
-  margin-top: 40px;
   padding: 20px 0;
-  background-color: $gray-lightest;
 }
 
 .footer-links {
@@ -45,4 +45,8 @@ footer {
   .panel-title {
     font-size: 12px;
   }
+}
+
+.monospace {
+  font-family: $font-family-monospace;
 }
