@@ -29,4 +29,8 @@ class Team < ActiveRecord::Base
   validates_attachment :logo, content_type:{
     content_type: %w(image/jpg image/jpeg image/png image/gif)
   }
+
+  def last_driver
+    drivers.first
+  end
 end

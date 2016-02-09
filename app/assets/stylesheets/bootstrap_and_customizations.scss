@@ -50,3 +50,9 @@ footer {
 .monospace {
   font-family: $font-family-monospace;
 }
+
+.team {
+  .panel-title a {
+    font-weight: bold;
+  }
+}
