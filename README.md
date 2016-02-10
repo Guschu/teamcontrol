@@ -39,7 +39,7 @@ Wir verwenden die technische ID auf jedem NFC Tag zur Registrierung und Identifi
 
 Ist die übertragene ID *unbekannt*
 
-- registriert der Server diese **für die erste (älteste) Fahrerzuordnung**
+- registriert der Server diese **für die erste (älteste) Fahrerzuordnung** und antwortet mit einer **Erfolgsmeldung**, die den Namen des Fahrers beinhaltet
 - bzw antwortet mit einer **Fehlermeldung** wenn keine Fahrerzuordnung ohne ID zu finden ist
 
 Ist die übertragene ID bekannt, dh existiert eine Fahrerzuordnung für diese ID, dann
@@ -47,9 +47,13 @@ Ist die übertragene ID bekannt, dh existiert eine Fahrerzuordnung für diese ID
 - im **kommend/gehend** Modus
   - legt der Server eine **kommend** Buchung an, wenn der registrierte Fahrer nicht gleich dem aktuellen Fahrer ist
   - legt der Server einen **gehend** Buchung an, wenn der registrierte Fahrer gleich dem aktuellen Fahrer ist, und erzeugt einen Fahrzeiteintrag für diesen Fahrer. Dessen Dauer wird bestimmt vom Zeitpunkt der letzten kommend-Buchung des gleichen Fahrers, frühestens dem Beginn des Rennens.
+  - und antwortet mit einer **Erfolgsmeldung**
 - im **gehend** Modus
   - legt der Server eine **gehend** Buchung an, und erzeugt einen Fahrzeiteintrag für diesen Fahrer. Dessen Dauer wird bestimmt vom Zeitpunkt der letzten gehend-Buchung des gleichen Teams, alternativ dem Beginn des Rennens.
-  
+  - und antwortet mit einer **Erfolgsmeldung**
+
+Mehrfache Übermittlungen derselben ID innerhalb eines kurzen Zeitraumes (zB 15 Sekunden) werden ignoriert, nur der erste Scan wird bearbeitet.
+
 ## Entitäten
 
 * **Rennen** `race`  
@@ -67,5 +71,7 @@ Ist die übertragene ID bekannt, dh existiert eine Fahrerzuordnung für diese ID
   
 ## Auswertung
 
+- Aktueller Fahrer pro Team (nur im kommend/gehend Modus)
+- Letzter Fahrer pro Team
 - Fahrzeit pro Fahrer: Summe aller Fahrzeiten
 - Fahrzeiten pro Team: Summe aller Fahrzeiten aller Fahrer dieses Teams
