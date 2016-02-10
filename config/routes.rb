@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
+  devise_for :users
   mount SwaggerUI, at: 'docs/api'
   mount API => 'api'
 
   namespace :admin do
     resources :stations
+    resources :users
   end
 
   resources :drivers
@@ -11,5 +13,5 @@ Rails.application.routes.draw do
     resources :teams
   end
 
-  root to: 'races#index'
+  root to: 'races#current'
 end

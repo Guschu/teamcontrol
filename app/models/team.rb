@@ -24,6 +24,7 @@
 class Team < ActiveRecord::Base
   belongs_to :race
   has_many :attendances, dependent: :destroy
+  has_many :events, dependent: :destroy
   has_many :drivers, through: :attendances
   has_attached_file :logo
   validates_attachment :logo, content_type:{

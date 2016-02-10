@@ -21,11 +21,13 @@
 
 FactoryGirl.define do
   factory :race do
-    name "MyString"
-    duration 1
-    max_drive 1
-    max_turn 1
-    break_time 1
-    waiting_period 1
+    name "My Test Race"
+    duration 540
+    max_drive 170
+    max_turn 40
+    break_time 45
+    waiting_period 3
+    state 0
+    mode 0
   end
 end

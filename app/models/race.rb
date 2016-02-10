@@ -13,9 +13,11 @@
 #  updated_at     :datetime         not null
 #  slug           :string(255)
 #  state          :integer
+#  mode           :integer
 #
 # Indexes
 #
+#  index_races_on_mode  (mode)
 #  index_races_on_slug  (slug)
 #
 
@@ -27,6 +29,11 @@ class Race < ActiveRecord::Base
     planned: 0,
     active: 5,
     finished: 10
+  }
+
+  enum mode: {
+    both: 0,
+    leaving: 5
   }
 
   aasm :column => :state do
@@ -55,4 +62,8 @@ class Race < ActiveRecord::Base
     break_time: 45,
     waiting_period: 3
   }
+
+  def self.current_race
+    Race.active.first
+  end
 end

@@ -28,7 +28,7 @@ $brand-danger:          #D9831F;
 //## Settings for some of the most global styles.
 
 //** Background color for `<body>`.
-$body-bg:               $gray-lightest;
+$body-bg:               white;
 //** Global text color on `<body>`.
 $text-color:            $gray-dark;
 
@@ -450,18 +450,18 @@ $nav-pills-active-link-hover-color:         $component-active-color;
 //##
 
 $pagination-color:                     $headings-color;
-$pagination-bg:                        #fff;
+$pagination-bg:                        $gray-lightest;
 $pagination-border:                    #ddd;
 
 $pagination-hover-color:               #fff;
-$pagination-hover-bg:                  $brand-primary;
-$pagination-hover-border:              $brand-primary;
+$pagination-hover-bg:                  $gray-lighter;
+$pagination-hover-border:              #ddd;
 
 $pagination-active-color:              #fff;
 $pagination-active-bg:                 $brand-primary;
 $pagination-active-border:             $brand-primary;
 
-$pagination-disabled-color:            $gray-lighter;
+$pagination-disabled-color:            $gray-lightest;
 $pagination-disabled-bg:               #fff;
 $pagination-disabled-border:           #ddd;
 

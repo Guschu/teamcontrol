@@ -10,4 +10,5 @@
 
 class Driver < ActiveRecord::Base
   has_many :attendances
+  has_many :events
 end

@@ -20,4 +20,10 @@
 #
 
 module RacesHelper
+  def current_race
+    if session[:current_race]
+      return Race.find session[:current_race]
+    end
+    Race.current_race
+  end
 end

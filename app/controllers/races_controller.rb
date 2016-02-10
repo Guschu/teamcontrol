@@ -20,6 +20,7 @@
 #
 
 class RacesController < ApplicationController
+  include RacesHelper
   before_action :set_race, only: [:show, :edit, :update, :destroy]
 
   # GET /races
@@ -29,9 +30,14 @@ class RacesController < ApplicationController
     @races = Race.order(:state, :name).page(page)
   end
 
+  def current
+    redirect_to current_race
+  end
+
   # GET /races/1
   # GET /races/1.json
   def show
+    session[:current_race] = @race.id
   end
 
   # GET /races/new

@@ -7,6 +7,8 @@ de:
     attributes:
       race:
         name: Titel
+        state: Status
+        mode: Buchungsmodus
         duration: Dauer
         max_drive: Fahrzeit insgesamt
         max_turn: Fahrzeit pro Durchgang
@@ -14,3 +16,11 @@ de:
         waiting_period: Karenzzeit
         created_at: Angelegt am
         updated_at: Bearbeitet am
+  race:
+    states:
+      planned: in Planung
+      active: begonnen
+      finished: beendet
+    modes:
+      leaving: gehend
+      both: kommend/gehend

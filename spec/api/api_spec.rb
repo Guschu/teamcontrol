@@ -9,7 +9,7 @@ RSpec.describe API, type: :request do
   end
 
   context "with authentication" do
-    let(:station) { Station.where(token:'123456').first_or_create }
+    let(:station) { Station.where(token:'0123456789AB').first_or_create }
 
     it "returns 200" do
       get '/api/v1/ping', nil, { API::TOKEN_NAME => station.token }

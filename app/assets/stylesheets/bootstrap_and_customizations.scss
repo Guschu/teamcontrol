@@ -3,6 +3,20 @@
 @import "bootstrap";
 @import "simplex/bootswatch";
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.btn.btn-text:hover {
+  color: $gray-dark;
+}
+
 .main {
   padding-top: 60px;
   padding-bottom: 40px;
@@ -16,7 +30,13 @@
 }
 
 footer {
-  padding: 20px 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  padding: 12px 0;
+  background-color: $gray-lightest;
 }
 
 .footer-links {
@@ -31,6 +51,10 @@ footer {
       padding-left: 0;
     }
   }
+}
+
+.pagination {
+  margin-top: 0;
 }
 
 .panel-compact {

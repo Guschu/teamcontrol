@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160209112248) do
+ActiveRecord::Schema.define(version: 20160210155341) do
 
   create_table "attendances", force: :cascade do |t|
     t.integer  "team_id",    limit: 4
@@ -30,6 +30,17 @@ ActiveRecord::Schema.define(version: 20160209112248) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+
+  create_table "events", force: :cascade do |t|
+    t.integer  "team_id",    limit: 4
+    t.integer  "driver_id",  limit: 4
+    t.integer  "mode",       limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "events", ["driver_id"], name: "index_events_on_driver_id", using: :btree
+  add_index "events", ["team_id"], name: "index_events_on_team_id", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           limit: 255, null: false
@@ -55,8 +66,10 @@ ActiveRecord::Schema.define(version: 20160209112248) do
     t.datetime "updated_at",                 null: false
     t.string   "slug",           limit: 255
     t.integer  "state",          limit: 4
+    t.integer  "mode",           limit: 4
   end
 
+  add_index "races", ["mode"], name: "index_races_on_mode", using: :btree
   add_index "races", ["slug"], name: "index_races_on_slug", using: :btree
 
   create_table "stations", force: :cascade do |t|
@@ -80,7 +93,27 @@ ActiveRecord::Schema.define(version: 20160209112248) do
 
   add_index "teams", ["race_id"], name: "index_teams_on_race_id", using: :btree
 
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
   add_foreign_key "attendances", "drivers"
   add_foreign_key "attendances", "teams"
+  add_foreign_key "events", "drivers"
+  add_foreign_key "events", "teams"
   add_foreign_key "teams", "races"
 end

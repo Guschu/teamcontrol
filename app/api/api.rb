@@ -7,8 +7,7 @@ class API < Grape::API
   use GrapeLogging::Middleware::RequestLogger, { logger: logger }
 
   mount Status
-  # mount Merchants::Categories
-  # mount Merchants::Products
+  mount Events
 
   add_swagger_documentation(
     api_version:'v1',
