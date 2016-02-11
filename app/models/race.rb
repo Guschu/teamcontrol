@@ -36,23 +36,23 @@ class Race < ActiveRecord::Base
     leaving: 5
   }
 
-  aasm :column => :state do
-    state :planned, :initial => true
+  aasm column: :state do
+    state :planned, initial: true
     state :active
     state :finished
 
     event :start do
-      transitions :from => :planned, :to => :active
+      transitions from: :planned, to: :active
     end
 
     event :finish do
-      transitions :from => :active, :to => :finished
+      transitions from: :active, to: :finished
     end
   end
 
   has_many :teams
 
-  validates :name, presence:true
+  validates :name, presence: true
   friendly_id :name, use: :slugged
 
   DEFAULTS = {
@@ -61,7 +61,7 @@ class Race < ActiveRecord::Base
     max_turn: 40,
     break_time: 45,
     waiting_period: 3
-  }
+  }.freeze
 
   def self.current_race
     Race.active.first

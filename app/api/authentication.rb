@@ -9,7 +9,7 @@ module Authentication
 
       def current_station
         if token = request.headers[API::TOKEN_NAME]
-          @current_station ||= Station.where(token:token).first
+          @current_station ||= Station.where(token: token).first
           return @current_station
         end
         false

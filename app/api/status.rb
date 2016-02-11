@@ -10,6 +10,6 @@ class Status < Grape::API
 
   desc 'Check system status'
   get :ping do
-    present status:'ok'
+    present status: 'ok'
   end
 end

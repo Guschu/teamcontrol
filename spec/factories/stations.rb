@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :station do
-    token "MyString"
+    token 'MyString'
   end
 end

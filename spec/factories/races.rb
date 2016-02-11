@@ -21,7 +21,7 @@
 
 FactoryGirl.define do
   factory :race do
-    name "My Test Race"
+    name 'My Test Race'
     duration 540
     max_drive 170
     max_turn 40

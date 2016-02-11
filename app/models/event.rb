@@ -24,5 +24,5 @@ class Event < ActiveRecord::Base
   belongs_to :team
   belongs_to :driver
 
-  enum mode:{ arriving:0, leaving:5 }
+  enum mode: { arriving: 0, leaving: 5 }
 end

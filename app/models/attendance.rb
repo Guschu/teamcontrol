@@ -26,5 +26,4 @@ class Attendance < ActiveRecord::Base
   belongs_to :driver
 
   scope :unassigned, -> { where('tag_id IS NULL OR tag_id=""') }
-
 end

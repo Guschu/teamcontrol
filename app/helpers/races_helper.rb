@@ -21,9 +21,7 @@
 
 module RacesHelper
   def current_race
-    if session[:current_race]
-      return Race.find session[:current_race]
-    end
+    return Race.find session[:current_race] if session[:current_race]
     Race.current_race
   end
 end

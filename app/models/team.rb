@@ -27,7 +27,7 @@ class Team < ActiveRecord::Base
   has_many :events, dependent: :destroy
   has_many :drivers, through: :attendances
   has_attached_file :logo
-  validates_attachment :logo, content_type:{
+  validates_attachment :logo, content_type: {
     content_type: %w(image/jpg image/jpeg image/png image/gif)
   }
 

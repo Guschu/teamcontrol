@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Events, type: :request do
-  let(:station) { Station.where(token:'0123456789AB').first_or_create }
-  let(:headers) { {API::TOKEN_NAME=>station.token, 'Accept'=>'application/json'}}
+  let(:station) { Station.where(token: '0123456789AB').first_or_create }
+  let(:headers) { { API::TOKEN_NAME => station.token, 'Accept' => 'application/json' } }
 
   context 'for unregistered ids' do
     it 'assign the id when attendance is available' do
       race = create :race, state: :active
-      team = create :team, race:race
-      a = create :attendance, tag_id:nil, team:team
+      team = create :team, race: race
+      a = create :attendance, tag_id: nil, team: team
 
-      post '/api/v1/event', { id:'000000000000' }, headers
+      post '/api/v1/event', { id: '000000000000' }, headers
       expect(response.status).to eq 201
 
       data = JSON.parse(response.body)
@@ -23,10 +23,10 @@ RSpec.describe Events, type: :request do
 
     it 'returns error if no attendance available' do
       race = create :race, state: :active
-      team = create :team, race:race
-      a = create :attendance, tag_id:'000000000000', team:team
+      team = create :team, race: race
+      a = create :attendance, tag_id: '000000000000', team: team
 
-      post '/api/v1/event', { id:'000000000001' }, headers
+      post '/api/v1/event', { id: '000000000001' }, headers
       expect(response.status).to eq 406
 
       data = JSON.parse(response.body)

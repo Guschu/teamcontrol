@@ -1,0 +1,21 @@
+# This is the configuration used to check the rubocop source code.
+
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'db/**/*'
+    - 'tmp/**/*'
+    - 'bin/**/*'
+    - 'spec/spec_helper.rb'
+    - 'spec/rails_helper.rb'
+
+Lint/AmbiguousOperator:
+  Enabled: false
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Style/PredicateName:
+  Enabled: false

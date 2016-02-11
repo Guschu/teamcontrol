@@ -29,6 +29,4 @@ RSpec.describe Team, type: :model do
     it { is_expected.to have_many(:attendances).class_name('Attendance') }
     it { is_expected.to have_many(:drivers).class_name('Driver') }
   end
-
-
 end

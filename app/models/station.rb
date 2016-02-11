@@ -13,5 +13,5 @@
 #
 
 class Station < ActiveRecord::Base
-  validates :token, presence:true, format:{ with:/\A\h+\z/, message:'nur Hex'}, length:{ is:12 }, uniqueness:true
+  validates :token, presence: true, format: { with: /\A\h+\z/, message: 'nur Hex' }, length: { is: 12 }, uniqueness: true
 end
