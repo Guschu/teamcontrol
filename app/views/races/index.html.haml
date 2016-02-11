@@ -2,14 +2,16 @@
 
 %table.table.table-striped
   %colgroup
-    %col{ width:80 }
+    %col{ width:120 }
     %col
+    %col{ width:120 }
     %col{ width:80 }
     %col{ width:80 }
   %thead
     %tr
       %th Status
       %th Name
+      %th Datum
       %th
       %th
 
@@ -17,8 +19,10 @@
     %tbody
       - @races.each do |race|
         %tr
-          %td= race.state
+          %td
+            %span.label.label-default= t race.state, scope:'race.states'
           %td= link_to race.name, race
+          %td= l race.scheduled
           %td= link_to t('edit'), edit_race_path(race)
           %td= link_to t('destroy'), race, :method => :delete, :data => { :confirm => 'Are you sure?' }
   - else

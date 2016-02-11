@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   resources :drivers
   resources :races do
     resources :teams
+
+    member do
+      get 'overview'
+      get 'settings'
+    end
   end
 
   root to: 'races#current'

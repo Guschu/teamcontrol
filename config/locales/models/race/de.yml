@@ -12,8 +12,11 @@ de:
         duration: Dauer
         max_drive: Fahrzeit insgesamt
         max_turn: Fahrzeit pro Durchgang
-        break_time: Länger der Pause
+        break_time: Länge der Pause
         waiting_period: Karenzzeit
+        scheduled: Geplantes Renndatum
+        started_at: Rennbeginn
+        finished_at: Rennende
         created_at: Angelegt am
         updated_at: Bearbeitet am
   race:
@@ -24,3 +27,6 @@ de:
     modes:
       leaving: gehend
       both: kommend/gehend
+    events:
+      start: Start!
+      finish: Ende!

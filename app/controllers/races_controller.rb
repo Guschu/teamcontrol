@@ -26,7 +26,7 @@
 
 class RacesController < ApplicationController
   include RacesHelper
-  before_action :set_race, only: [:show, :edit, :update, :destroy]
+  before_action :set_race, only: [:show, :overview, :settings, :edit, :update, :destroy]
 
   # GET /races
   # GET /races.json
@@ -43,11 +43,20 @@ class RacesController < ApplicationController
   # GET /races/1.json
   def show
     session[:current_race] = @race.id
+    redirect_to settings_race_path(@race)
+  end
+
+  # GET /races/1/overview
+  def overview
+  end
+
+  # GET /races/1/settings
+  def settings
   end
 
   # GET /races/new
   def new
-    @race = Race.new Race::DEFAULTS
+    @race = Race.new duration: 540, max_drive: 170, max_turn: 40, break_time: 45, waiting_period: 3
   end
 
   # GET /races/1/edit

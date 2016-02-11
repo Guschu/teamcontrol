@@ -63,7 +63,12 @@ $web-font-path: "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,7
 // Typography =================================================================
 
 body {
-  font-weight: 200;
+  font-weight: 300;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-transform: uppercase;
+  margin-bottom: 0.5em;
 }
 
 // Tables =====================================================================
@@ -146,6 +151,12 @@ label {
 }
 
 // Navs =======================================================================
+
+.nav-tabs > li.active {
+  & > a, & > a:hover, & > a.focus {
+    font-weight: bold;
+  }
+}
 
 .pager {
   a {

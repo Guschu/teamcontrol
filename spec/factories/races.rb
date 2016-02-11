@@ -27,6 +27,7 @@
 FactoryGirl.define do
   factory :race do
     name 'My Test Race'
+    scheduled { Date.current + 14.days }
     duration 540
     max_drive 170
     max_turn 40
@@ -34,5 +35,16 @@ FactoryGirl.define do
     waiting_period 3
     state 0
     mode 0
+
+    trait :started do
+      started_at { Time.now }
+      state :active
+    end
+
+    trait :finished do
+      started_at { duration.minutes.ago }
+      finished_at { Time.now }
+      state :finished_at
+    end
   end
 end

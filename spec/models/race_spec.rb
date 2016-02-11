@@ -33,6 +33,20 @@ RSpec.describe Race, type: :model do
 
   it 'has a started_at timestamp after start' do
     race = create :race
+    expect(race.started_at).to be_nil
+    race.start!
+    expect(race.started_at).not_to be_nil
+  end
 
+  it 'has a finished_at timestamp after finish' do
+    race = create :race, :started
+    expect(race.finished_at).to be_nil
+    race.finish!
+    expect(race.finished_at).not_to be_nil
+  end
+
+  describe '#current_race' do
+    it 'returns the active race' do
+    end
   end
 end

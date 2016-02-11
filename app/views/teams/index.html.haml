@@ -1,0 +1,25 @@
+%ul.nav.nav-tabs
+  %li{ role:'presentation' }= link_to 'Aktueller Stand', overview_race_path(@race)
+  %li{ role:'presentation' }= link_to 'Einstellungen', settings_race_path(@race)
+  %li.active{ role:'presentation' }= link_to 'Teams', race_teams_path(@race)
+
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Anzahl Fahrer
+      %th
+      %th
+
+  %tbody
+    - @teams.each do |team|
+      %tr
+        %td= link_to team.name, [@race, team]
+        %td= team.attendances.size
+        %td= link_to 'Edit', edit_race_team_path(@race, team)
+        %td= link_to 'Destroy', [@race, team], :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+= paginate @teams
+
+%p
+  = link_to 'Neues Team', new_race_team_path(@race), class:'btn btn-primary'

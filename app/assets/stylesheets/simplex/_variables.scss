@@ -68,7 +68,7 @@ $line-height-computed:    floor(($font-size-base * $line-height-base)); // ~20px
 
 //** By default, this inherits from the `<body>`.
 $headings-font-family:    $font-family-sans-serif;
-$headings-font-weight:    600;
+$headings-font-weight:    500;
 $headings-line-height:    1.1;
 $headings-color:          $gray;
 
@@ -144,7 +144,7 @@ $table-border-color:            #ddd;
 //
 //## For each of Bootstrap's buttons, define text, background and border color.
 
-$btn-font-weight:                400;
+$btn-font-weight:                300;
 
 $btn-default-color:              #fff;
 $btn-default-bg:                 #474949;

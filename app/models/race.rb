@@ -45,28 +45,26 @@ class Race < ActiveRecord::Base
     state :finished
 
     event :start do
+      after do
+        self.started_at = Time.zone.now
+      end
       transitions from: :planned, to: :active
     end
 
     event :finish do
+      after do
+        self.finished_at = Time.zone.now
+      end
       transitions from: :active, to: :finished
     end
   end
 
   has_many :teams
 
-  validates :name, presence: true
+  validates :name, :scheduled, presence: true
   friendly_id :name, use: :slugged
 
-  DEFAULTS = {
-    duration: 540,
-    max_drive: 170,
-    max_turn: 40,
-    break_time: 45,
-    waiting_period: 3
-  }.freeze
-
   def self.current_race
-    Race.active.first
+    Race.active.first || Race.planned.where('scheduled>=?', Date.current).order(scheduled: :desc).first
   end
 end

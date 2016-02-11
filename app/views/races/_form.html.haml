@@ -2,6 +2,7 @@
   = f.error_notification
 
   = f.input :name
+  = f.input :scheduled
   = f.input :duration
   = f.input :max_drive
   = f.input :max_turn
@@ -9,4 +10,4 @@
   = f.input :waiting_period
 
   = f.button :submit, class:'btn-primary'
-  = link_to t('cancel'), races_path, class:'btn btn-link'
+  = link_to t('cancel'), @race, class:'btn btn-link'
