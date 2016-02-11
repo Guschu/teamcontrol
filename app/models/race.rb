@@ -14,6 +14,9 @@
 #  slug           :string(255)
 #  state          :integer
 #  mode           :integer
+#  scheduled      :date
+#  started_at     :datetime
+#  finished_at    :datetime
 #
 # Indexes
 #

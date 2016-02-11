@@ -13,9 +13,14 @@
 #  updated_at     :datetime         not null
 #  slug           :string(255)
 #  state          :integer
+#  mode           :integer
+#  scheduled      :date
+#  started_at     :datetime
+#  finished_at    :datetime
 #
 # Indexes
 #
+#  index_races_on_mode  (mode)
 #  index_races_on_slug  (slug)
 #
 
