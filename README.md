@@ -12,6 +12,9 @@ Die TeamControl Software unterstützt das durch folgende Funktionen:
 * Protokollierung der Fahrerwechsel
 * Bereitstellen von sekundengenauen Anzeigen für Teams und Rennleitung
 
+## Dokumentation
+Die Dokumentation findet sich [hier](doc/docs.md)
+
 ## Aufbau
 
 TeamControl besteht aus **einem Server** und **optionalen Lesestationen**. Die Software der Lesestationen findet sich [im SWC Gitlab](https://gitlab.software-consultant.net/swc/teamcontrol-reader).
