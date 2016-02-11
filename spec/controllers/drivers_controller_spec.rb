@@ -16,7 +16,7 @@ RSpec.describe DriversController, type: :controller do
 
   describe 'GET show' do
     let(:driver) { create :driver }
-    subject { get :show, id:driver.id }
+    subject { get :show, id: driver.id }
 
     it 'assigns @race' do
       subject

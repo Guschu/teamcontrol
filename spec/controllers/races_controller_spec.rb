@@ -16,7 +16,7 @@ RSpec.describe RacesController, type: :controller do
 
   describe 'GET current' do
     it 'redirects to current race' do
-      race = create :race, state: :active
+      create :race, state: :active
       get :current
       expect(response).to redirect_to race_path(Race.current_race)
     end
@@ -24,7 +24,7 @@ RSpec.describe RacesController, type: :controller do
 
   describe 'GET show' do
     let(:race) { create :race }
-    subject { get :show, id:race.slug }
+    subject { get :show, id: race.slug }
 
     it 'assigns @race' do
       subject
