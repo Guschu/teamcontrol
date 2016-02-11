@@ -2,9 +2,7 @@
 
 ## TeamControl & Reader API
 
-
-
-#### Ping - Statusabfrage
+### __Ping__ __-__ __Statusabfrage__
 Der Server teilt der Lesestation mit ob diese registriert ist.
 
 | Parameter | Länge | Erlaubte Zeichen | Beispiel |
@@ -27,10 +25,10 @@ Antwortet der Server mit `HTTP-StatusCode: 200` ist ihm die Station bekannt.
   - 401
     - Die Lesestation ist nicht bekannt
 
-#### Event
+### __Event__
 Die Lesestation sendet NFC-Tag-IDs an den Server. Der Server antwortet mit einem Status und einer textuellen Meldung auf die ID. Die Daten werden als JSON gesendet und empfangen.
 
-##### Request
+### _Request_
 
 | Request-Parameter | Länge | Erlaubte Zeichen | Beispiel |
 | ----------------- | ----- | ---------------- | -------- |
@@ -49,7 +47,7 @@ POST
     id: NFC-Tag-Id
 ```
 
-##### Response
+### _Response_
 
 | Response-Parameter | Erlaubte Antwort |
 | ------------------ | ---------------- |
@@ -62,10 +60,19 @@ HTTP-StatusCodes
 
   - 200
     - Die Lesestation ist bekannt und die NFC-Tag-Id wurde erfolgreich verarbeitet
+    - Es wird ein __status__ sowie eine __message__ erwartet
+    - status = success
   - 401
     - Die Lesestation ist nicht bekannt
   - 406
-    - Der Serer konnte mit der NDC-Tag-Id keine Aktivierung vornehmen
+    - Der Server konnte mit der NFC-Tag-Id nichts anfangen
+    - Es wird ein __status__ sowie eine __message__ erwartet
+    - status = error
+  - 500
+    - Der Server konnte mit der NFC-Tag-Id nicht umgehen
+    - Bsp. Es existiert kein Rennen
+    - Es wird ein __status__ sowie eine __message__ erwartet
+    - status = error
 
 
 
