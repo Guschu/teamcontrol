@@ -1,0 +1,12 @@
+de:
+  activerecord:
+    models:
+      team:
+        one: Team
+        other: Teams
+    attributes:
+      team:
+        name: Name
+        logo: Logo
+        created_at: Angelegt am
+        updated_at: Bearbeitet am

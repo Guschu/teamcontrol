@@ -50,15 +50,10 @@ RSpec.describe RacesController, type: :controller do
 
   describe 'GET show' do
     let(:race) { create :race }
-    subject { get :show, id: race.slug }
-
-    it 'assigns @race' do
-      subject
-      expect(assigns(:race)).to eq race
-    end
 
     it 'renders the show template' do
-      expect(subject).to render_template 'show'
+      get :show, id: race.slug
+      expect(response).to redirect_to settings_race_path(Race.current_race)
     end
   end
 end

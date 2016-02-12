@@ -25,6 +25,10 @@ FactoryGirl.define do
   factory :attendance do
     team
     driver
-    id nil
+    tag_id nil
+
+    trait :with_tag do
+      tag_id { SecureRandom.hex(7) }
+    end
   end
 end

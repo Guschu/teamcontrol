@@ -31,7 +31,16 @@ class Team < ActiveRecord::Base
     content_type: %w(image/jpg image/jpeg image/png image/gif)
   }
 
+  def current_driver
+    return if race.mode == :leaving
+    if e = events.arriving.order(created_at: :desc).first
+      return e.driver
+    end
+  end
+
   def last_driver
-    drivers.first
+    if e = events.leaving.order(created_at: :desc).first
+      return e.driver
+    end
   end
 end

@@ -4,7 +4,7 @@
   %li{ role:'presentation' }= link_to 'Teams', race_teams_path(@race)
 
 .content
-  .block-grid-xs-2.block-grid-sm-4.block-grid-md-6
+  .block-grid-xs-2.block-grid-sm-4.block-grid-md-6.block-grid-lg-10
     - c = Time.zone.now.to_i*1000
     - @race.teams.includes(:attendances).each do |team|
       %div

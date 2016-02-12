@@ -12,8 +12,8 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  slug           :string(255)
-#  state          :integer
-#  mode           :integer
+#  state          :integer          default(0)
+#  mode           :integer          default(0)
 #  scheduled      :date
 #  started_at     :datetime
 #  finished_at    :datetime
@@ -65,6 +65,6 @@ class Race < ActiveRecord::Base
   friendly_id :name, use: :slugged
 
   def self.current_race
-    Race.active.first || Race.planned.where('scheduled>=?', Date.current).order(scheduled: :desc).first
+    Race.active.first || Race.planned.where('scheduled>=?', Date.current).order(scheduled: :asc).first
   end
 end

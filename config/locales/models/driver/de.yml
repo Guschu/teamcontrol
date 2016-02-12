@@ -1,0 +1,11 @@
+de:
+  activerecord:
+    models:
+      driver:
+        one: Fahrer
+        other: Fahrer
+    attributes:
+      driver:
+        name: Name
+        created_at: Angelegt am
+        updated_at: Bearbeitet am

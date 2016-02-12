@@ -1,0 +1,11 @@
+de:
+  activerecord:
+    models:
+      user:
+        one: Anwender
+        other: Anwender
+    attributes:
+      user:
+        email: E-Mail
+        created_at: Angelegt am
+        updated_at: Bearbeitet am

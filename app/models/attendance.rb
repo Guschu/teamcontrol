@@ -26,4 +26,17 @@ class Attendance < ActiveRecord::Base
   belongs_to :driver
 
   scope :unassigned, -> { where('tag_id IS NULL OR tag_id=""') }
+
+  def create_event
+    case team.race.mode.to_sym
+    when :both
+      if team.current_driver == self.driver
+        team.events.create! driver:self.driver, mode: :leaving
+      else
+        team.events.create! driver:self.driver, mode: :arriving
+      end
+    when :leaving
+      team.events.create! driver:self.driver, mode: :leaving
+    end
+  end
 end

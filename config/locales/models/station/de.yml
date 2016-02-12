@@ -1,0 +1,11 @@
+de:
+  activerecord:
+    models:
+      station:
+        one: Station
+        other: Stationen
+    attributes:
+      station:
+        token: Kennung
+        created_at: Angelegt am
+        updated_at: Bearbeitet am

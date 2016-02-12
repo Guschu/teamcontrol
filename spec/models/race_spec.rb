@@ -46,7 +46,25 @@ RSpec.describe Race, type: :model do
   end
 
   describe '#current_race' do
-    it 'returns the active race' do
+    it 'returns the started race' do
+      r1 = create :race, :finished, scheduled: 14.days.ago
+      r2 = create :race, :started
+      r3 = create :race, scheduled: 14.days.from_now # planned by default
+
+      expect(Race.current_race).to eq r2
+    end
+
+    it 'returns the next scheduled race' do
+      r1 = create :race, :finished, scheduled: 14.days.ago
+      r2 = create :race, scheduled: 7.days.from_now
+      r3 = create :race, scheduled: 14.days.from_now
+      expect(Race.current_race).to eq r2
+    end
+
+    it 'returns nil of no started nor planned race' do
+      r1 = create :race, :finished, scheduled: 14.days.ago
+      r2 = create :race, :finished, scheduled: 7.days.ago
+      expect(Race.current_race).to be_nil
     end
   end
 end
