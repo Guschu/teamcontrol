@@ -8,4 +8,15 @@ RSpec.describe RacesHelper, type: :helper do
       expect(helper.current_race).to eq race
     end
   end
+
+  describe '#minutes_to_time' do
+    it 'returns a string w/ hours and minutes' do
+      expect(helper.minutes_to_time(835)).to eq '13 Stunden 55 Minuten'
+      expect(helper.minutes_to_time(130)).to eq '02 Stunden 10 Minuten'
+    end
+
+    it 'returns a string w/ minutes if hours is 0' do
+      expect(helper.minutes_to_time(12)).to eq '12 Minuten'
+    end
+  end
 end
