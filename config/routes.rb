@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :drivers
   resources :races do
     resources :teams
-    resources :events, only:[:index]
+    resources :events, only: [:index]
 
     member do
       get 'overview'

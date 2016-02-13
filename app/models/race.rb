@@ -65,7 +65,7 @@ class Race < ActiveRecord::Base
   friendly_id :name, use: :slugged
 
   def events
-    Event.where(team_id:teams.select(:id))
+    Event.where(team_id: teams.select(:id))
   end
 
   def self.current_race

@@ -34,9 +34,7 @@ module RacesHelper
     minutes = total_minutes % 60
     hours = total_minutes / 60
 
-    if hours > 0
-      return format('%02d Stunden %02d Minuten', hours, minutes)
-    end
+    return format('%02d Stunden %02d Minuten', hours, minutes) if hours > 0
     format('%02d Minuten', minutes)
   end
 end
