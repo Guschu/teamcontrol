@@ -1,29 +1,42 @@
 %h1 Alle Fahrer
 
-%table.table.table-striped
-  %colgroup
-    %col
-    %col{ width:80 }
-    %col{ width:80 }
-  %thead
-    %tr
-      %th Name
-      %th
-      %th
-
-  - if @drivers.any?
-    %tbody
-      - @drivers.each do |driver|
+.row
+  .col-md-9
+    %table.table.table-striped
+      %colgroup
+        %col
+        %col{ width:80 }
+        %col{ width:80 }
+      %thead
         %tr
-          %td= link_to driver.name, driver
-          %td= link_to t('edit'), edit_driver_path(driver)
-          %td= link_to t('destroy'), driver, :method => :delete, :data => { :confirm => 'Are you sure?' }
-  - else
-    %tbody
-      %tr.info
-        %td{ colspan:4 }
-          %p.text-center Keine Fahrer angelegt.
+          %th= sort_link @q, :name
+          %th
+          %th
 
+      - if @drivers.any?
+        %tbody
+          - @drivers.each do |driver|
+            %tr
+              %td= link_to driver.name, driver
+              %td= link_to t('edit'), edit_driver_path(driver)
+              %td= link_to t('destroy'), driver, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      - else
+        %tbody
+          %tr.info
+            %td{ colspan:4 }
+              %p.text-center Keine Fahrer angelegt.
+
+  .col-md-3
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title Suche
+      .panel-body
+        = search_form_for @q do |f|
+          .form-group
+            = f.label :name_cont, class:'control-label'
+            = f.search_field :name_cont, class:'form-control'
+          = f.submit 'Suchen', class:'btn btn-secondary'
+          = link_to 'Zurücksetzen', class:'btn btn-text'
 
 = paginate @drivers
 

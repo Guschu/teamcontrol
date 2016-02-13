@@ -2,11 +2,12 @@
   %li.active{ role:'presentation' }= link_to 'Aktueller Stand', overview_race_path(@race)
   %li{ role:'presentation' }= link_to 'Einstellungen', settings_race_path(@race)
   %li{ role:'presentation' }= link_to 'Teams', race_teams_path(@race)
+  %li{ role:'presentation' }= link_to 'Events', race_events_path(@race)
 
 .content
-  .block-grid-xs-2.block-grid-sm-4.block-grid-md-6.block-grid-lg-10
+  .block-grid-xs-2.block-grid-sm-4.block-grid-md-6.block-grid-lg-8
     - c = Time.zone.now.to_i*1000
-    - @race.teams.includes(:attendances).each do |team|
+    - @race.teams.includes(:attendances, :events).each do |team|
       %div
         .team.panel.panel-default.panel-info.panel-compact
           .panel-heading
@@ -20,7 +21,12 @@
                 %th.text-muted= fa_icon 'clock-o'
                 %td.text-right
                   %span.timer{ data:{ mode:'timer', current:c } } 00:00
+              - if @race.both?
+                %tr
+                  %th= fa_icon 'user'
+                  %td.text-right
+                    = team.current_driver.name if team.current_driver.present?
               %tr
                 %th.text-muted= fa_icon 'user'
                 %td.text-right
-                  = team.last_driver.name
+                  = team.last_driver.name if team.last_driver.present?

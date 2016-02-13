@@ -14,8 +14,10 @@ class DriversController < ApplicationController
   # GET /drivers
   # GET /drivers.json
   def index
+    @q = Driver.ransack(params[:q])
+    @q.sorts = 'name asc' if @q.sorts.empty?
     page = (params[:page] || '1').to_i
-    @drivers = Driver.order(:name).page(page)
+    @drivers = @q.result.page(page)
   end
 
   # GET /drivers/1

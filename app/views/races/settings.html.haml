@@ -2,6 +2,7 @@
   %li{ role:'presentation' }= link_to 'Aktueller Stand', overview_race_path(@race)
   %li.active{ role:'presentation' }= link_to 'Einstellungen', settings_race_path(@race)
   %li{ role:'presentation' }= link_to 'Teams', race_teams_path(@race)
+  %li{ role:'presentation' }= link_to 'Events', race_events_path(@race)
 
 .row
   .col-sm-6
@@ -50,23 +51,23 @@
             %col
           %tbody
             %tr
-              %th= Race.human_attribute_name :duration
-              %td= @race.duration
-            %tr
-              %th= Race.human_attribute_name :max_drive
-              %td= @race.max_drive
-            %tr
-              %th= Race.human_attribute_name :max_turn
-              %td= @race.max_turn
-            %tr
-              %th= Race.human_attribute_name :break_time
-              %td= @race.break_time
-            %tr
-              %th= Race.human_attribute_name :waiting_period
-              %td= @race.waiting_period
-            %tr
               %th= Race.human_attribute_name :mode
               %td= t @race.mode, scope:'race.modes'
+            %tr
+              %th= Race.human_attribute_name :duration
+              %td= minutes_to_time @race.duration
+            %tr
+              %th= Race.human_attribute_name :max_drive
+              %td= minutes_to_time @race.max_drive
+            %tr
+              %th= Race.human_attribute_name :max_turn
+              %td= minutes_to_time @race.max_turn
+            %tr
+              %th= Race.human_attribute_name :break_time
+              %td= minutes_to_time @race.break_time
+            %tr
+              %th= Race.human_attribute_name :waiting_period
+              %td= minutes_to_time @race.waiting_period
 
 %p
   .pull-right

@@ -2,11 +2,12 @@
   %li{ role:'presentation' }= link_to 'Aktueller Stand', overview_race_path(@race)
   %li{ role:'presentation' }= link_to 'Einstellungen', settings_race_path(@race)
   %li.active{ role:'presentation' }= link_to 'Teams', race_teams_path(@race)
+  %li{ role:'presentation' }= link_to 'Events', race_events_path(@race)
 
 %table.table
   %thead
     %tr
-      %th Name
+      %th= sort_link @q, :name
       %th Anzahl Fahrer
       %th
       %th

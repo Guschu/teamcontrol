@@ -1,0 +1,27 @@
+%ul.nav.nav-tabs
+  %li{ role:'presentation' }= link_to 'Aktueller Stand', overview_race_path(@race)
+  %li{ role:'presentation' }= link_to 'Einstellungen', settings_race_path(@race)
+  %li{ role:'presentation' }= link_to 'Teams', race_teams_path(@race)
+  %li.active{ role:'presentation' }= link_to 'Events', race_events_path(@race)
+
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Fahrer
+      %th
+      %th
+
+  - if @events.any?
+    %tbody
+      - @events.each do |event|
+        %tr
+          %td= link_to event.team.name, [@race, team]
+          %td= event.driver.name
+  - else
+    %tbody
+      %tr.info
+        %td{ colspan:4 }
+          %p.text-center Zu diesem Rennen gibt es noch keine Event-Daten.
+
+= paginate @events

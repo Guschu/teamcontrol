@@ -31,8 +31,10 @@ class RacesController < ApplicationController
   # GET /races
   # GET /races.json
   def index
+    @q = Race.ransack(params[:q])
+    @q.sorts = 'state asc' if @q.sorts.empty?
     page = (params[:page] || '1').to_i
-    @races = Race.order(:state, :name).page(page)
+    @races = @q.result.page(page)
   end
 
   def current

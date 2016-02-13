@@ -64,6 +64,10 @@ class Race < ActiveRecord::Base
   validates :name, :scheduled, presence: true
   friendly_id :name, use: :slugged
 
+  def events
+    Event.where(team_id:teams.select(:id))
+  end
+
   def self.current_race
     Race.active.first || Race.planned.where('scheduled>=?', Date.current).order(scheduled: :asc).first
   end

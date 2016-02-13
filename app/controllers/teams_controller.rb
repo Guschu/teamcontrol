@@ -5,8 +5,9 @@ class TeamsController < ApplicationController
   # GET /teams
   # GET /teams.json
   def index
+    @q = @race.teams.ransack(params[:q])
     page = (params[:page] || '1').to_i
-    @teams = @race.teams.includes(:attendances).page(page)
+    @teams = @q.result.includes(:attendances).page(page)
   end
 
   # GET /teams/1

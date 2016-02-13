@@ -61,6 +61,7 @@ RSpec.describe Team, type: :model do
 
       Timecop.travel 2*60
       @att1.create_event # Fahrer 1 verlässt die Bahn
+
       expect(@team.current_driver).to eq @driver2
     end
   end
@@ -79,7 +80,8 @@ RSpec.describe Team, type: :model do
 
       Timecop.travel 30*60
       @att2.create_event
-      expect(@team.last_driver).to eq @driver1
+
+      expect(@team.last_driver).to eq @driver2
     end
   end
 end

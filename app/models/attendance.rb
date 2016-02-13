@@ -30,10 +30,11 @@ class Attendance < ActiveRecord::Base
   def create_event
     case team.race.mode.to_sym
     when :both
-      if team.current_driver == self.driver
-        team.events.create! driver:self.driver, mode: :leaving
-      else
+      event_map = team.events.group(:driver_id).count
+      if (event_map[self.driver_id] || 0).even?
         team.events.create! driver:self.driver, mode: :arriving
+      else
+        team.events.create! driver:self.driver, mode: :leaving
       end
     when :leaving
       team.events.create! driver:self.driver, mode: :leaving

@@ -33,13 +33,13 @@ class Team < ActiveRecord::Base
 
   def current_driver
     return if race.mode == :leaving
-    if e = events.arriving.order(created_at: :desc).first
+    if e = events.to_a.select(&:arriving?).sort{|a, b| a.created_at <=> b.created_at}.last
       return e.driver
     end
   end
 
   def last_driver
-    if e = events.leaving.order(created_at: :desc).first
+    if e = events.to_a.select(&:leaving?).sort{|a, b| a.created_at <=> b.created_at}.last
       return e.driver
     end
   end

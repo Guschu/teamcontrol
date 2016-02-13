@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160212175047) do
+ActiveRecord::Schema.define(version: 20160213124508) do
 
   create_table "attendances", force: :cascade do |t|
     t.integer  "team_id",    limit: 4
@@ -96,6 +96,17 @@ ActiveRecord::Schema.define(version: 20160212175047) do
 
   add_index "teams", ["race_id"], name: "index_teams_on_race_id", using: :btree
 
+  create_table "turns", force: :cascade do |t|
+    t.integer  "team_id",    limit: 4
+    t.integer  "driver_id",  limit: 4
+    t.integer  "duration",   limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "turns", ["driver_id"], name: "index_turns_on_driver_id", using: :btree
+  add_index "turns", ["team_id"], name: "index_turns_on_team_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
     t.string   "encrypted_password",     limit: 255, default: "", null: false
@@ -119,4 +130,6 @@ ActiveRecord::Schema.define(version: 20160212175047) do
   add_foreign_key "events", "drivers"
   add_foreign_key "events", "teams"
   add_foreign_key "teams", "races"
+  add_foreign_key "turns", "drivers"
+  add_foreign_key "turns", "teams"
 end

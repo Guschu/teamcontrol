@@ -16,6 +16,7 @@ RSpec.describe Events, type: :request do
       data = JSON.parse(response.body)
       expect(data.keys).to eq %w(status message)
       expect(data['status']).to eq 'success'
+      expect(data['message']).not_to be_blank
 
       a.reload
       expect(a.tag_id).to eq '000000000000'
@@ -32,14 +33,29 @@ RSpec.describe Events, type: :request do
       data = JSON.parse(response.body)
       expect(data.keys).to eq %w(status message)
       expect(data['status']).to eq 'error'
+      expect(data['message']).not_to be_blank
 
       a.reload
       expect(a.tag_id).to eq '000000000000'
     end
   end
 
-  # it "returns 200" do
-  #   post '/api/v1/ping', nil, { API::TOKEN_NAME => station.token }
-  #   expect(response.status).to eq 200
-  # end
+  context 'for registered ids' do
+    it 'creates event data' do
+      race = create :race, state: :active
+      team = create :team, race: race
+      a = create :attendance, tag_id: '000000000000', team: team
+
+      post '/api/v1/event', { id: '000000000000' }, headers
+      expect(response.status).to eq 201
+
+      data = JSON.parse(response.body)
+      expect(data.keys).to eq %w(status message)
+      expect(data['status']).to eq 'success'
+      expect(data['message']).not_to be_blank
+
+      expect(team.events.count).to eq 1
+      expect(team.current_driver).to eq a.driver
+    end
+  end
 end

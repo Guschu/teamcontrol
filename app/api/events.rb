@@ -16,22 +16,21 @@ class Events < Grape::API
     race = Race.current_race
     error!('No active race') unless race
 
-    result = {}
     attendances = Attendance.where(team_id: race.teams.select(:id))
     if a = attendances.where(tag_id: params[:id]).first
       logger.info "Creating event for driver #{a.driver.name}"
+      evt = a.create_event
+      present ApiResponse.success "Fahrer #{a.driver.name} #{evt}"
     else
       if a = attendances.unassigned.first
         logger.info "Assigning tag_id to driver #{a.driver.name}"
         if a.update_attributes tag_id: params[:id]
-          result = { status: 'success', message: "Fahrer #{a.driver.name} aktiviert" }
+          present ApiResponse.success "Fahrer #{a.driver.name} aktiviert"
         end
       else
         status 406
-        result = { status: 'error', message: "Keine Aktivierung möglich" }
+        present ApiResponse.error "Keine Aktivierung möglich"
       end
     end
-
-    present result
   end
 end

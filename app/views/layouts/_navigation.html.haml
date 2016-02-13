@@ -10,8 +10,6 @@
         = current_race.name
         - if current_race.active?
           %span.label.label-success Läuft
-        - else
-          %span.label.label-default hubi
     .collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-right
         %li= link_to 'Fahrer', drivers_path

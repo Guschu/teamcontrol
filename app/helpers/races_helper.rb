@@ -29,4 +29,14 @@ module RacesHelper
     return Race.find session[:current_race] if session[:current_race]
     Race.current_race
   end
+
+  def minutes_to_time(total_minutes)
+    minutes = total_minutes % 60
+    hours = total_minutes / 60
+
+    if hours > 0
+      return format('%02d Stunden %02d Minuten', hours, minutes)
+    end
+    format('%02d Minuten', minutes)
+  end
 end
