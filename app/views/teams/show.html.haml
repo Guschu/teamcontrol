@@ -1,6 +1,40 @@
-%p#notice= notice
+%ul.nav.nav-tabs
+  %li{ role:'presentation' }= link_to 'Aktueller Stand', overview_race_path(@race)
+  %li{ role:'presentation' }= link_to 'Einstellungen', settings_race_path(@race)
+  %li.active{ role:'presentation' }= link_to 'Teams', race_teams_path(@race)
+  %li{ role:'presentation' }= link_to 'Events', race_events_path(@race)
 
+%h1= @team.name
 
-= link_to 'Edit', edit_team_path(@team)
-\|
-= link_to 'Back', teams_path
+.row
+  .col-md-4
+    .panel.panel-default.panel-info.panel-compact
+      .panel-heading Stammdaten
+      %table.table
+        %colgroup
+          %col{ width:'40%' }
+          %col
+        %tbody
+          %tr
+            %th= Team.human_attribute_name :name
+            %td= @team.name
+          %tr
+            %th= Team.human_attribute_name :created_at
+            %td= l @team.created_at
+          %tr
+            %th= Team.human_attribute_name :updated_at
+            %td= l @team.updated_at
+
+  .col-md-4
+    .panel.panel-default.panel-info.panel-compact
+      .panel-heading Fahrer
+      %table.table
+        %tbody
+          - @team.drivers.each do |driver|
+            %tr
+              %td
+                = fa_icon 'user'
+                = driver.name
+
+= link_to 'Team bearbeiten', edit_race_team_path(@race, @team), class:'btn btn-primary'
+= link_to 'zurück', race_teams_path(@race), class:'btn btn-text'

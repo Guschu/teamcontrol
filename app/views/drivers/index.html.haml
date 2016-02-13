@@ -26,6 +26,10 @@
             %td{ colspan:4 }
               %p.text-center Keine Fahrer angelegt.
 
+    = paginate @drivers
+
+    = link_to 'Neuer Fahrer', new_driver_path, class:'btn btn-primary'
+
   .col-md-3
     .panel.panel-default
       .panel-heading
@@ -38,6 +42,3 @@
           = f.submit 'Suchen', class:'btn btn-secondary'
           = link_to 'Zurücksetzen', class:'btn btn-text'
 
-= paginate @drivers
-
-= link_to 'Neuer Fahrer', new_driver_path, class:'btn btn-primary'
