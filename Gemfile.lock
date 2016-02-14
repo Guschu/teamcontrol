@@ -43,7 +43,7 @@ GEM
       rake (~> 10.4)
     arel (6.0.3)
     ast (2.2.0)
-    autoprefixer-rails (6.3.1)
+    autoprefixer-rails (6.3.3)
       execjs
       json
     awesome_print (1.6.1)
@@ -63,18 +63,18 @@ GEM
       sass (>= 3.3.4)
     builder (3.2.2)
     byebug (8.2.2)
-    capistrano (3.0.1)
+    capistrano (3.4.0)
       i18n
       rake (>= 10.0.0)
-      sshkit (>= 0.0.23)
-    capistrano-bundler (1.1.2)
-      capistrano (~> 3.0)
+      sshkit (~> 1.3)
+    capistrano-bundler (1.1.4)
+      capistrano (~> 3.1)
       sshkit (~> 1.2)
-    capistrano-rails (1.1.0)
-      capistrano (>= 3.0.0)
-      capistrano-bundler (>= 1.0.0)
-    capistrano-rails-console (0.5.2)
-      capistrano (>= 3.0.0, < 4.0.0)
+    capistrano-rails (1.1.6)
+      capistrano (~> 3.1)
+      capistrano-bundler (~> 1.1)
+    capistrano-rails-console (1.0.2)
+      capistrano (>= 3.1.0, < 4.0.0)
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
@@ -126,8 +126,8 @@ GEM
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
     ffi (1.9.10)
-    font-awesome-rails (4.5.0.0)
-      railties (>= 3.2, < 5.0)
+    font-awesome-rails (4.5.0.1)
+      railties (>= 3.2, < 5.1)
     forgery (0.6.0)
     friendly_id (5.1.0)
       activerecord (>= 4.0.0)
@@ -143,12 +143,12 @@ GEM
       rack-accept
       rack-mount
       virtus (>= 1.0.0)
-    grape-entity (0.5.0)
+    grape-entity (0.4.8)
       activesupport
       multi_json (>= 1.3.2)
-    grape-swagger (0.10.2)
+    grape-swagger (0.10.4)
       grape (>= 0.8.0)
-      grape-entity
+      grape-entity (< 0.5.0)
     grape_logging (1.1.2)
       grape
     haml (4.0.7)
@@ -168,7 +168,7 @@ GEM
       ruby_parser (~> 3.5)
     i18n (0.7.0)
     ice_nine (0.11.2)
-    jbuilder (2.4.0)
+    jbuilder (2.4.1)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
     jquery-rails (4.1.0)
@@ -198,13 +198,13 @@ GEM
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     orm_adapter (0.5.0)
-    paperclip (4.3.4)
+    paperclip (4.3.5)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (= 0.3.0)
-    parser (2.3.0.3)
+    parser (2.3.0.5)
       ast (~> 2.2)
     polyamorous (1.3.0)
       activerecord (>= 3.0)
@@ -272,8 +272,8 @@ GEM
       rspec-mocks (~> 3.4.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
-    rubocop (0.37.0)
-      parser (>= 2.3.0.2, < 3.0)
+    rubocop (0.37.2)
+      parser (>= 2.3.0.4, < 3.0)
       powerpack (~> 0.1)
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.7)
@@ -289,7 +289,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (2.51.0)
+    selenium-webdriver (2.52.0)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
@@ -363,9 +363,9 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-sass
   byebug
-  capistrano (~> 3.0.1)
+  capistrano
   capistrano-bundler
-  capistrano-rails (~> 1.1.0)
+  capistrano-rails
   capistrano-rails-console
   capistrano-rvm (~> 0.1.1)
   capybara
