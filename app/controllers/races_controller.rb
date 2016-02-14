@@ -38,7 +38,11 @@ class RacesController < ApplicationController
   end
 
   def current
-    redirect_to current_race
+    if c = current_race
+      redirect_to c
+      return
+    end
+    redirect_to races_path
   end
 
   # GET /races/1

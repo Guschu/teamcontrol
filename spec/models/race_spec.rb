@@ -44,6 +44,33 @@ RSpec.describe Race, type: :model do
     expect(team.events.to_a).to eq [evt]
   end
 
+  describe '#race_time' do
+    let(:race) { create :race }
+
+    it 'is nil unless started' do
+      expect(race.active?).to eq false
+      expect(race.finished?).to eq false
+      expect(race.race_time).to be_nil
+    end
+
+    it 'grows while race is in progress' do
+      race.start!
+      Timecop.travel 120.minutes
+      expect(race.race_time).to be_within(0.1).of 2.hours
+      Timecop.travel 120.minutes
+      expect(race.race_time).to be_within(0.1).of 4.hours
+    end
+
+    it 'is constant after race is finished' do
+      race.start!
+      Timecop.travel 120.minutes
+      race.finish!
+      t1 = race.race_time
+      Timecop.travel 120.minutes
+      expect(race.race_time).to eq t1
+    end
+  end
+
   it 'has a started_at timestamp after start' do
     race = create :race
     expect(race.started_at).to be_nil
@@ -78,6 +105,11 @@ RSpec.describe Race, type: :model do
       r1 = create :race, :finished, scheduled: 14.days.ago
       r2 = create :race, :finished, scheduled: 7.days.ago
       expect(Race.current_race).to be_nil
+    end
+  end
+
+  describe '#current_race?' do
+    it 'returns true if there is a current race' do
     end
   end
 end

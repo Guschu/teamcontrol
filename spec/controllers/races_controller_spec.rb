@@ -42,9 +42,18 @@ RSpec.describe RacesController, type: :controller do
 
   describe 'GET current' do
     it 'redirects to current race' do
-      create :race, state: :active
+      race = create :race, :started
       get :current
-      expect(response).to redirect_to race_path(Race.current_race)
+      expect(response).to redirect_to race_path(race)
+    end
+
+    it 'redirects to index if no active nor planned race' do
+      race = create :race, :finished
+      get :current
+      expect(response).to redirect_to races_path
+
+      race = create :race, scheduled:7.days.ago
+      expect(response).to redirect_to races_path
     end
   end
 

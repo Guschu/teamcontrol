@@ -46,5 +46,9 @@ FactoryGirl.define do
       finished_at { started_at + duration.minutes }
       state :finished
     end
+
+    trait :with_teams do
+      teams { build_list :team, 3 }
+    end
   end
 end

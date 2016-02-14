@@ -68,6 +68,17 @@ class Race < ActiveRecord::Base
     Event.where(team_id: teams.select(:id))
   end
 
+  def race_time
+    return unless active?
+    return self.finished_at.to_time - self.started_at.to_time if finished?
+
+    Time.zone.now - self.started_at.to_time
+  end
+
+  def self.current_race?
+    current_race.present?
+  end
+
   def self.current_race
     Race.active.first || Race.planned.where('scheduled>=?', Date.current).order(scheduled: :asc).first
   end

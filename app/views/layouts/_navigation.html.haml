@@ -6,10 +6,11 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to root_path, class: 'navbar-brand' do
-        = current_race.name
-        - if current_race.active?
-          %span.label.label-success Läuft
+      - if current_race?
+        = link_to root_path, class: 'navbar-brand' do
+          = current_race.name
+          - if current_race.active?
+            %span.label.label-success Läuft
     .collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-right
         %li= link_to 'Fahrer', drivers_path
