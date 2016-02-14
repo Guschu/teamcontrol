@@ -1,37 +1,30 @@
 @import "simplex/variables";
 
 /* UL BLOCKGRID */
-[class*="block-grid-"] {
+ul[class*="block-grid-"] {
   display: block;
   list-style-type: none;
   margin: -$padding-small-horizontal/2;
   padding: 0;
+
+  &:before, &:after {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+
+  & > li {
+    list-style: none;
+    display: block;
+    margin: 0;
+    padding: $padding-small-vertical/2 $padding-small-horizontal/2;
+    height: auto;
+    float: left;
+  }
 }
-
-[class*="block-grid-"]:before,
-[class*="block-grid-"]:after {
-  content: " ";
-  display: table;
-}
-
-[class*="block-grid-"]:after {
-  clear: both;
-}
-
-[class*="block-grid-"] > li {
-  display: block;
-  margin: 0;
-  padding: $padding-small-vertical/2 $padding-small-horizontal/2;
-  height: auto;
-  float: left;
-  list-style: none;
-}
-
-// //** Number of columns in the grid.
-// $grid-columns:              12;
-// //** Padding between columns. Gets divided in half for the left and right.
-// $grid-gutter-width:         24px;
-
 
 @mixin block-grid($size) {
   @for $i from 1 through $grid-columns {
