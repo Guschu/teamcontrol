@@ -23,5 +23,10 @@
 require 'rails_helper'
 
 RSpec.describe Event, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'associations' do
+    it { is_expected.to belong_to(:team).class_name('Team') }
+    it { is_expected.to belong_to(:driver).class_name('Driver') }
+  end
+
+  it { should define_enum_for :mode }
 end

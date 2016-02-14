@@ -12,8 +12,8 @@ Bundler.require(*Rails.groups)
 module Teamcontrol
   class Application < Rails::Application
     # Auto-load API and its subdirectories
-    config.paths.add 'app/api', glob: '**/*.rb'
-    config.autoload_paths += Dir["#{Rails.root}/app/api/*"]
+    # config.paths.add 'app/api', glob: '**/*.rb'
+    # config.autoload_paths += Dir["#{Rails.root}/app/api/*"]
 
     config.generators do |g|
       g.test_framework :rspec,

@@ -40,8 +40,6 @@ end
 
 group :development do
   gem 'annotate'
-  gem 'web-console', '~> 2.0'
-  gem 'spring'
   gem 'better_errors'
   gem 'binding_of_caller', platforms: [:mri_21, :mri_22]
   gem 'capistrano'
@@ -51,8 +49,6 @@ group :development do
   gem 'capistrano-rvm', '~> 0.1.1'
   gem 'html2haml'
   gem 'quiet_assets'
-  gem 'rails_layout'
-  gem 'spring-commands-rspec'
 end
 
 group :test do

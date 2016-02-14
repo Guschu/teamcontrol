@@ -31,6 +31,19 @@ RSpec.describe Race, type: :model do
     it { is_expected.to have_many(:teams).class_name('Team') }
   end
 
+  it { should define_enum_for :state }
+  it { should define_enum_for :mode }
+
+  it 'has events' do
+    race = create :race, :started
+    team = create :team, race:race
+    att = create :attendance, team:team
+    evt = att.create_event
+
+    expect(team.events).to be_a ActiveRecord::Relation
+    expect(team.events.to_a).to eq [evt]
+  end
+
   it 'has a started_at timestamp after start' do
     race = create :race
     expect(race.started_at).to be_nil
