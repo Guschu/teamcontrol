@@ -1,9 +1,10 @@
 @import "simplex/variables";
 
-/* BLOCKGRID */
+/* UL BLOCKGRID */
 [class*="block-grid-"] {
   display: block;
-  margin: -$padding-small-horizontal;
+  list-style-type: none;
+  margin: -$padding-small-horizontal/2;
   padding: 0;
 }
 
@@ -17,10 +18,10 @@
   clear: both;
 }
 
-[class*="block-grid-"] > * {
-  display: inline;
+[class*="block-grid-"] > li {
+  display: block;
   margin: 0;
-  padding: $padding-small-horizontal/2 $padding-small-horizontal;
+  padding: $padding-small-vertical/2 $padding-small-horizontal/2;
   height: auto;
   float: left;
   list-style: none;
@@ -34,9 +35,11 @@
 
 @mixin block-grid($size) {
   @for $i from 1 through $grid-columns {
-    .block-grid-#{$size}-#{$i} > * { width: 100% / $i }
-    .block-grid-#{$size}-#{$i} > *:nth-of-type(n) { clear: none }
-    .block-grid-#{$size}-#{$i} > *:nth-of-type(#{$i}n+1) { clear: both }
+    .block-grid-#{$size}-#{$i} > li {
+      width: 100% / $i;
+      &:nth-of-type(n) { clear: none }
+      &:nth-of-type(#{$i}n+1) { clear: both }
+    }
   }
 }
 
