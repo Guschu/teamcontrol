@@ -68,11 +68,18 @@ class Race < ActiveRecord::Base
     Event.where(team_id: teams.select(:id))
   end
 
-  def race_time
-    return unless active?
+  def race_duration
+    return 0 unless active?
     return self.finished_at.to_time - self.started_at.to_time if finished?
 
     Time.zone.now - self.started_at.to_time
+  end
+
+  def race_time
+    return unless active?
+    return self.finished_at.to_time if finished?
+
+    Time.at(self.race_duration)
   end
 
   def self.current_race?

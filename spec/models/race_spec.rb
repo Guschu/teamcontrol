@@ -56,9 +56,9 @@ RSpec.describe Race, type: :model do
     it 'grows while race is in progress' do
       race.start!
       Timecop.travel 120.minutes
-      expect(race.race_time).to be_within(0.1).of 2.hours
+      expect(race.race_time.to_f).to be_within(0.1).of 2.hours
       Timecop.travel 120.minutes
-      expect(race.race_time).to be_within(0.1).of 4.hours
+      expect(race.race_time.to_f).to be_within(0.1).of 4.hours
     end
 
     it 'is constant after race is finished' do

@@ -26,7 +26,7 @@
 
 class RacesController < ApplicationController
   include RacesHelper
-  before_action :set_race, only: [:show, :overview, :settings, :edit, :update, :destroy]
+  before_action :set_race, except: [:index, :current, :new, :create]
 
   # GET /races
   # GET /races.json
@@ -43,6 +43,22 @@ class RacesController < ApplicationController
       return
     end
     redirect_to races_path
+  end
+
+  # POST /races/1/start
+  def start
+    if @race.start && @race.save
+      flash[:notice] = 'Das Rennen wurde gestartet'
+    end
+    redirect_to settings_race_path(@race)
+  end
+
+  # POST /races/1/finish
+  def finish
+    if @race.finish && @race.save
+      flash[:notice] = 'Das Rennen wurde beendet'
+    end
+    redirect_to settings_race_path(@race)
   end
 
   # GET /races/1
@@ -62,7 +78,7 @@ class RacesController < ApplicationController
 
   # GET /races/new
   def new
-    @race = Race.new duration: 540, max_drive: 170, max_turn: 40, break_time: 45, waiting_period: 3
+    @race = Race.new mode: :both, duration: 540, max_drive: 170, max_turn: 40, break_time: 45, waiting_period: 3
   end
 
   # GET /races/1/edit

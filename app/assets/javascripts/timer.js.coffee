@@ -21,9 +21,9 @@
 
     constructor: (el, options) ->
       @$el = $(el)
-      @options = $.extend(@$el.data(), @defaults, options)
-      @start = if @options.current? then @options.current else Date.now()
-      console.log @, Date.now()
+      @options = $.extend({}, @defaults, @$el.data(), options)
+      @options.show_seconds = (@options.show_seconds == true || @options.show_seconds == 'true')
+      @start = if @options.start? then @options.start else Date.now()
       @update()
       @setInterval()
 
@@ -32,19 +32,27 @@
       setInterval cb, @options.interval
 
     update: ->
+      current = if @options.current? then @options.current else Date.now()
       switch @options.mode
         when 'timer'
-          diff = ((Date.now() - @start) / 1000) | 0
+          diff = ((current - @start) / 1000) | 0
         when 'countdown'
-          diff = @options.duration - (((Date.now() - @start) / 1000) | 0)
+          diff = @options.duration - (((current - @start) / 1000) | 0)
 
-      minutes = (diff / 60) | 0
+      hours   = (diff / 3600) | 0
+      minutes = ((diff - hours * 3600) / 60) | 0
       seconds = (diff % 60) | 0
 
+      hours   = if hours < 10   then "0" + hours else hours
       minutes = if minutes < 10 then "0" + minutes else minutes
       seconds = if seconds < 10 then "0" + seconds else seconds
 
-      content = if @options.show_seconds then minutes + ":" + seconds else minutes
+      if @options.show_seconds
+        content = hours + ":" + minutes + ":" + seconds
+      else
+        content = hours + ":" + minutes
+
+
       @$el.text content
 
   # Define the plugin

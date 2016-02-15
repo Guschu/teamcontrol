@@ -10,7 +10,9 @@
         = link_to root_path, class: 'navbar-brand' do
           = current_race.name
           - if current_race.active?
-            %span.label.label-success Läuft
+            %span.timer{ data:{ mode:'timer', start:current_race.started_at.to_time.to_i*1000 } }= current_race.race_time.utc.strftime('%H:%M:%S')
+            &mdash;
+            %span.timer{ data:{ mode:'countdown', duration:current_race.duration*60, start:current_race.started_at.to_time.to_i*1000 } }
     .collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-right
         %li= link_to 'Fahrer', drivers_path

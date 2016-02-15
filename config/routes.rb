@@ -16,6 +16,10 @@ Rails.application.routes.draw do
     member do
       get 'overview'
       get 'settings'
+
+      # AASM events
+      post 'start'
+      post 'finish'
     end
   end
 

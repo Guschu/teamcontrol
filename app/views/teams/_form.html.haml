@@ -1,7 +1,9 @@
-= simple_form_for(@team) do |f|
+= simple_form_for [@race, @team], html:{ multipart:true } do |f|
   = f.error_notification
 
-  .form-inputs
+  = f.input :name
+  = f.input :logo
 
   .form-actions
-    = f.button :submit
+    = f.button :submit, class:'btn-primary'
+    = link_to t('cancel'), @race, class:'btn btn-link'
