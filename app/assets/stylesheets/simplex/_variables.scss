@@ -9,18 +9,19 @@ $bootstrap-sass-asset-helper: true;
 //## Gray and brand colors for use across Bootstrap.
 
 $gray-base:              #000;
-$gray-darker:            lighten($gray-base, 13.5%); // #222
+$gray-darker:            #222;
 $gray-dark:              #444;
 $gray:                   #777;
 $gray-light:             #808080;
 $gray-lighter:           #ddd;
 $gray-lightest:          #eee;
 
-$brand-primary:         #D9230F;
-$brand-success:         #469408;
-$brand-info:            #029ACF;
-$brand-warning:         #9B479F;
-$brand-danger:          #D9831F;
+$brand-primary:          #cc3300;
+$brand-secondary:        #ffc733;
+$brand-success:          #469408;
+$brand-info:             #029ACF;
+$brand-warning:          #9B479F;
+$brand-danger:           #D9831F;
 
 
 //== Scaffolding
@@ -50,6 +51,7 @@ $font-family-serif:       Georgia, "Times New Roman", Times, serif;
 $font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
 $font-family-base:        $font-family-sans-serif;
 
+$font-weight:             300;
 $font-size-base:          13px;
 $font-size-large:         ceil(($font-size-base * 1.25)); // ~18px
 $font-size-small:         ceil(($font-size-base * 0.85)); // ~11px
@@ -144,15 +146,19 @@ $table-border-color:            #ddd;
 //
 //## For each of Bootstrap's buttons, define text, background and border color.
 
-$btn-font-weight:                300;
+$btn-font-weight:                $font-weight;
 
 $btn-default-color:              #fff;
-$btn-default-bg:                 #474949;
+$btn-default-bg:                 $gray;
 $btn-default-border:             $btn-default-bg;
 
 $btn-primary-color:              $btn-default-color;
 $btn-primary-bg:                 $brand-primary;
 $btn-primary-border:             $btn-primary-bg;
+
+$btn-secondary-color:            $gray-darker;
+$btn-secondary-bg:               $brand-secondary;
+$btn-secondary-border:           $btn-default-bg;
 
 $btn-success-color:              $btn-default-color;
 $btn-success-bg:                 $brand-success;
@@ -190,19 +196,19 @@ $input-bg-disabled:              $gray-lighter;
 //** Text color for `<input>`s
 $input-color:                    $text-color;
 //** `<input>` border color
-$input-border:                   #ddd;
+$input-border:                   $gray-lighter;
 
 // TODO: Rename `$input-border-radius` to `$input-border-radius-base` in v4
 //** Default `.form-control` border radius
 // This has no effect on `<select>`s in some browsers, due to the limited stylability of `<select>`s in CSS.
-$input-border-radius:            $border-radius-base;
+$input-border-radius:            0;
 //** Large `.form-control` border radius
 $input-border-radius-large:      $border-radius-large;
 //** Small `.form-control` border radius
 $input-border-radius-small:      $border-radius-small;
 
 //** Border color for inputs on focus
-$input-border-focus:             #66afe9;
+$input-border-focus:             $gray;
 
 //** Placeholder text color
 $input-color-placeholder:        $gray-lighter;
@@ -218,7 +224,7 @@ $input-height-small:             (floor($font-size-small * $line-height-small) +
 $form-group-margin-bottom:       15px;
 
 $legend-color:                   $text-color;
-$legend-border-color:            #e5e5e5;
+$legend-border-color:            $gray-light;
 
 //** Background color for textual input addons
 $input-group-addon-bg:           $gray-lighter;
@@ -234,13 +240,13 @@ $cursor-disabled:                not-allowed;
 //## Dropdown menu container and contents.
 
 //** Background for the dropdown menu.
-$dropdown-bg:                    #fff;
+$dropdown-bg:                    $gray-lightest;
 //** Dropdown menu `border-color`.
 $dropdown-border:                rgba(0,0,0,.15);
 //** Dropdown menu `border-color` **for IE8**.
 $dropdown-fallback-border:       #ccc;
 //** Divider color for between dropdown items.
-$dropdown-divider-bg:            #e5e5e5;
+$dropdown-divider-bg:            $gray-light;
 
 //** Dropdown link text color.
 $dropdown-link-color:            $gray-dark;
@@ -258,7 +264,7 @@ $dropdown-link-active-bg:        $component-active-bg;
 $dropdown-link-disabled-color:   $gray-light;
 
 //** Text color for headers within dropdown menus.
-$dropdown-header-color:          $gray-light;
+$dropdown-header-color:          $gray;
 
 //** Deprecated `$dropdown-caret-color` as of v3.1.0
 $dropdown-caret-color:           #000;

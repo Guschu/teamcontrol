@@ -3,11 +3,12 @@
 
   = f.input :name
   = f.input :scheduled
-  = f.input :duration
-  = f.input :max_drive
-  = f.input :max_turn
-  = f.input :break_time
-  = f.input :waiting_period
+  = f.input :mode, as: :radio_buttons, collection:Race.modes.map{|k, _v| [I18n.t(k, scope:'race.modes'), k]}
+  = f.input :duration, hint:'In Minuten'
+  = f.input :max_drive, hint:'In Minuten'
+  = f.input :max_turn, hint:'In Minuten'
+  = f.input :break_time, hint:'In Minuten'
+  = f.input :waiting_period, hint:'In Minuten'
 
   = f.button :submit, class:'btn-primary'
   = link_to t('cancel'), @race, class:'btn btn-link'

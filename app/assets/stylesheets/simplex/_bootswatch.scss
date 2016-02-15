@@ -2,7 +2,7 @@
 // Bootswatch
 // -----------------------------------------------------
 
-$web-font-path: "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700";
+$web-font-path: "https://fonts.googleapis.com/css?family=Open+Sans:300,600";
 @import url($web-font-path);
 
 @mixin btn-shadow($color){
@@ -40,6 +40,11 @@ $web-font-path: "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,7
   @include btn-shadow($btn-primary-bg);
 }
 
+.btn-secondary,
+.btn-secondary:hover {
+  @include btn-shadow($btn-secondary-bg);
+}
+
 .btn-success,
 .btn-success:hover {
   @include btn-shadow($btn-success-bg);
@@ -63,7 +68,7 @@ $web-font-path: "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,7
 // Typography =================================================================
 
 body {
-  font-weight: 300;
+  font-weight: $font-weight;
 }
 
 h1, h2, h3, h4, h5, h6 {

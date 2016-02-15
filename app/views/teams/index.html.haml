@@ -5,10 +5,15 @@
   %li{ role:'presentation' }= link_to 'Events', race_events_path(@race)
 
 %table.table
+  %colgroup
+    %col
+    %col{ width:110 }
+    %col{ width:110 }
+    %col{ width:110 }
   %thead
     %tr
       %th= sort_link @q, :name
-      %th Anzahl Fahrer
+      %th.text-center Anzahl Fahrer
       %th
       %th
 
@@ -16,9 +21,15 @@
     - @teams.each do |team|
       %tr
         %td= link_to team.name, [@race, team]
-        %td= team.attendances.size
-        %td= link_to 'Edit', edit_race_team_path(@race, team)
-        %td= link_to 'Destroy', [@race, team], :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td.text-center= team.attendances.size
+        %td.text-right
+          = link_to edit_race_team_path(@race, team) do
+            = fa_icon 'edit fw'
+            = t(:edit)
+        %td.text-right
+          = link_to [@race, team], :method => :delete, data:{ confirm:t(:confirm) } do
+            = fa_icon 'trash fw'
+            = t(:destroy)
 
 = paginate @teams
 

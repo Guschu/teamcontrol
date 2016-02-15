@@ -5,8 +5,8 @@
     %table.table.table-striped
       %colgroup
         %col
-        %col{ width:80 }
-        %col{ width:80 }
+        %col{ width:110 }
+        %col{ width:110 }
       %thead
         %tr
           %th= sort_link @q, :name
@@ -18,8 +18,14 @@
           - @drivers.each do |driver|
             %tr
               %td= link_to driver.name, driver
-              %td= link_to t('edit'), edit_driver_path(driver)
-              %td= link_to t('destroy'), driver, :method => :delete, :data => { :confirm => 'Are you sure?' }
+              %td.text-right
+                = link_to edit_driver_path(driver) do
+                  = fa_icon 'edit fw'
+                  = t(:edit)
+              %td.text-right
+                = link_to driver, :method => :delete, data:{ confirm:t(:confirm) } do
+                  = fa_icon 'trash fw'
+                  = t(:destroy)
       - else
         %tbody
           %tr.info
@@ -38,7 +44,7 @@
         = search_form_for @q do |f|
           .form-group
             = f.label :name_cont, class:'control-label'
-            = f.search_field :name_cont, class:'form-control'
+            = f.search_field :name_cont, class:'form-control input-sm'
           = f.submit 'Suchen', class:'btn btn-secondary'
           = link_to 'Zurücksetzen', class:'btn btn-text'
 
