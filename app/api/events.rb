@@ -14,7 +14,10 @@ class Events < Grape::API
   end
   post :event do
     race = Race.current_race
-    error!('No active race') unless race
+    unless race
+      status 404
+      present ApiResponse.error "Kein aktuelles Rennen vorhanden!"
+    end
 
     attendances = Attendance.where(team_id: race.teams.select(:id))
     if a = attendances.where(tag_id: params[:id]).first
