@@ -31,10 +31,10 @@ class TeamsController < ApplicationController
 
     respond_to do |format|
       if @team.save
-        format.html { redirect_to @team, notice: 'Team was successfully created.' }
+        format.html { redirect_to [@race, @team], notice: 'Team was successfully created.' }
         format.json { render :show, status: :created, location: @team }
       else
-        format.html { render :new }
+        format.html { ap @team.errors; render :new }
         format.json { render json: @team.errors, status: :unprocessable_entity }
       end
     end
@@ -45,7 +45,7 @@ class TeamsController < ApplicationController
   def update
     respond_to do |format|
       if @team.update(team_params)
-        format.html { redirect_to @team, notice: 'Team was successfully updated.' }
+        format.html { redirect_to [@race, @team], notice: 'Team was successfully updated.' }
         format.json { render :show, status: :ok, location: @team }
       else
         format.html { render :edit }
@@ -59,7 +59,7 @@ class TeamsController < ApplicationController
   def destroy
     @team.destroy
     respond_to do |format|
-      format.html { redirect_to teams_url, notice: 'Team was successfully destroyed.' }
+      format.html { redirect_to race_teams_url(@race), notice: 'Team was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -77,6 +77,6 @@ class TeamsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def team_params
-    params[:team]
+    params.require(:team).permit(:name, :logo)
   end
 end

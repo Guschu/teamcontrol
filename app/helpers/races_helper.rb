@@ -26,14 +26,14 @@
 
 module RacesHelper
   def current_race?
-    session[:current_race].present? || Race.current_race?
+    session.has_key?(:current_race) || Race.current_race?
   end
 
   def current_race
-    @current_race = Race.find session[:current_race] if session[:current_race]
-    @current_race ||= Race.current_race
+    current_race = Race.find(session[:current_race]) if session.has_key?(:current_race)
+    current_race ||= Race.current_race
 
-    @current_race
+    current_race
   end
 
   def minutes_to_time(total_minutes)
