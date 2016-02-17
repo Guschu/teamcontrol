@@ -17,7 +17,9 @@
         %tbody
           %tr
             %th= Team.human_attribute_name :name
-            %td= @team.name
+            %td
+              = image_tag @team.logo.url(:thumb), class:'pull-right img-thumbnail'
+              = @team.name
           %tr
             %th= Team.human_attribute_name :created_at
             %td= l @team.created_at

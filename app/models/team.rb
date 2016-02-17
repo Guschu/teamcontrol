@@ -26,10 +26,14 @@ class Team < ActiveRecord::Base
   has_many :attendances, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :drivers, through: :attendances
-  has_attached_file :logo
+  has_attached_file :logo,
+    styles: { large:'256x256>', thumb:['32x32>', :png] },
+    default_url: "/images/:style/missing.png"
   validates_attachment :logo, content_type: {
     content_type: %w(image/jpg image/jpeg image/png image/gif)
   }
+
+  before_save :destroy_logo!
 
   def current_driver
     return if race.mode == :leaving
@@ -42,5 +46,19 @@ class Team < ActiveRecord::Base
     if e = events.to_a.select(&:leaving?).sort { |a, b| a.created_at <=> b.created_at }.last
       return e.driver
     end
+  end
+
+  def logo_delete
+    @logo_delete ||= '0'
+  end
+
+  def logo_delete=(val)
+    @logo_delete = val
+  end
+
+  private
+
+  def destroy_logo!
+    self.logo.clear if @logo_delete == "1"
   end
 end

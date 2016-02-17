@@ -2,7 +2,17 @@
   = f.error_notification
 
   = f.input :name
-  = f.input :logo
+  = f.input :logo do
+    .panel.panel-default
+      - if f.object.logo.exists?
+        .panel-body
+          = image_tag f.object.logo.url, class:'img-thumbnail'
+      .panel-footer
+        - if f.object.logo.exists?
+          = f.label :logo_delete do
+            = f.check_box :logo_delete, {}, '1', '0'
+            Logo löschen
+        = f.file_field :logo
 
   .form-actions
     = f.button :submit, class:'btn-primary'

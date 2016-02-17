@@ -1,77 +1,74 @@
-%ul.nav.nav-tabs
-  %li{ role:'presentation' }= link_to 'Aktueller Stand', overview_race_path(@race)
-  %li.active{ role:'presentation' }= link_to 'Einstellungen', settings_race_path(@race)
-  %li{ role:'presentation' }= link_to 'Teams', race_teams_path(@race)
-  %li{ role:'presentation' }= link_to 'Events', race_events_path(@race)
+= render partial:'header'
 
-.row
-  .col-sm-6
-    .content
-      .panel.panel-default.panel-info.panel-compact
-        .panel-heading
-          %h3.panel-title Stammdaten
-        %table.table
-          %colgroup
-            %col{ width:'40%' }
-            %col
-          %tbody
-            %tr
-              %th= Race.human_attribute_name :name
-              %td= @race.name
-            %tr
-              %th= Race.human_attribute_name :teams
-              %td= link_to "#{@race.teams.count} Teams", race_teams_path(@race)
-            %tr
-              %th= Race.human_attribute_name :state
-              %td= t @race.state, scope:'race.states'
-            %tr
-              %th= Race.human_attribute_name :scheduled
-              %td= l @race.scheduled
-            %tr
-              %th= Race.human_attribute_name :started_at
-              %td= l @race.started_at if @race.started_at
-            %tr
-              %th= Race.human_attribute_name :finished_at
-              %td= l @race.finished_at if @race.finished_at
-            %tr
-              %th= Race.human_attribute_name :created_at
-              %td= l @race.created_at
-            %tr
-              %th= Race.human_attribute_name :updated_at
-              %td= l @race.updated_at
+.content
+  .row
+    .col-sm-6
+      .content
+        .panel.panel-default.panel-info.panel-compact
+          .panel-heading
+            %h3.panel-title Stammdaten
+          %table.table
+            %colgroup
+              %col{ width:'40%' }
+              %col
+            %tbody
+              %tr
+                %th= Race.human_attribute_name :name
+                %td= @race.name
+              %tr
+                %th= Race.human_attribute_name :teams
+                %td= link_to "#{@race.teams.count} Teams", race_teams_path(@race)
+              %tr
+                %th= Race.human_attribute_name :state
+                %td= t @race.state, scope:'race.states'
+              %tr
+                %th= Race.human_attribute_name :scheduled
+                %td= l @race.scheduled
+              %tr
+                %th= Race.human_attribute_name :started_at
+                %td= l @race.started_at if @race.started_at
+              %tr
+                %th= Race.human_attribute_name :finished_at
+                %td= l @race.finished_at if @race.finished_at
+              %tr
+                %th= Race.human_attribute_name :created_at
+                %td= l @race.created_at
+              %tr
+                %th= Race.human_attribute_name :updated_at
+                %td= l @race.updated_at
 
-  .col-sm-6
-    .content
-      .panel.panel-default.panel-info.panel-compact
-        .panel-heading
-          %h3.panel-title Einstellungen
-        %table.table
-          %colgroup
-            %col{ width:'40%' }
-            %col
-          %tbody
-            %tr
-              %th= Race.human_attribute_name :mode
-              %td= t @race.mode, scope:'race.modes'
-            %tr
-              %th= Race.human_attribute_name :duration
-              %td= minutes_to_time @race.duration
-            %tr
-              %th= Race.human_attribute_name :max_drive
-              %td= minutes_to_time @race.max_drive
-            %tr
-              %th= Race.human_attribute_name :max_turn
-              %td= minutes_to_time @race.max_turn
-            %tr
-              %th= Race.human_attribute_name :break_time
-              %td= minutes_to_time @race.break_time
-            %tr
-              %th= Race.human_attribute_name :waiting_period
-              %td= minutes_to_time @race.waiting_period
+    .col-sm-6
+      .content
+        .panel.panel-default.panel-info.panel-compact
+          .panel-heading
+            %h3.panel-title Einstellungen
+          %table.table
+            %colgroup
+              %col{ width:'40%' }
+              %col
+            %tbody
+              %tr
+                %th= Race.human_attribute_name :mode
+                %td= t @race.mode, scope:'race.modes'
+              %tr
+                %th= Race.human_attribute_name :duration
+                %td= minutes_to_time @race.duration
+              %tr
+                %th= Race.human_attribute_name :max_drive
+                %td= minutes_to_time @race.max_drive
+              %tr
+                %th= Race.human_attribute_name :max_turn
+                %td= minutes_to_time @race.max_turn
+              %tr
+                %th= Race.human_attribute_name :break_time
+                %td= minutes_to_time @race.break_time
+              %tr
+                %th= Race.human_attribute_name :waiting_period
+                %td= minutes_to_time @race.waiting_period
 
-%p
-  .pull-right
-    - @race.aasm.events.each do |evt|
-      = link_to t(evt.name, scope:'race.events'), {action:evt.name}, method: :post, class:'btn btn-secondary', data:{ confirm:'Wollen Sie den Rennstatus jetzt verändern?' }
-  = link_to t('edit'), edit_race_path(@race), class:'btn btn-primary'
-  = link_to t('back'), races_path, class:'btn btn-text'
+  %p
+    .pull-right
+      - @race.aasm.events.each do |evt|
+        = link_to t(evt.name, scope:'race.events'), {action:evt.name}, method: :post, class:'btn btn-secondary', data:{ confirm:'Wollen Sie den Rennstatus jetzt verändern?' }
+    = link_to t('edit'), edit_race_path(@race), class:'btn btn-primary'
+    = link_to t('back'), races_path, class:'btn btn-text'

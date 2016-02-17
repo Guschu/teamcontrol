@@ -1,37 +1,52 @@
-%ul.nav.nav-tabs
-  %li{ role:'presentation' }= link_to 'Aktueller Stand', overview_race_path(@race)
-  %li{ role:'presentation' }= link_to 'Einstellungen', settings_race_path(@race)
-  %li.active{ role:'presentation' }= link_to 'Teams', race_teams_path(@race)
-  %li{ role:'presentation' }= link_to 'Events', race_events_path(@race)
+= render partial:'races/header'
 
-%table.table
-  %colgroup
-    %col
-    %col{ width:110 }
-    %col{ width:110 }
-    %col{ width:110 }
-  %thead
-    %tr
-      %th= sort_link @q, :name
-      %th.text-center Anzahl Fahrer
-      %th
-      %th
+.content
+  .row
+    .col-md-9
+      %table.table
+        %colgroup
+          %col
+          %col{ width:110 }
+          %col{ width:110 }
+          %col{ width:110 }
+        %thead
+          %tr
+            %th= sort_link @q, :name
+            %th.text-center Anzahl Fahrer
+            %th
+            %th
 
-  %tbody
-    - @teams.each do |team|
-      %tr
-        %td= link_to team.name, [@race, team]
-        %td.text-center= team.attendances.size
-        %td.text-right
-          = link_to edit_race_team_path(@race, team) do
-            = fa_icon 'edit fw'
-            = t(:edit)
-        %td.text-right
-          = link_to [@race, team], :method => :delete, data:{ confirm:t(:confirm) } do
-            = fa_icon 'trash fw'
-            = t(:destroy)
+        %tbody
+          - @teams.each do |team|
+            %tr
+              %td
+                = link_to [@race, team] do
+                  = image_tag team.logo.url(:thumb), style:'vertical-align:center'
+                  = team.name
+              %td.text-center= team.attendances.size
+              %td.text-right
+                = link_to edit_race_team_path(@race, team) do
+                  = fa_icon 'edit fw'
+                  = t(:edit)
+              %td.text-right
+                = link_to [@race, team], :method => :delete, data:{ confirm:t(:confirm) } do
+                  = fa_icon 'trash fw'
+                  = t(:destroy)
 
-= paginate @teams
+      = paginate @teams
 
-%p
-  = link_to 'Neues Team', new_race_team_path(@race), class:'btn btn-primary'
+      %p
+        = link_to 'Neues Team', new_race_team_path(@race), class:'btn btn-primary'
+
+    .col-md-3
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title Suche
+        .panel-body
+          = search_form_for @q, url:race_teams_path(@race) do |f|
+            .form-group
+              = f.label :name_cont, class:'control-label'
+              = f.search_field :name_cont, class:'form-control input-sm'
+            = f.submit 'Suchen', class:'btn btn-secondary'
+            = link_to 'Zurücksetzen', race_teams_path(@race), class:'btn btn-text'
+

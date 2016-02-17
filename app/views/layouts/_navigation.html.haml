@@ -8,11 +8,8 @@
         %span.icon-bar
       - if current_race?
         = link_to root_path, class: 'navbar-brand' do
+          = fa_icon 'flag-checkered'
           = current_race.name
-          - if current_race.active?
-            %span.timer{ data:{ mode:'timer', start:current_race.started_at.to_time.to_i*1000 } }= current_race.race_time.utc.strftime('%H:%M:%S')
-            &mdash;
-            %span.timer{ data:{ mode:'countdown', duration:current_race.duration*60, start:current_race.started_at.to_time.to_i*1000 } }
     .collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-right
         %li= link_to 'Fahrer', drivers_path
