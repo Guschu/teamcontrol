@@ -1,0 +1,16 @@
+de:
+  activerecord:
+    models:
+      event:
+        one: Ereignis
+        other: Ereignisse
+    attributes:
+      event:
+        driver_id: Fahrer
+        mode: Buchungsmodus
+        created_at: Angelegt am
+        updated_at: Bearbeitet am
+  event:
+    modes:
+      leaving: geht
+      arriving: kommt

@@ -64,6 +64,10 @@ class Race < ActiveRecord::Base
   validates :name, :scheduled, presence: true
   friendly_id :name, use: :slugged
 
+  def attendances
+    Attendance.where(team_id: teams.select(:id))
+  end
+
   def drivers
     Driver.where(id:Attendance.where(team_id: teams.select(:id)).select(:driver_id))
   end

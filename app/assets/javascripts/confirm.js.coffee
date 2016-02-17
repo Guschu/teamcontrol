@@ -12,20 +12,20 @@ $ ->
   $.rails.showConfirmDialog = (link) ->
     message = link.attr 'data-confirm'
     html = """
-           <div class="modal" id="confirmationDialog" tabindex="-1" role="dialog">
-             <div class="modal-dialog">
-               <div class="modal-content">
-                 <div class="modal-header">
-                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                   <h4 class="modal-title">#{message}</h4>
-                 </div>
-                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">#{link.data('cancel')}</button>
-                  <button type="button" class="btn btn-primary">#{link.data('ok')}</button>
-                 </div>
-               </div>
-             </div>
-           </div>
-           """
+      <div class="modal fade" id="confirmationDialog" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">#{message}</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn" data-dismiss="modal">#{link.data('cancel')}</button>
+              <button type="button" class="btn btn-primary confirm">#{link.data('ok')}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    """
     $(html).modal()
-    $('#confirmationDialog .confirm').on 'click', -> $.rails.confirmed(link)
+    $(document).on 'click', '#confirmationDialog .confirm', -> $.rails.confirmed(link)

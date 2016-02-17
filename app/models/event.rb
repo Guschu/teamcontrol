@@ -24,5 +24,7 @@ class Event < ActiveRecord::Base
   belongs_to :team
   belongs_to :driver
 
-  enum mode: { arriving: 0, leaving: 5 }
+  enum mode: { arriving: 1, leaving: 2 }
+
+  validates :team_id, :driver_id, :mode, presence:true
 end
