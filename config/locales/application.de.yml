@@ -4,3 +4,6 @@ de:
   back: Zurück
   cancel: Abbrechen
   confirm: Sind Sie sicher?
+  buttons:
+    ok: OK
+    cancel: Abbrechen

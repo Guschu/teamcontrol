@@ -29,9 +29,7 @@
                   = fa_icon 'edit fw'
                   = t(:edit)
               %td.text-right
-                = link_to [@race, team], :method => :delete, data:{ confirm:t(:confirm) } do
-                  = fa_icon 'trash fw'
-                  = t(:destroy)
+                = destroy_link_to [@race, team]
 
       = paginate @teams
 
@@ -39,7 +37,7 @@
         = link_to 'Neues Team', new_race_team_path(@race), class:'btn btn-primary'
 
     .col-md-3
-      .panel.panel-default
+      .panel.panel-secondary
         .panel-heading
           %h3.panel-title Suche
         .panel-body
