@@ -1,0 +1,23 @@
+.panel.panel-compact{ class:(race.active? ? 'panel-info' : 'panel-secondary') }
+  .panel-heading
+    %h4.panel-title= link_to team.name, [race, team]
+  %table.table.table-condensed
+    %colgroup
+      %col{ width:32 }
+      %col
+    %tbody
+      %tr
+        %th= fa_icon 'clock-o'
+        %td.text-right
+          - if race.active?
+            %span.timer{ data:{ mode:'timer', start:(Time.now - team.current_drivetime).to_i*1000 } }= time_format team.current_drivetime.utc
+          - else
+            n/a
+      - if race.both?
+        %tr
+          %th= fa_icon 'user', title:'Aktueller Fahrer'
+          %td.text-right= team.current_driver.try(:name)
+      - else
+        %tr
+          %th.text-muted= fa_icon 'user', title:'Letzter Fahrer'
+          %td.text-right= team.last_driver.try(:name)

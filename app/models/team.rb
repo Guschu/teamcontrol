@@ -46,6 +46,30 @@ class Team < ActiveRecord::Base
     end
   end
 
+  def current_drivetime
+    return Time.at(0) if !race.active?
+
+    if race.mode.to_sym == :leaving
+      # Zeit seit der letzten Gehend-Buchung
+      evt_start = events.leaving
+        .order('created_at desc')
+        .first
+    else
+      # Zeit seit der letzten Kommend-Buchung
+      evt_start = events.arriving
+        .order('created_at desc')
+        .first
+    end
+
+    if evt_start.present?
+      start_at = evt_start.created_at > race.started_at ? evt_start.created_at : race.started_at
+    else
+      start_at = race.started_at
+    end
+
+    Time.at(Time.zone.now - start_at.to_time)
+  end
+
   def has_unassigned_attendances?
     attendances.unassigned.any?
   end

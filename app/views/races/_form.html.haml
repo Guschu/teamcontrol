@@ -1,14 +1,21 @@
 = simple_form_for @race do |f|
   = f.error_notification
 
-  = f.input :name
-  = f.input :scheduled
-  = f.input :mode, as: :radio_buttons, collection:Race.modes.map{|k, _v| [I18n.t(k, scope:'race.modes'), k]}
-  = f.input :duration, hint:'In Minuten'
-  = f.input :max_drive, hint:'In Minuten'
-  = f.input :max_turn, hint:'In Minuten'
-  = f.input :break_time, hint:'In Minuten'
-  = f.input :waiting_period, hint:'In Minuten'
+  .row
+    = f.input :name, wrapper_html:{ class:'col-sm-9' }
+    = f.input :mode, as: :radio_buttons, collection:Race.modes.map{|k, _v| [I18n.t(k, scope:'race.modes'), k]}, wrapper_html:{ class:'col-sm-3' }
+
+  .row
+    = f.input :scheduled, wrapper_html:{ class:'col-sm-9' }
+
+  .row
+    = f.input :duration, hint:'In Minuten', wrapper_html:{ class:'col-sm-3' }
+    = f.input :max_drive, hint:'In Minuten', wrapper_html:{ class:'col-sm-3' }
+    = f.input :max_turn, hint:'In Minuten', wrapper_html:{ class:'col-sm-3' }
+
+  .row
+    = f.input :break_time, hint:'In Minuten', wrapper_html:{ class:'col-sm-3' }
+    = f.input :waiting_period, hint:'In Minuten', wrapper_html:{ class:'col-sm-3' }
 
   = f.button :submit, class:'btn-primary'
   = link_to t('cancel'), @race, class:'btn btn-link'

@@ -67,6 +67,61 @@ RSpec.describe Team, type: :model do
     end
   end
 
+  describe '#current_drivetime' do
+    it 'is a Time' do
+      race = create :race, :started
+      team = create :team, race:race
+      expect(team.current_drivetime).to be_a Time
+    end
+
+    it 'is 0 if race is not active' do
+      race = create :race
+      team = create :team, race:race
+
+      expect(team.current_drivetime.to_i).to be 0
+    end
+
+    it 'returns time since last arrival if race mode is :both' do
+      race = create :race, :started
+      team = create :team, race:race
+      att1 = create :attendance, team:team
+      att2 = create :attendance, team:team
+
+      Timecop.travel race.started_at.to_time
+      att1.create_event # kommend
+
+      Timecop.travel 10.minutes
+      att2.create_event # kommend
+
+      Timecop.travel 1.minutes
+      att1.create_event # gehend
+      Timecop.travel 20.minutes
+
+      expect(team.current_drivetime.to_i).to eq 21.minutes
+    end
+
+    it 'returns time since last leave if race mode is :leaving' do
+      race = create :race, :started, mode: :leaving
+      team = create :team, race:race
+      att1 = create :attendance, team:team
+      att2 = create :attendance, team:team
+
+      Timecop.travel race.started_at.to_time
+
+      Timecop.travel 10.minutes
+      expect(team.current_drivetime.to_i).to eq 10.minutes
+
+      att1.create_event # gehend
+
+      Timecop.travel 12.minutes
+      att2.create_event # gehend
+
+      Timecop.travel 20.minutes
+
+      expect(team.current_drivetime.to_i).to eq 20.minutes
+    end
+  end
+
   describe '#last_driver' do
     it 'returns last leaving driver' do
       @race = create :race, :started, mode: :leaving

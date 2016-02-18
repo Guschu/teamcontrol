@@ -5,7 +5,7 @@
         .panel-body
           .text-center.text-large
             = fa_icon 'clock-o', class:'text-muted'
-            %span.timer{ data:{ mode:'timer', start:current_race.started_at.to_time.to_i*1000 } }= current_race.race_time.utc.strftime('%H:%M:%S')
+            %span.timer{ data:{ mode:'timer', start:current_race.started_at.to_time.to_i*1000 } }= time_format current_race.race_time.utc
         .panel-footer
           %h4.panel-title.text-center Rennzeit
     .col-xs-6.col-md-3

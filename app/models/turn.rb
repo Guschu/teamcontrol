@@ -46,7 +46,7 @@ class Turn < ActiveRecord::Base
       end
       new team_id:evt.team_id, driver_id:evt.driver_id, duration:(Time.now - start_at.to_time)
     when :leaving
-      # letzte gehend-Buchung des gleichen Teams, frühestens/alternativ Rennbeginn
+      # vorletzte gehend-Buchung des gleichen Teams, frühestens/alternativ Rennbeginn
       evt_start = Event
         .leaving
         .where(team_id:evt.team_id)

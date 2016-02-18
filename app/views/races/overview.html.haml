@@ -9,50 +9,12 @@
 
 .content
   %ul.block-grid-xs-2.block-grid-sm-4.block-grid-md-6.block-grid-lg-8
-    - c = Time.zone.now.to_i*1000
     - @race.teams.includes(:attendances, :events).each do |team|
       %li.team{ data:{ name:team.name.downcase } }
-        .panel.panel-default.panel-info.panel-compact
-          .panel-heading
-            %h4.panel-title
-              .pull-right
-                %span.timer{ data:{ mode:'countdown', duration:(60*5), current:c } } 00:00
-              = link_to team.name, [@race, team]
-          %table.table.table-condensed
-            %colgroup
-              %col{ width:32 }
-              %col
-            %tbody
-              %tr
-                %th.text-muted= fa_icon 'clock-o'
-                %td.text-right
-                  %span.timer{ data:{ mode:'timer', current:c } } 00:00
-              - if team.last_driver.present?
-                %tr
-                  %th.text-muted= fa_icon 'user'
-                  %td.text-right
-                    = (team.current_driver || team.last_driver).name
+        = render partial:'teams/team', locals:{ race:@race, team:team }
 
 - content_for :bottom do
   :coffee
-
-    debounce = (func, threshold, execAsap) ->
-      timeout = null
-      (args...) ->
-        obj = this
-        delayed = ->
-          console.log "jetzt"
-          func.apply(obj, args) unless execAsap
-          timeout = null
-        if timeout
-          clearTimeout(timeout)
-        else if (execAsap)
-          func.apply(obj, args)
-        timeout = setTimeout delayed, threshold || 100
-
-    filterRaces = ->
-      console.log this
-
     $ ->
       $('#search').keyup ->
         if $(this).val() == ''
