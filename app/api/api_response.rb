@@ -1,8 +1,8 @@
 class ApiResponse
-  attr_reader :status, :message
+  attr_reader :code, :message
 
-  def initialize(status, message)
-    @status = status
+  def initialize(code, message)
+    @code = code
     @message = message
   end
 
@@ -11,7 +11,8 @@ class ApiResponse
   end
 
   class Entity < Grape::Entity
-    expose :status, :message
+    expose :code, as: :status, documentation: { type: 'String', desc: 'Severity', values: %w(success info error) }
+    expose :message,           documentation: { type: 'String', desc: 'Response message' }
   end
 
   def self.success(message)

@@ -39,20 +39,30 @@
         when 'countdown'
           diff = @options.duration - (((current - @start) / 1000) | 0)
 
-      hours   = (diff / 3600) | 0
-      minutes = ((diff - hours * 3600) / 60) | 0
-      seconds = (diff % 60) | 0
+      negative = false
+      if diff < 0
+        diff = Math.abs diff
+        negative = true
 
-      hours   = if hours < 10   then "0" + hours else hours
+      if diff == 0
+        hours = 0
+        minutes = 0
+        seconds = 0
+      else
+        hours   = (diff / 3600) | 0
+        minutes = ((diff - hours * 3600) / 60) | 0
+        seconds = (diff % 60) | 0
+
+      hours   = if hours   < 10 then "0" + hours   else hours
       minutes = if minutes < 10 then "0" + minutes else minutes
       seconds = if seconds < 10 then "0" + seconds else seconds
 
+      content = if negative then '-' else ''
+      content += hours + ":" + minutes
       if @options.show_seconds
-        content = hours + ":" + minutes + ":" + seconds
-      else
-        content = hours + ":" + minutes
+        content += ":" + seconds
 
-
+      @$el.toggleClass 'negative', negative
       @$el.text content
 
   # Define the plugin

@@ -16,7 +16,7 @@ Rails.application.configure do
   # config.logger = Logger.new(STDOUT)
 
   # Set log level
-  # config.log_level = :warn
+  # config.log_level = :info
 
   # Configure static file server for tests with Cache-Control for performance.
   config.serve_static_files   = true

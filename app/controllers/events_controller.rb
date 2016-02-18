@@ -7,14 +7,16 @@ class EventsController < ApplicationController
   end
 
   def create
-    attendance = @race.attendances.where(driver_id:event_params[:driver_id]).first
-    @event = Event.new event_params.merge(team_id:attendance.team_id)
+    if event_params[:driver_id]
+      attendance = @race.attendances.where(driver_id:event_params[:driver_id]).first
+      @event = Event.new event_params.merge(team_id:attendance.team_id)
+    end
 
     respond_to do |format|
       if @event.save
         format.html { redirect_to [@race, :events], notice: 'Event wurde angelegt.' }
       else
-        format.html { ap @event.errors; render :new }
+        format.html { render :new }
       end
     end
   end
