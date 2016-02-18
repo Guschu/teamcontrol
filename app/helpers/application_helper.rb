@@ -14,4 +14,8 @@ module ApplicationHelper
     content = fa_icon('trash fw') + t('destroy')
     link_to content, url, :method => :delete, data:{ confirm:t('confirm'), ok:t('buttons.ok'), cancel:t('buttons.cancel') }
   end
+
+  def time_format(time)
+    time.strftime('%H:%M:%S')
+  end
 end
