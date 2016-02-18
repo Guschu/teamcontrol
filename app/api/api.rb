@@ -4,7 +4,7 @@ class API < Grape::API
   TOKEN_NAME = 'X-Tc-Token'.freeze
 
   logger.formatter = GrapeLogging::Formatters::Default.new
-  use GrapeLogging::Middleware::RequestLogger, logger: logger
+  use(GrapeLogging::Middleware::RequestLogger, logger: logger) unless Rails.env.test?
 
   mount Status
   mount Events

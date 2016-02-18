@@ -21,18 +21,19 @@
                 %td= event.created_at
         - else
           %tbody
-            %tr.info
+            %tr
               %td{ colspan:4 }
                 %p.text-center Zu diesem Rennen gibt es noch keine Event-Daten.
 
       = paginate @events
 
     .col-md-3
-      .panel.panel-secondary
+      .panel.panel-default
         .panel-heading
           %h3.panel-title Manuelle Erfassung
-        .panel-body
-          = simple_form_for [@race, Event.new] do |f|
+        = simple_form_for [@race, Event.new] do |f|
+          .panel-body
             = f.input :driver_id, as: :select, collection:@race.drivers.order(:name), input_html:{ class:'input-sm' }
             = f.input :mode, as: :radio_buttons, collection:Event.modes.map{|k, _v| [I18n.t(k, scope:'event.modes'), k]}
-            = f.submit 'Suchen', class:'btn btn-secondary'
+          .panel-footer
+            = f.submit 'Anlegen', class:'btn btn-secondary'

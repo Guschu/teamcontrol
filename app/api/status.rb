@@ -8,8 +8,13 @@ class Status < Grape::API
     authenticate!
   end
 
-  desc 'Check system status'
+  desc 'Check system status' do
+    success ApiResponse::Entity
+    failure [
+      [401, 'Unauthorized']
+    ]
+  end
   get :ping do
-    present status: 'ok'
+    present ApiResponse.success 'OK'
   end
 end
