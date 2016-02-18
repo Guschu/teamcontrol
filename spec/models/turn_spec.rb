@@ -5,4 +5,63 @@ RSpec.describe Turn, type: :model do
     it { is_expected.to belong_to(:team).class_name('Team') }
     it { is_expected.to belong_to(:driver).class_name('Driver') }
   end
+
+  context '#for_event builds instance' do
+    it 'w/ duration if race is started and mode is :both' do
+      race = create :race, :started
+      team = create :team, race:race
+      att1 = create :attendance, team:team
+      att2 = create :attendance, team:team
+
+      Timecop.travel race.started_at.to_time
+      att1.create_event # kommend
+      Timecop.travel 10.minutes
+      att2.create_event # kommend
+      Timecop.travel 1.minutes
+      att1.create_event # gehend
+      Timecop.travel 20.minutes
+      att2.create_event # gehend
+
+      expect(team.turns.count).to eq 2
+      expect(team.turns.first.duration).to eq 11.minutes
+      expect(team.turns.second.duration).to eq 21.minutes
+    end
+
+    it 'w/ duration for prebooking if race is started and mode is :both' do
+      race = create :race, :started
+      team = create :team, race:race
+      att1 = create :attendance, team:team
+      att2 = create :attendance, team:team
+
+      Timecop.travel race.started_at.to_time - 5.minutes
+      att1.create_event # kommend, Vorbuchung
+      Timecop.travel 15.minutes # 10 Minuten nach Rennbeginn
+      att2.create_event # kommend
+      Timecop.travel 1.minutes
+      att1.create_event # gehend
+      Timecop.travel 20.minutes
+      att2.create_event # gehend
+
+      expect(team.turns.count).to eq 2
+      expect(team.turns.first.duration).to eq 11.minutes
+      expect(team.turns.second.duration).to eq 21.minutes
+    end
+
+    it 'w/ duration if race is started and mode is :leaving' do
+      race = create :race, :started, mode: :leaving
+      team = create :team, race:race
+      att1 = create :attendance, team:team
+      att2 = create :attendance, team:team
+
+      Timecop.travel race.started_at.to_time
+      Timecop.travel 10.minutes
+      att1.create_event # gehend
+      Timecop.travel 20.minutes
+      att2.create_event # gehend
+
+      expect(team.turns.count).to eq 2
+      expect(team.turns.first.duration).to eq 10.minutes
+      expect(team.turns.second.duration).to eq 20.minutes
+    end
+  end
 end

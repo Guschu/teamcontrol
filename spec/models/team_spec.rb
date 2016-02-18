@@ -39,6 +39,7 @@ RSpec.describe Team, type: :model do
       @att1 = create :attendance, :with_tag, team: @team, driver: @driver1
       @att2 = create :attendance, :with_tag, team: @team, driver: @driver2
 
+      Timecop.travel @race.started_at.to_time + 10.minutes
       @att1.create_event
       expect(@team.current_driver).to be_nil
     end

@@ -64,6 +64,10 @@ class Team < ActiveRecord::Base
     @logo_delete = val
   end
 
+  def turns
+    Turn.where(team_id:self.id)
+  end
+
   private
 
   def destroy_logo!

@@ -29,6 +29,14 @@ class Attendance < ActiveRecord::Base
 
   scope :unassigned, -> { where('tag_id IS NULL OR tag_id=""') }
 
+  def is_unassigned?
+    self.tag_id.blank?
+  end
+
+  def total_drivetime
+    Time.at(Turn.where(team_id:self.team_id, driver_id:self.driver_id).sum(:duration)).utc
+  end
+
   def create_event
     case team.race.mode.to_sym
     when :both
@@ -36,10 +44,12 @@ class Attendance < ActiveRecord::Base
       if (event_map[driver_id] || 0).even?
         team.events.create! driver: driver, mode: :arriving
       else
-        team.events.create! driver: driver, mode: :leaving
+        evt = team.events.create! driver: driver, mode: :leaving
+        Turn.for_event(evt).save!
       end
     when :leaving
-      team.events.create! driver: driver, mode: :leaving
+      evt = team.events.create! driver: driver, mode: :leaving
+      Turn.for_event(evt).save!
     end
   end
 end
