@@ -15,6 +15,6 @@ class Status < Grape::API
     ]
   end
   get :ping do
-    present ApiResponse.success 'OK'
+    present ApiResponse.success 'OK', 'OK'
   end
 end

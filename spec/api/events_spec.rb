@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Events, type: :request do
   let(:station) { Station.where(token: '0123456789AB').first_or_create }
   let(:headers) { { API::TOKEN_NAME => station.token, 'Accept' => 'application/json' } }
+  let(:allowed_response_keys) { %w(status title message) }
 
   context 'without a current race' do
     it 'fails with 404' do
@@ -10,8 +11,9 @@ RSpec.describe Events, type: :request do
       expect(response.status).to eq 404
 
       data = JSON.parse(response.body)
-      expect(data.keys).to eq %w(status message)
+      expect(data.keys).to eq allowed_response_keys
       expect(data['status']).to eq 'error'
+      expect(data['title']).not_to be_blank
       expect(data['message']).not_to be_blank
     end
   end
@@ -26,8 +28,9 @@ RSpec.describe Events, type: :request do
       expect(response.status).to eq 201
 
       data = JSON.parse(response.body)
-      expect(data.keys).to eq %w(status message)
+      expect(data.keys).to eq allowed_response_keys
       expect(data['status']).to eq 'success'
+      expect(data['title']).not_to be_blank
       expect(data['message']).not_to be_blank
 
       a.reload
@@ -43,8 +46,9 @@ RSpec.describe Events, type: :request do
       expect(response.status).to eq 406
 
       data = JSON.parse(response.body)
-      expect(data.keys).to eq %w(status message)
+      expect(data.keys).to eq allowed_response_keys
       expect(data['status']).to eq 'error'
+      expect(data['title']).not_to be_blank
       expect(data['message']).not_to be_blank
 
       a.reload
@@ -63,8 +67,9 @@ RSpec.describe Events, type: :request do
         expect(response).to be_success
 
         data = JSON.parse(response.body)
-        expect(data.keys).to eq %w(status message)
+        expect(data.keys).to eq allowed_response_keys
         expect(data['status']).to eq 'success'
+        expect(data['title']).not_to be_blank
         expect(data['message']).not_to be_blank
 
         expect(team.events.count).to eq 1
@@ -76,8 +81,9 @@ RSpec.describe Events, type: :request do
         expect(response.status).to eq 406
 
         data = JSON.parse(response.body)
-        expect(data.keys).to eq %w(status message)
+        expect(data.keys).to eq allowed_response_keys
         expect(data['status']).to eq 'error'
+        expect(data['title']).not_to be_blank
         expect(data['message']).not_to be_blank
 
         expect(team.events.count).to eq 1
@@ -89,8 +95,9 @@ RSpec.describe Events, type: :request do
         expect(response.status).to eq 406
 
         data = JSON.parse(response.body)
-        expect(data.keys).to eq %w(status message)
+        expect(data.keys).to eq allowed_response_keys
         expect(data['status']).to eq 'error'
+        expect(data['title']).not_to be_blank
         expect(data['message']).not_to be_blank
       end
     end
@@ -105,8 +112,9 @@ RSpec.describe Events, type: :request do
         expect(response).to be_success
 
         data = JSON.parse(response.body)
-        expect(data.keys).to eq %w(status message)
+        expect(data.keys).to eq allowed_response_keys
         expect(data['status']).to eq 'success'
+        expect(data['title']).not_to be_blank
         expect(data['message']).not_to be_blank
 
         expect(team.events.count).to eq 1
@@ -124,8 +132,9 @@ RSpec.describe Events, type: :request do
         expect(response.status).to eq 404 # no current race
 
         data = JSON.parse(response.body)
-        expect(data.keys).to eq %w(status message)
+        expect(data.keys).to eq allowed_response_keys
         expect(data['status']).to eq 'error'
+        expect(data['title']).not_to be_blank
         expect(data['message']).not_to be_blank
       end
     end

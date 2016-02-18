@@ -24,7 +24,7 @@ class Events < Grape::API
     unless race.present?
       logger.error "No current race"
       status 404
-      present ApiResponse.error "Kein aktives Rennen vorhanden!"
+      present ApiResponse.error "Kein aktives Rennen", "Verarbeitung nicht möglich"
       return
     end
 
@@ -37,40 +37,40 @@ class Events < Grape::API
           if existing_events.size == 0
             logger.info "Creating event for driver #{a.driver.name}"
             evt = a.create_event
-            present ApiResponse.success "#{a.driver.name} #{I18n.t evt.mode, scope:'event.modes'}"
+            present ApiResponse.success "Buchung angelegt", "#{a.driver.name} #{I18n.t evt.mode, scope:'event.modes'}"
           else
             logger.warn "Pre-race event for #{a.team.name} already exists"
             status 406
-            present ApiResponse.error "#{a.team.name} / #{a.driver.name}"
+            present ApiResponse.error "Vorabbuchung besteht bereits", "#{a.team.name} / #{a.driver.name}"
           end
         else
           logger.warn "Race mode :leaving does not allow events before race is started"
           status 406
-          present ApiResponse.error "Nicht möglich"
+          present ApiResponse.error "Keine Vorabbuchung in diesem Rennen", "Nicht möglich"
         end
       when :active
         logger.info "Creating event for driver #{a.driver.name}"
         evt = a.create_event
-        present ApiResponse.success "#{a.driver.name} #{I18n.t evt.mode, scope:'event.modes'}"
+        present ApiResponse.success "Buchung angelegt", "#{a.driver.name} #{I18n.t evt.mode, scope:'event.modes'}"
       when :finished
         logger.warn "Can't create event, race is finished"
         status 406
-        present ApiResponse.error "Rennen ist bereits beendet"
+        present ApiResponse.error "Rennen ist beendet", "Nicht möglich"
       else
         logger.error "Unexpected race state #{race.state}"
         status 500
-        present ApiResponse.error "Unexpected race state #{race.state}"
+        present ApiResponse.error "Allgemeiner Fehler", "Nicht möglich"
       end
     else
       if a = attendances.unassigned.first
         logger.info "Assigning tag_id to driver #{a.driver.name}"
         if a.update_attributes tag_id: params[:id]
-          present ApiResponse.success "#{a.driver.name} registriert"
+          present ApiResponse.success "Karte/Tag registriert", a.driver.name
         end
       else
         logger.warn "Can't assign attendance, no unassigned available"
         status 406
-        present ApiResponse.error "Keine Aktivierung möglich"
+        present ApiResponse.error "Keine ausstehende Registrierung", "Nicht möglich"
       end
     end
   end
