@@ -22,6 +22,9 @@ class TeamsController < ApplicationController
 
   # GET /teams/1/edit
   def edit
+    @free_drivers = Driver.free_for_team(@team)
+    @current_drivers = @team.drivers
+    @all_drivers = @free_drivers.concat @current_drivers
   end
 
   # POST /teams
@@ -43,8 +46,12 @@ class TeamsController < ApplicationController
   # PATCH/PUT /teams/1
   # PATCH/PUT /teams/1.json
   def update
+    # drivers = Driver.where(id: team_params[:drivers]).where.not(id: @team.attendances.pluck(:driver_id))
+    # build_attendances(drivers)
+    # @team.attendances.where.not(driver_id: drivers.map(&:id)).destroy_all
+
     respond_to do |format|
-      if @team.update(team_params)
+      if @team.update(team_params.except(:drivers))
         format.html { redirect_to [@race, @team], notice: 'Team was successfully updated.' }
         format.json { render :show, status: :ok, location: @team }
       else
@@ -66,6 +73,14 @@ class TeamsController < ApplicationController
 
   private
 
+  def build_attendances(drivers)
+    # Zerstöre alle Attendances, die übrigbleiben, wenn ich nach den drivern suche
+    #
+    drivers.each do |driver|
+      @team.attendances.build driver: driver
+    end
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_race
     @race = Race.friendly.find(params[:race_id])
@@ -77,6 +92,6 @@ class TeamsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def team_params
-    params.require(:team).permit(:name, :logo, :logo_delete)
+    params.require(:team).permit(:name, :logo, :logo_delete, attendances_attributes:[ :id, :driver_id, :done, :_destroy ])
   end
 end

@@ -1,0 +1,3 @@
+%tr.nested-fields
+  %td= f.association :driver, label:false, collection:Driver.free_for_team(f.object.team), label_method: :name
+  %td= link_to_remove_association '', f, { class:'btn btn-danger fa fa-trash-o' }

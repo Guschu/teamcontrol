@@ -13,7 +13,20 @@
             = f.check_box :logo_delete, {}, '1', '0'
             Logo löschen
         = f.file_field :logo
+  %table#attendances.table.table-striped
+    %thead
+      %tr
+        %th Fahrer
+        %th
 
+    %tfoot.links
+      %tr
+        %td{ colspan:2 }
+          = link_to_add_association 'Fahrer hinzufügen', f, :attendances, { class:'btn btn-primary', 'data-association-insertion-method'=>'append', 'data-association-insertion-node'=>'#attendances tbody'}
+
+    %tbody
+      = f.simple_fields_for :attendances do |fa|
+        = render 'attendance_fields_show', f:fa
   .form-actions
     = f.button :submit, class:'btn-primary'
     = link_to t('cancel'), @race, class:'btn btn-link'

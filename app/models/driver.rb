@@ -15,4 +15,9 @@ class Driver < ActiveRecord::Base
   def has_unassigned_attendance?(team_id)
     attendances.where(team_id:team_id).unassigned.any?
   end
+
+  def self.free_for_team(team)
+    team_ids = Team.where(race_id: team.race_id).pluck(:id)
+    Driver.where.not(id: Attendance.where(team_id: team_ids).pluck(:driver_id))
+  end
 end

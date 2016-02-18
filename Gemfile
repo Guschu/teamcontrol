@@ -20,6 +20,7 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'devise'
 gem 'ransack'
+gem 'cocoon'
 
 # API related Gems
 gem 'grape'

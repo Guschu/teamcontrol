@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require confirm
+//= require cocoon
 //= require timer
 
 $(function () {

@@ -1,0 +1,12 @@
+de:
+  activerecord:
+    models:
+      attendance:
+        one: Teilnahme
+        other: Teilnahmen
+    attributes:
+      attendance:
+        driver: Fahrer
+        team: Team
+        created_at: Angelegt am
+        updated_at: Bearbeitet am

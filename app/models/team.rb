@@ -26,6 +26,10 @@ class Team < ActiveRecord::Base
   has_many :attendances, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :drivers, through: :attendances
+
+  accepts_nested_attributes_for :attendances, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :drivers
+
   has_attached_file :logo,
     styles: { large:'256x256>', thumb:['32x32>', :png] },
     default_url: "/images/:style/missing.png"

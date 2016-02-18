@@ -25,6 +25,8 @@ class Attendance < ActiveRecord::Base
   belongs_to :team
   belongs_to :driver
 
+  # accepts_nested_attributes_for :driver, reject_if: :all_blank
+
   scope :unassigned, -> { where('tag_id IS NULL OR tag_id=""') }
 
   def create_event
