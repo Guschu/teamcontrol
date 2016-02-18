@@ -41,7 +41,7 @@ class Events < Grape::API
           else
             logger.warn "Pre-race event for #{a.team.name} already exists"
             status 406
-            present ApiResponse.error "#{a.team.name} ist bereits gebucht"
+            present ApiResponse.error "#{a.team.name} / #{a.driver.name}"
           end
         else
           logger.warn "Race mode :leaving does not allow events before race is started"
