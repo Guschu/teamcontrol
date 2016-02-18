@@ -37,4 +37,11 @@ RSpec.describe DriversController, type: :controller do
       expect(subject).to render_template 'show'
     end
   end
+
+  describe 'POST create' do
+    it 'a driver with name' do
+      post :create, driver:{ name:"Dagobert Duck" }
+      expect(response).to redirect_to action: :show, id:assigns(:driver).id
+    end
+  end
 end
