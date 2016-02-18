@@ -15,3 +15,7 @@
 //= require bootstrap-sprockets
 //= require confirm
 //= require timer
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})

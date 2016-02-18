@@ -37,14 +37,15 @@
     = link_to 'Neuer Fahrer', new_driver_path, class:'btn btn-primary'
 
   .col-md-3
-    .panel.panel-default
+    .panel.panel-secondary
       .panel-heading
         %h3.panel-title Suche
-      .panel-body
-        = search_form_for @q do |f|
+      = search_form_for @q do |f|
+        .panel-body
           .form-group
             = f.label :name_cont, class:'control-label'
             = f.search_field :name_cont, class:'form-control input-sm'
+        .panel-footer
           = f.submit 'Suchen', class:'btn btn-secondary'
           = link_to 'Zurücksetzen', drivers_path, class:'btn btn-text'
 

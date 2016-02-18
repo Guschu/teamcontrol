@@ -3,7 +3,7 @@
 .content
   .row
     .col-md-9
-      %table.table
+      %table.table.table-striped.teams
         %colgroup
           %col
           %col{ width:110 }
@@ -22,6 +22,8 @@
               %td
                 = link_to [@race, team] do
                   = image_tag team.logo.url(:thumb), style:'vertical-align:center'
+                  - if team.has_unassigned_attendances?
+                    %span.label.label-danger.pull-right{ title:'Tag-Zuordnungen fehlen', data:{toggle:'tooltip', placement:'left'} } Tag!
                   = team.name
               %td.text-center= team.attendances.size
               %td.text-right
@@ -40,11 +42,12 @@
       .panel.panel-secondary
         .panel-heading
           %h3.panel-title Suche
-        .panel-body
-          = search_form_for @q, url:race_teams_path(@race) do |f|
+        = search_form_for @q, url:race_teams_path(@race) do |f|
+          .panel-body
             .form-group
               = f.label :name_cont, class:'control-label'
               = f.search_field :name_cont, class:'form-control input-sm'
+          .panel-footer
             = f.submit 'Suchen', class:'btn btn-secondary'
             = link_to 'Zurücksetzen', race_teams_path(@race), class:'btn btn-text'
 

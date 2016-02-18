@@ -1,8 +1,4 @@
-%ul.nav.nav-tabs
-  %li{ role:'presentation' }= link_to 'Aktueller Stand', overview_race_path(@race)
-  %li{ role:'presentation' }= link_to 'Einstellungen', settings_race_path(@race)
-  %li.active{ role:'presentation' }= link_to 'Teams', race_teams_path(@race)
-  %li{ role:'presentation' }= link_to 'Events', race_events_path(@race)
+= render partial:'races/header'
 
 %h1= @team.name
 
@@ -35,6 +31,8 @@
           - @team.drivers.each do |driver|
             %tr
               %td
+                - if driver.has_unassigned_attendance?(@team.id)
+                  %span.label.label-danger.pull-right{ title:'Tag-Zuordnung fehlt', data:{toggle:'tooltip', placement:'left'} } Tag!
                 = fa_icon 'user'
                 = driver.name
 

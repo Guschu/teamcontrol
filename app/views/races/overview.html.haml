@@ -1,10 +1,17 @@
+- content_for :subnav do
+  %li.pull-right.hidden-xs.hidden-sm
+    %form.form-inline{ style:'margin-top: 6px'}
+      .form-group
+        %label.control-label{ for:'search' } Filter
+        %input.form-control.input-sm#search{ type:'search', placeholder:'Teamname', autocomplete:'off' }
+
 = render partial:'header'
 
 .content
   %ul.block-grid-xs-2.block-grid-sm-4.block-grid-md-6.block-grid-lg-8
     - c = Time.zone.now.to_i*1000
     - @race.teams.includes(:attendances, :events).each do |team|
-      %li.team
+      %li.team{ data:{ name:team.name.downcase } }
         .panel.panel-default.panel-info.panel-compact
           .panel-heading
             %h4.panel-title
@@ -25,3 +32,31 @@
                   %th.text-muted= fa_icon 'user'
                   %td.text-right
                     = (team.current_driver || team.last_driver).name
+
+- content_for :bottom do
+  :coffee
+
+    debounce = (func, threshold, execAsap) ->
+      timeout = null
+      (args...) ->
+        obj = this
+        delayed = ->
+          console.log "jetzt"
+          func.apply(obj, args) unless execAsap
+          timeout = null
+        if timeout
+          clearTimeout(timeout)
+        else if (execAsap)
+          func.apply(obj, args)
+        timeout = setTimeout delayed, threshold || 100
+
+    filterRaces = ->
+      console.log this
+
+    $ ->
+      $('#search').keyup ->
+        if $(this).val() == ''
+          $('.team').show()
+        else
+          $('.team').not('[data-name*=' + $(this).val() + ']').hide()
+

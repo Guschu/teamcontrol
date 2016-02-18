@@ -11,4 +11,8 @@
 class Driver < ActiveRecord::Base
   has_many :attendances
   has_many :events
+
+  def has_unassigned_attendance?(team_id)
+    attendances.where(team_id:team_id).unassigned.any?
+  end
 end

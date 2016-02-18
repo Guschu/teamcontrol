@@ -17,6 +17,8 @@
   }
 }
 
+$footer-height: 60px;
+
 html {
   position: relative;
   min-height: 100%;
@@ -24,7 +26,7 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: $footer-height;
 }
 
 .main {
@@ -46,7 +48,7 @@ footer {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 60px;
+  height: $footer-height;
   padding: 12px 0;
   background-color: $gray-lightest;
 }
@@ -106,9 +108,25 @@ footer {
   padding: 10px 0;
 }
 
+.label {
+  line-height: $line-height-base;
+  display: inline-block;
+  padding: 6px 6px;
+}
+
+.panel-secondary {
+  @include panel-variant($gray-light, $gray-darker, $gray-lighter, $gray-light);
+}
+
 .team {
   .panel-title a {
     font-weight: bold;
+  }
+}
+
+.teams {
+  tbody tr {
+    .label { line-height: 18px }
   }
 }
 

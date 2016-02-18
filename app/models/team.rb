@@ -42,6 +42,10 @@ class Team < ActiveRecord::Base
     end
   end
 
+  def has_unassigned_attendances?
+    attendances.unassigned.any?
+  end
+
   def last_driver
     if e = events.to_a.select(&:leaving?).sort { |a, b| a.created_at <=> b.created_at }.last
       return e.driver
