@@ -53,25 +53,26 @@ POST
 | ------------------ | ---------------- |
 | status | info, error, success |
 | message | "Textuelle Meldung" |
+| title | "Textuelle Zusatzinformation" |
 
-Der Server antwortet mit einem __HTTP-StatusCode__, einem __status__ und einer __message__.
+Der Server antwortet mit einem __HTTP-StatusCode__, einem __status__ einer __message__ und einem __title__.
 
 HTTP-StatusCodes
 
   - 200
     - Die Lesestation ist bekannt und die NFC-Tag-Id wurde erfolgreich verarbeitet
-    - Es wird ein __status__ sowie eine __message__ erwartet
+    - Es wird ein __status__, eine __message__ und ein __title__ erwartet
     - status = success
   - 401
     - Die Lesestation ist nicht bekannt
   - 406
     - Der Server konnte mit der NFC-Tag-Id nichts anfangen
-    - Es wird ein __status__ sowie eine __message__ erwartet
+    - Es wird ein __status__, eine __message__ und ein __title__ erwartet
     - status = error
   - 500
     - Der Server konnte mit der NFC-Tag-Id nicht umgehen
     - Bsp. Es existiert kein Rennen
-    - Es wird ein __status__ sowie eine __message__ erwartet
+    - Es wird ein __status__, eine __message__ und ein __title__ erwartet
     - status = error
 
 
