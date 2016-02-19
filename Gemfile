@@ -5,6 +5,7 @@ gem 'bootstrap-sass'
 gem 'haml-rails'
 gem 'high_voltage'
 gem 'mysql2', '~> 0.3.18'
+gem 'passenger'
 gem 'simple_form'
 gem 'font-awesome-rails'
 
