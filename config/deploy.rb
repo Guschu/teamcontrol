@@ -1,6 +1,7 @@
 set :application, 'TeamControl'
 set :repo_url, 'git@gitlab.software-consultant.net:swc/teamcontrol.git'
 
+set :passenger_restart_with_touch, true
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
 # set :deploy_to, '/var/www/my_app'
