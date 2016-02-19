@@ -42,7 +42,7 @@ class Attendance < ActiveRecord::Base
     when :both
       event_map = team.events.group(:driver_id).count
       if (event_map[driver_id] || 0).even?
-        team.events.create! driver: driver, mode: :arriving
+        evt = team.events.create! driver: driver, mode: :arriving
       else
         evt = team.events.create! driver: driver, mode: :leaving
         Turn.for_event(evt).save!
@@ -51,5 +51,7 @@ class Attendance < ActiveRecord::Base
       evt = team.events.create! driver: driver, mode: :leaving
       Turn.for_event(evt).save!
     end
+
+    evt
   end
 end
