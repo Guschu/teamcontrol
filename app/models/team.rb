@@ -11,10 +11,12 @@
 #  logo_updated_at   :datetime
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  team_token        :string(255)
 #
 # Indexes
 #
-#  index_teams_on_race_id  (race_id)
+#  index_teams_on_race_id     (race_id)
+#  index_teams_on_team_token  (team_token)
 #
 # Foreign Keys
 #
@@ -38,6 +40,7 @@ class Team < ActiveRecord::Base
   }
 
   before_save :destroy_logo!
+  after_create :generate_token
 
   def current_driver
     return if race.mode == :leaving
@@ -92,6 +95,14 @@ class Team < ActiveRecord::Base
     Turn.where(team_id:self.id)
   end
 
+  def generate_token
+    begin
+      update_column :team_token, SecureRandom.urlsafe_base64(8)
+    rescue ActiveRecord::RecordNotUnique
+      retry
+    end
+  end
+  
   private
 
   def destroy_logo!
