@@ -92,6 +92,14 @@ class Team < ActiveRecord::Base
     Turn.where(team_id:self.id)
   end
 
+  def to_stats
+    @stats ||= begin
+      events = Event.where(team_id:self.id).map{|e| [e.team_id, e.driver_id, e.created_at.to_time.utc.to_i, e.mode]}
+      turns  = Turn.where(team_id:self.id).map{|t| [t.team_id, t.driver_id, t.duration]}
+      Stats.new events, turns, race.mode
+    end
+  end
+
   private
 
   def destroy_logo!

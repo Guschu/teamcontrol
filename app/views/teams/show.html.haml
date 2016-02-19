@@ -38,7 +38,35 @@
                   %span.label.label-danger.pull-right{ title:'Tag-Zuordnung fehlt', data:{toggle:'tooltip', placement:'left'} } Tag!
                 = fa_icon 'user'
                 = attendance.driver.name
-              %td.text-right= time_format attendance.total_drivetime
+              %td.text-right
+                - if attendance.driver_id == @team.to_stats.current_driver_id
+                  = fa_icon 'user', title:'Aktueller Fahrer'
+                  = @team.to_stats.current_drive_time
+                - if attendance.driver_id == @team.to_stats.last_driver_id
+                  = fa_icon 'user', title:'Aktueller Fahrer', class:'text-muted'
+                  = @team.to_stats.last_drive_time
+
+  .col-md-4
+    .panel.panel-default.panel-info.panel-compact
+      .panel-heading Statistik
+      %table.table
+        %tbody
+          - s = @team.to_stats
+          %tr
+            %th Aktive Fahrer
+            %td= s.active_driver_count
+          %tr
+            %th Gesamt Fahrzeit
+            %td= s.total_drive_time
+          %tr
+            %th ø Fahrzeit
+            %td= s.average_drive_time
+          %tr
+            %th Min. Fahrzeit
+            %td= s.minimum_drive_time
+          %tr
+            %th Max. Fahrzeit
+            %td= s.maximum_drive_time
 
 = link_to 'Team bearbeiten', edit_race_team_path(@race, @team), class:'btn btn-primary'
 = link_to 'zurück', race_teams_path(@race), class:'btn btn-text'
