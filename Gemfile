@@ -37,6 +37,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'thin'
   gem 'rubocop', require: false
+  gem 'timecop'
 end
 
 group :development do
@@ -59,5 +60,4 @@ group :test do
   gem 'launchy'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
-  gem 'timecop'
 end
