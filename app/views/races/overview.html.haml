@@ -9,9 +9,10 @@
 
 .content
   %ul.block-grid-xs-2.block-grid-sm-4.block-grid-md-6.block-grid-lg-8
+    - stats = @race.to_stats.group_by_team
     - @race.teams.includes(:attendances, :events).each do |team|
       %li.team{ data:{ name:team.name.downcase } }
-        = render partial:'teams/team', locals:{ race:@race, team:team }
+        = render partial:'teams/team', locals:{ race:@race, team:team, stats:stats[team.id] }
 
 - content_for :bottom do
   :coffee

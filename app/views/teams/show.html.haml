@@ -45,10 +45,10 @@
               %td.text-right
                 - if attendance.driver_id == @team.to_stats.current_driver_id
                   = fa_icon 'user', title:'Aktueller Fahrer'
-                  = @team.to_stats.current_drive_time
+                  = seconds_format @team.to_stats.current_drive_time
                 - if attendance.driver_id == @team.to_stats.last_driver_id
                   = fa_icon 'user', title:'Aktueller Fahrer', class:'text-muted'
-                  = @team.to_stats.last_drive_time
+                  = seconds_format @team.to_stats.last_drive_time
 
   .col-md-4
     .panel.panel-default.panel-info.panel-compact
@@ -61,16 +61,16 @@
             %td= s.active_driver_count
           %tr
             %th Gesamt Fahrzeit
-            %td= s.total_drive_time
+            %td= seconds_format s.total_drive_time
           %tr
             %th ø Fahrzeit
-            %td= s.average_drive_time
+            %td= seconds_format s.average_drive_time
           %tr
             %th Min. Fahrzeit
-            %td= s.minimum_drive_time
+            %td= seconds_format s.minimum_drive_time
           %tr
             %th Max. Fahrzeit
-            %td= s.maximum_drive_time
+            %td= seconds_format s.maximum_drive_time
 
 = link_to 'Team bearbeiten', edit_race_team_path(@race, @team), class:'btn btn-primary'
 = link_to 'zurück', race_teams_path(@race), class:'btn btn-text'

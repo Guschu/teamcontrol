@@ -60,9 +60,24 @@ class Stats
     end
   end
 
+  def group_by_team
+    eg = @events.group_by(&:first)
+    tg = @turns.group_by(&:first)
+    keys = (eg.keys + tg.keys).uniq.sort
+    Hash[keys.map do |k|
+      [k, Stats.new(eg[k] || [], tg[k] || [], self.mode)]
+    end]
+  end
+
   def last_driver_id
-    e = @events.select{|e| e[3] == 'leaving'}[-2]
-    e[1] if e.present?
+    case @mode
+    when :both
+      e = @events.select{|e| e[3] == 'arriving'}[-2]
+      e[1] if e.present?
+    when :leaving
+      e = @events.select{|e| e[3] == 'leaving'}[-2]
+      e[1] if e.present?
+    end
   end
 
   def last_drive_time

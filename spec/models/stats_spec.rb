@@ -11,9 +11,7 @@ RSpec.describe Stats do
     expect(s.mode).to eq :leaving
   end
 
-  it 'sorts events into order given by timestamp' do
-
-  end
+  it 'sorts events into order given by timestamp'
 
   context 'per race' do
     before(:each) do

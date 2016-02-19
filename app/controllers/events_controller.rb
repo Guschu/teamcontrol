@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   before_action :set_race
 
   def index
-    @q = @race.events.ransack(params[:q])
+    @q = @race.events.includes(:driver, :team).ransack(params[:q])
     page = (params[:page] || '1').to_i
     @events = @q.result.page(page)
   end

@@ -29,9 +29,9 @@
         .panel-body
           .text-center.text-large
             = fa_icon 'user', class:'text-muted'
-            = @race.drivers.count
+            = @race.to_stats.active_driver_count
         .panel-footer
-          %h4.panel-title.text-center Anzahl Fahrer
+          %h4.panel-title.text-center Anzahl aktive Fahrer
 
 %ul.nav.nav-tabs
   = nav_link_to overview_race_path(@race) do

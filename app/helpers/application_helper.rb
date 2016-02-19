@@ -15,6 +15,10 @@ module ApplicationHelper
     link_to content, url, :method => :delete, data:{ confirm:t('confirm'), ok:t('buttons.ok'), cancel:t('buttons.cancel') }
   end
 
+  def seconds_format(secs)
+    time_format Time.at(secs).utc
+  end
+
   def time_format(time)
     time.strftime('%H:%M:%S')
   end
