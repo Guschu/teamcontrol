@@ -3,13 +3,18 @@
 .content
   .row
     .col-md-9
-      %table.table
+      %table.table.table-striped
+        %colgroup
+          %col{ width:'20%' }
+          %col
+          %col{ width:'15%' }
+          %col{ width:'15%' }
         %thead
           %tr
-            %th Name
-            %th Fahrer
-            %th
-            %th
+            %th= sort_link @q, :name
+            %th= sort_link @q, :driver_id, 'Name'
+            %th= sort_link @q, :mode
+            %th= sort_link @q, :created_at
 
         - if @events.any?
           %tbody
@@ -18,7 +23,7 @@
                 %td= link_to event.team.name, [@race, event.team]
                 %td= event.driver.name
                 %td= t event.mode, scope:'event.modes'
-                %td= event.created_at
+                %td= l event.created_at
         - else
           %tbody
             %tr
@@ -28,6 +33,21 @@
       = paginate @events
 
     .col-md-3
+      .panel.panel-secondary
+        .panel-heading
+          %h3.panel-title Suche
+        = search_form_for @q, url:race_events_path(@race), class:'simple_form' do |f|
+          .panel-body
+            .form-group.select
+              = f.label :team_id_eq, class:'select control-label'
+              = f.select :team_id_eq, options_from_collection_for_select(@race.teams, :id, :name), {}, class:'select form-control input-sm'
+            .form-group.select
+              = f.label :mode_eq, class:'select control-label'
+              = f.select :mode_eq, options_for_select(Event.modes.map{|k ,v| [I18n.t(k, scope:'event.modes'), v]}), {}, class:'select form-control input-sm'
+          .panel-footer
+            = f.submit 'Suchen', class:'btn btn-secondary'
+            = link_to 'Zurücksetzen', race_events_path(@race), class:'btn btn-text'
+
       .panel.panel-secondary
         .panel-heading
           %h3.panel-title Manuelle Erfassung

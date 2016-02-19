@@ -14,7 +14,7 @@ namespace :db do
   namespace :examples do
     desc 'Generate an active race'
     task :active do
-      race = FactoryGirl.create :race, :started, name: 'race4hospiz 2016'
+      race = FactoryGirl.create :race, :started, name: 'race4hospiz 2016', started_at: 100.minutes.ago
       teams = []
       16.times do
         teams << FactoryGirl.create(:team, race: race)
@@ -31,7 +31,7 @@ namespace :db do
         attendances = team.attendances.to_a
         Timecop.travel race.started_at.to_time
         attendances.each_with_index do |att, idx|
-          Timecop.travel(20.minutes + rand(180)-90) if idx > 0
+          Timecop.travel(20.minutes + rand(300)-150) if idx > 0
           att.create_event
           if idx>0
             Timecop.travel(1.minutes + rand(60)-30)
