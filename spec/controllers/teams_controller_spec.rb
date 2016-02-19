@@ -54,4 +54,23 @@ RSpec.describe TeamsController, type: :controller do
       end
     end
   end
+
+  describe 'GET :race_team_score' do
+    let(:team) { create :team }
+
+    it 'renders score template with valid team_token' do
+      get :score, race_id: team.race.slug, team_token: team.team_token
+      expect(response).to render_template 'score'
+    end
+
+    it 'redirects to root with invalid team_token' do
+      get :score, race_id: team.race.slug, team_token: 'fjjif'
+      expect(response).to redirect_to root_path
+    end
+
+    it 'redirects to root with invalid race' do
+      get :score, race_id: 'zz', team_token: team.team_token
+      expect(response).to redirect_to root_path
+    end
+  end
 end

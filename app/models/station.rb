@@ -14,4 +14,12 @@
 
 class Station < ActiveRecord::Base
   validates :token, presence: true, format: { with: /\A\h+\z/, message: 'nur Hex' }, length: { is: 12 }, uniqueness: true
+  before_validation :convert_token
+
+  private
+
+  def convert_token()
+    token.gsub!(/\s+/,'')
+    token.upcase!
+  end
 end

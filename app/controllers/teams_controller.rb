@@ -71,6 +71,12 @@ class TeamsController < ApplicationController
     end
   end
 
+  # GET /races/:race_id/:team_token
+  def score
+    @team = Team.find_by team_token: params[:team_token]
+    redirect_to root_path unless @team
+  end
+
   private
 
   def build_attendances(drivers)
@@ -83,7 +89,11 @@ class TeamsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_race
-    @race = Race.friendly.find(params[:race_id])
+    begin
+      @race = Race.friendly.find(params[:race_id])
+    rescue ActiveRecord::RecordNotFound => e
+      redirect_to root_path
+    end
   end
 
   def set_team

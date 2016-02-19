@@ -11,10 +11,12 @@
 #  logo_updated_at   :datetime
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  team_token        :string(255)
 #
 # Indexes
 #
-#  index_teams_on_race_id  (race_id)
+#  index_teams_on_race_id     (race_id)
+#  index_teams_on_team_token  (team_token)
 #
 # Foreign Keys
 #
@@ -38,6 +40,7 @@ class Team < ActiveRecord::Base
   }
 
   before_save :destroy_logo!
+  after_create :generate_token
 
   def current_driver
     return if race.mode == :leaving
@@ -97,6 +100,14 @@ class Team < ActiveRecord::Base
       events = Event.where(team_id:self.id).map{|e| [e.team_id, e.driver_id, e.created_at.to_time.utc.to_i, e.mode]}
       turns  = Turn.where(team_id:self.id).map{|t| [t.team_id, t.driver_id, t.duration]}
       Stats.new events, turns, race.mode
+    end
+  end
+
+  def generate_token
+    begin
+      update_column :team_token, SecureRandom.urlsafe_base64(8)
+    rescue ActiveRecord::RecordNotUnique
+      retry
     end
   end
 
