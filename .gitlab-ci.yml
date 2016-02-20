@@ -9,7 +9,7 @@ test:
     - bundle install --deployment --without production --jobs=3 --quiet --path /cache
     - cp config/database.yml.example config/database.yml
     - bundle exec rake db:create RAILS_ENV=test
-    - bundle exec rake spec SPEC_OPTS="--format progress" SIMPLECOV=1
+    - bundle exec rake spec SPEC_OPTS="--format progress"
   tags:
     - ruby
     - mysql
