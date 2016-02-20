@@ -108,7 +108,7 @@ class Team < ActiveRecord::Base
   def generate_token
     allowed_chars = ('0'..'Z').to_a
     allowed_chars -= '1IO0'.chars
-    self.team_token = allowed_chars.sample(8)
+    self.team_token = allowed_chars.sample(8).join
   end
 
   def destroy_logo!
