@@ -60,9 +60,37 @@ RSpec.describe RacesController, type: :controller do
   describe 'GET show' do
     let(:race) { create :race }
 
-    it 'renders the show template' do
+    it 'redirects to settings' do
       get :show, id: race.slug
       expect(response).to redirect_to settings_race_path(Race.current_race)
+    end
+  end
+
+  describe 'GET overview' do
+    let(:race) { create :race }
+
+    it 'renders the overview template' do
+      get :overview, id: race.slug
+      expect(response).to render_template 'overview'
+    end
+
+    it 'assigns @race' do
+      get :overview, id: race.slug
+      expect(assigns(:race)).to eq race
+    end
+  end
+
+  describe 'GET settings' do
+    let(:race) { create :race }
+
+    it 'renders the settings template' do
+      get :settings, id: race.slug
+      expect(response).to render_template 'settings'
+    end
+
+    it 'assigns @race' do
+      get :settings, id: race.slug
+      expect(assigns(:race)).to eq race
     end
   end
 end
