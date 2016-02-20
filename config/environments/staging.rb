@@ -85,4 +85,12 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.middleware.use ExceptionNotification::Rack,
+    :ignore_crawlers => %w{Googlebot bingbot MJ12bot},
+    :email => {
+      :email_prefix => "[TC Staging] ",
+      :sender_address => %{"Notifier" <notifier@teamcontrol.apps.software-consultant.net>},
+      :exception_recipients => %w{domains@software-consultant.net david.eibich@software-berater.net}
+    }
 end

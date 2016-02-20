@@ -22,6 +22,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'devise'
 gem 'ransack'
 gem 'cocoon'
+gem 'exception_notification'
 
 # API related Gems
 gem 'grape'
