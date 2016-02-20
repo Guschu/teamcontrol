@@ -21,7 +21,8 @@
             %tr
               %td
                 = link_to [@race, team] do
-                  = image_tag team.logo.url(:thumb), style:'vertical-align:center'
+                  - if team.logo.exists?
+                    = image_tag team.logo.url(:thumb), style:'vertical-align:center'
                   - if team.has_unassigned_attendances?
                     %span.label.label-danger.pull-right{ title:'Tag-Zuordnungen fehlen', data:{toggle:'tooltip', placement:'left'} } Tag!
                   = team.name

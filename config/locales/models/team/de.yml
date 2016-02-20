@@ -8,7 +8,6 @@ de:
       team:
         name: Name
         logo: Logo
+        team_token: Team Token
         created_at: Angelegt am
         updated_at: Bearbeitet am
-        team_token: Team Token
-        statistic: Statistik

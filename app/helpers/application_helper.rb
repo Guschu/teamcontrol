@@ -16,10 +16,12 @@ module ApplicationHelper
   end
 
   def seconds_format(secs)
+    return if secs.nil?
     time_format Time.at(secs).utc
   end
 
   def time_format(time)
+    return if time.nil?
     time.strftime('%H:%M:%S')
   end
 end

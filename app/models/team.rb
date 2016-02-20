@@ -30,7 +30,6 @@ class Team < ActiveRecord::Base
   has_many :drivers, through: :attendances
 
   accepts_nested_attributes_for :attendances, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :drivers
 
   has_attached_file :logo,
     styles: { large:'256x256>', thumb:['32x32>', :png] },
@@ -39,8 +38,11 @@ class Team < ActiveRecord::Base
     content_type: %w(image/jpg image/jpeg image/png image/gif)
   }
 
+  validates :name, :team_token, presence:true
+  validates :team_token, uniqueness:{ scope: :race_id }
+
+  before_validation :generate_token
   before_save :destroy_logo!
-  after_create :generate_token
 
   def current_driver
     return if race.mode == :leaving
@@ -101,15 +103,13 @@ class Team < ActiveRecord::Base
     Stats.new events, turns, race.mode
   end
 
-  def generate_token
-    begin
-      update_column :team_token, SecureRandom.urlsafe_base64(8)
-    rescue ActiveRecord::RecordNotUnique
-      retry
-    end
-  end
-
   private
+
+  def generate_token
+    allowed_chars = ('0'..'Z').to_a
+    allowed_chars -= '1IO0'.chars
+    self.team_token = allowed_chars.sample(8)
+  end
 
   def destroy_logo!
     self.logo.clear if @logo_delete == "1"

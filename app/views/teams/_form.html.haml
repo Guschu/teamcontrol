@@ -22,7 +22,7 @@
     %tfoot.links
       %tr
         %td{ colspan:2 }
-          = link_to_add_association 'Fahrer hinzufügen', f, :attendances, { class:'btn btn-primary', 'data-association-insertion-method'=>'append', 'data-association-insertion-node'=>'#attendances tbody'}
+          = link_to_add_association 'Fahrer hinzufügen', f, :attendances, class:'btn btn-primary', data:{ 'association-insertion-method'=>'append', 'association-insertion-node'=>'#attendances tbody'}, render_options:{ locals:{race:@race} }
 
     %tbody
       = f.simple_fields_for :attendances do |fa|

@@ -22,9 +22,6 @@ class TeamsController < ApplicationController
 
   # GET /teams/1/edit
   def edit
-    @free_drivers = Driver.free_for_team(@team)
-    @current_drivers = @team.drivers
-    @all_drivers = @free_drivers.concat @current_drivers
   end
 
   # POST /teams

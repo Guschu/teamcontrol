@@ -14,10 +14,11 @@
           %tr
             %th= Team.human_attribute_name :name
             %td
-              = image_tag @team.logo.url(:thumb), class:'pull-right img-thumbnail'
+              - if @team.logo.exists?
+                = image_tag @team.logo.url(:thumb), class:'pull-right img-thumbnail'
               = @team.name
           %tr
-            %th= Team.human_attribute_name :statistic
+            %th= Team.human_attribute_name :team_token
             %td
               = external_link_to @team
           %tr
@@ -39,7 +40,7 @@
             %tr
               %td
                 - if attendance.is_unassigned?
-                  %span.label.label-danger.pull-right{ title:'Tag-Zuordnung fehlt', data:{toggle:'tooltip', placement:'left'} } Tag!
+                  %span.label.label-danger.pull-right{ title:'Tag-Zuordnung fehlt', data:{toggle:'tooltip', placement:'bottom'} } Tag!
                 = fa_icon 'user'
                 = attendance.driver.name
               %td.text-right
