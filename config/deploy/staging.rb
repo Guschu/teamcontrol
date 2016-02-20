@@ -7,7 +7,7 @@ set :stage, :staging
 # unless any hosts have the primary property set.
 role :app, %w(www-data@s6.software-consultant.net:22212)
 role :web, %w(www-data@s6.software-consultant.net:22212)
-role :db,  %w(www-data@s5.software-consultant.net:22212)
+role :db,  %w(www-data@s6.software-consultant.net:22212)
 
 # Extended Server Syntax
 # ======================
