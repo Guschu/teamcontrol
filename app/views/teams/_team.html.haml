@@ -13,11 +13,11 @@
             %span.timer{ data:{ mode:'timer', start:(Time.now - stats.current_drive_time).to_i*1000 } }= time_format Time.at(stats.current_drive_time).utc
           - else
             n/a
-      - if race.both?
-        %tr
-          %th= fa_icon 'user', title:'Aktueller Fahrer'
-          %td.text-right= Driver.find(stats.current_driver_id).name
-      - else
-        %tr
-          %th.text-muted= fa_icon 'user', title:'Letzter Fahrer'
-          %td.text-right= stats.last_driver_id
+        - if stats && stats.current_driver_id
+          %tr
+            %th= fa_icon 'user', title:'Aktueller Fahrer'
+            %td.text-right= stats.current_driver.try(:name)
+        - if stats && stats.last_driver_id
+          %tr
+            %th.text-muted= fa_icon 'user', title:'Letzter Fahrer'
+            %td.text-right= stats.last_driver.try(:name)

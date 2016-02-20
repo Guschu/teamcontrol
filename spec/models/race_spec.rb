@@ -12,8 +12,8 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  slug           :string(255)
-#  state          :integer
-#  mode           :integer
+#  state          :integer          default(0)
+#  mode           :integer          default(0)
 #  scheduled      :date
 #  started_at     :datetime
 #  finished_at    :datetime
@@ -42,33 +42,6 @@ RSpec.describe Race, type: :model do
 
     expect(team.events).to be_a ActiveRecord::Relation
     expect(team.events.to_a).to eq [evt]
-  end
-
-  describe '#race_time' do
-    let(:race) { create :race }
-
-    it 'is nil unless started' do
-      expect(race.active?).to eq false
-      expect(race.finished?).to eq false
-      expect(race.race_time).to be_nil
-    end
-
-    it 'grows while race is in progress' do
-      race.start!
-      Timecop.travel 120.minutes
-      expect(race.race_time.to_f).to be_within(0.1).of 2.hours
-      Timecop.travel 120.minutes
-      expect(race.race_time.to_f).to be_within(0.1).of 4.hours
-    end
-
-    it 'is constant after race is finished' do
-      race.start!
-      Timecop.travel 120.minutes
-      race.finish!
-      t1 = race.race_time
-      Timecop.travel 120.minutes
-      expect(race.race_time).to eq t1
-    end
   end
 
   it 'has a started_at timestamp after start' do

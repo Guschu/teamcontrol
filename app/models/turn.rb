@@ -27,6 +27,8 @@ class Turn < ActiveRecord::Base
   validates :team, :driver, presence:true
   validates :duration, numericality:{ greater_than:0.0 }
 
+  scope :for_team, ->(team) { where(team_id:team.id) }
+
   def self.for_event(evt)
     race = evt.team.race
     case race.mode.to_sym

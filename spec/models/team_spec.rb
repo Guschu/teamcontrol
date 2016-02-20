@@ -11,10 +11,12 @@
 #  logo_updated_at   :datetime
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  team_token        :string(255)
 #
 # Indexes
 #
-#  index_teams_on_race_id  (race_id)
+#  index_teams_on_race_id     (race_id)
+#  index_teams_on_team_token  (team_token)
 #
 # Foreign Keys
 #
@@ -30,114 +32,34 @@ RSpec.describe Team, type: :model do
     it { is_expected.to have_many(:drivers).class_name('Driver') }
   end
 
-  describe '#current_driver' do
-    it 'returns nil if race mode is :leaving' do
-      @race = create :race, :started, mode: :leaving
-      @team = create :team, race: @race
-      @driver1 = create :driver
-      @driver2 = create :driver
-      @att1 = create :attendance, :with_tag, team: @team, driver: @driver1
-      @att2 = create :attendance, :with_tag, team: @team, driver: @driver2
+  describe '#batch_create_drivers' do
+    it { is_expected.to respond_to :batch_create_drivers }
 
-      Timecop.travel @race.started_at.to_time + 10.minutes
-      @att1.create_event
-      expect(@team.current_driver).to be_nil
-    end
+    it 'creates new drivers during save when set' do
+      names = ['Max Muster', 'Bernd Bär', 'Thomas Test']
+      team = create :team
+      expect(team.drivers.count).to be 0
 
-    it 'returns driver if race mode is :both' do
-      @race = create :race, :started, mode: :both
-      @team = create :team, race: @race
-      @driver1 = create :driver
-      @driver2 = create :driver
-      @att1 = create :attendance, :with_tag, team: @team, driver: @driver1
-      @att2 = create :attendance, :with_tag, team: @team, driver: @driver2
+      team.batch_create_drivers = names.join("\n")
+      expect(team.drivers.count).to be 0
+      expect(team.save).to be true
 
-      Timecop.travel @race.started_at.to_time
-      @att1.create_event # Fahrer 1 beginnt
-      expect(@team.current_driver).to eq @driver1
-
-      Timecop.travel 30 * 60
-      @att2.create_event # Fahrer 2 kommt
-      expect(@team.current_driver).to eq @driver2
-
-      Timecop.travel 2 * 60
-      @att1.create_event # Fahrer 1 verlässt die Bahn
-
-      expect(@team.current_driver).to eq @driver2
+      expect(team.drivers.count).to be 3
+      expect(team.drivers.map(&:name)).to eq names
     end
   end
 
-  describe '#current_drivetime' do
-    it 'is a Time' do
-      race = create :race, :started
-      team = create :team, race:race
-      expect(team.current_drivetime).to be_a Time
+  describe '#has_unassigned_attendances?' do
+    it 'returns true if any attendances have empty tag ids' do
+      team = create :team
+      create :attendance, team:team, tag_id:nil
+      expect(team.has_unassigned_attendances?).to be true
     end
 
-    it 'is 0 if race is not active' do
-      race = create :race
-      team = create :team, race:race
-
-      expect(team.current_drivetime.to_i).to be 0
-    end
-
-    it 'returns time since last arrival if race mode is :both' do
-      race = create :race, :started
-      team = create :team, race:race
-      att1 = create :attendance, team:team
-      att2 = create :attendance, team:team
-
-      Timecop.travel race.started_at.to_time
-      att1.create_event # kommend
-
-      Timecop.travel 10.minutes
-      att2.create_event # kommend
-
-      Timecop.travel 1.minutes
-      att1.create_event # gehend
-      Timecop.travel 20.minutes
-
-      expect(team.current_drivetime.to_i).to eq 21.minutes
-    end
-
-    it 'returns time since last leave if race mode is :leaving' do
-      race = create :race, :started, mode: :leaving
-      team = create :team, race:race
-      att1 = create :attendance, team:team
-      att2 = create :attendance, team:team
-
-      Timecop.travel race.started_at.to_time
-
-      Timecop.travel 10.minutes
-      expect(team.current_drivetime.to_i).to eq 10.minutes
-
-      att1.create_event # gehend
-
-      Timecop.travel 12.minutes
-      att2.create_event # gehend
-
-      Timecop.travel 20.minutes
-
-      expect(team.current_drivetime.to_i).to eq 20.minutes
-    end
-  end
-
-  describe '#last_driver' do
-    it 'returns last leaving driver' do
-      @race = create :race, :started, mode: :leaving
-      @team = create :team, race: @race
-      @driver1 = create :driver
-      @driver2 = create :driver
-      @att1 = create :attendance, :with_tag, team: @team, driver: @driver1
-      @att2 = create :attendance, :with_tag, team: @team, driver: @driver2
-
-      Timecop.travel @race.started_at.to_time
-      @att1.create_event
-
-      Timecop.travel 30 * 60
-      @att2.create_event
-
-      expect(@team.last_driver).to eq @driver2
+    it 'returns false if all attendances have tag ids set' do
+      team = create :team
+      create :attendance, team:team, tag_id:'abc'
+      expect(team.has_unassigned_attendances?).to be false
     end
   end
 end

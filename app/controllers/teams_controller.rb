@@ -48,7 +48,7 @@ class TeamsController < ApplicationController
     # @team.attendances.where.not(driver_id: drivers.map(&:id)).destroy_all
 
     respond_to do |format|
-      if @team.update(team_params.except(:drivers))
+      if @team.update(team_params)
         format.html { redirect_to [@race, @team], notice: 'Team was successfully updated.' }
         format.json { render :show, status: :ok, location: @team }
       else
@@ -70,19 +70,11 @@ class TeamsController < ApplicationController
 
   # GET /races/:race_id/:team_token
   def score
-    @team = Team.find_by team_token: params[:team_token]
-    redirect_to root_path unless @team
+    @team = Team.where(team_token: params[:team_token]).first
+    redirect_to root_path unless @team.present?
   end
 
   private
-
-  def build_attendances(drivers)
-    # Zerstöre alle Attendances, die übrigbleiben, wenn ich nach den drivern suche
-    #
-    drivers.each do |driver|
-      @team.attendances.build driver: driver
-    end
-  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_race
@@ -99,6 +91,6 @@ class TeamsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def team_params
-    params.require(:team).permit(:name, :logo, :logo_delete, attendances_attributes:[ :id, :driver_id, :done, :_destroy ])
+    params.require(:team).permit(:name, :logo, :logo_delete, :batch_create_drivers, attendances_attributes:[ :id, :driver_id, :_destroy ])
   end
 end

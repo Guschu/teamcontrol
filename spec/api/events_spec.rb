@@ -118,7 +118,7 @@ RSpec.describe Events, type: :request do
         expect(data['message']).not_to be_blank
 
         expect(team.events.count).to eq 1
-        expect(team.current_driver).to eq attendance.driver
+        expect(team.to_stats.current_driver).to eq attendance.driver
       end
     end
 

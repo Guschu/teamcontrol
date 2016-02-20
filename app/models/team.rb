@@ -42,47 +42,20 @@ class Team < ActiveRecord::Base
   validates :team_token, uniqueness:{ scope: :race_id }
 
   before_validation :generate_token
+  after_validation :batch_create_drivers!
   before_save :destroy_logo!
 
-  def current_driver
-    return if race.mode == :leaving
-    if e = events.to_a.select(&:arriving?).sort { |a, b| a.created_at <=> b.created_at }.last
-      return e.driver
-    end
+  # intentionally returns nothing
+  def batch_create_drivers
+    @batch_create_drivers
   end
 
-  def current_drivetime
-    return Time.at(0) if !race.active?
-
-    if race.mode.to_sym == :leaving
-      # Zeit seit der letzten Gehend-Buchung
-      evt_start = events.leaving
-        .order('created_at desc')
-        .first
-    else
-      # Zeit seit der letzten Kommend-Buchung
-      evt_start = events.arriving
-        .order('created_at desc')
-        .first
-    end
-
-    if evt_start.present?
-      start_at = evt_start.created_at > race.started_at ? evt_start.created_at : race.started_at
-    else
-      start_at = race.started_at
-    end
-
-    Time.at(Time.zone.now - start_at.to_time)
+  def batch_create_drivers=(val)
+    @batch_create_drivers = val
   end
 
   def has_unassigned_attendances?
     attendances.unassigned.any?
-  end
-
-  def last_driver
-    if e = events.to_a.select(&:leaving?).sort { |a, b| a.created_at <=> b.created_at }.last
-      return e.driver
-    end
   end
 
   def logo_delete
@@ -93,10 +66,6 @@ class Team < ActiveRecord::Base
     @logo_delete = val
   end
 
-  def turns
-    Turn.where(team_id:self.id)
-  end
-
   def to_stats
     events = Event.where(team_id:self.id).map{|e| [e.team_id, e.driver_id, e.created_at.to_time.utc.to_i, e.mode]}
     turns  = Turn.where(team_id:self.id).map{|t| [t.team_id, t.driver_id, t.duration]}
@@ -105,10 +74,21 @@ class Team < ActiveRecord::Base
 
   private
 
+  def batch_create_drivers!
+    (@batch_create_drivers || '').lines.each do |line|
+      line.chomp!
+      d = Driver.find_or_create_by(name:line)
+      unless attendances.where(driver_id:d.id).any?
+        attendances.build(driver_id:d.id)
+      end
+    end
+  end
+
   def generate_token
-    allowed_chars = ('0'..'Z').to_a
-    allowed_chars -= '1IO0'.chars
-    self.team_token = allowed_chars.sample(8).join
+    self.team_token ||= begin
+      allowed = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ'.chars
+      8.times.map{ allowed.sample }.join
+    end
   end
 
   def destroy_logo!

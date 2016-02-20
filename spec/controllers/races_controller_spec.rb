@@ -12,8 +12,8 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  slug           :string(255)
-#  state          :integer
-#  mode           :integer
+#  state          :integer          default(0)
+#  mode           :integer          default(0)
 #  scheduled      :date
 #  started_at     :datetime
 #  finished_at    :datetime

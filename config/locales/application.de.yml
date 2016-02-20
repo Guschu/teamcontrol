@@ -7,3 +7,4 @@ de:
   buttons:
     ok: OK
     cancel: Abbrechen
+  pluralize: "%{count} %{model}"

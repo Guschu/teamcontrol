@@ -9,5 +9,6 @@ de:
         name: Name
         logo: Logo
         team_token: Team Token
+        batch_create_drivers: Fahrer neu anlegen
         created_at: Angelegt am
         updated_at: Bearbeitet am

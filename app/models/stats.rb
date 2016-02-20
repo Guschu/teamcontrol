@@ -42,6 +42,12 @@ class Stats
     @turns.map(&:third).min
   end
 
+  def current_driver
+    id = current_driver_id
+    return if id.nil?
+    Driver.where(id:id).first
+  end
+
   def current_driver_id
     case @mode
     when :both then
@@ -67,6 +73,12 @@ class Stats
     Hash[keys.map do |k|
       [k, Stats.new(eg[k] || [], tg[k] || [], self.mode)]
     end]
+  end
+
+  def last_driver
+    id = last_driver_id
+    return if id.nil?
+    Driver.where(id:id).first
   end
 
   def last_driver_id

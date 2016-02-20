@@ -1,3 +1,25 @@
+# == Schema Information
+#
+# Table name: turns
+#
+#  id         :integer          not null, primary key
+#  team_id    :integer
+#  driver_id  :integer
+#  duration   :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+# Indexes
+#
+#  index_turns_on_driver_id  (driver_id)
+#  index_turns_on_team_id    (team_id)
+#
+# Foreign Keys
+#
+#  fk_rails_a98f3bc47c  (driver_id => drivers.id)
+#  fk_rails_d3380a493d  (team_id => teams.id)
+#
+
 require 'rails_helper'
 
 RSpec.describe Turn, type: :model do
@@ -22,9 +44,10 @@ RSpec.describe Turn, type: :model do
       Timecop.travel 20.minutes
       att2.create_event # gehend
 
-      expect(team.turns.count).to eq 2
-      expect(team.turns.first.duration).to eq 11.minutes
-      expect(team.turns.second.duration).to eq 21.minutes
+      turns = Turn.for_team(team)
+      expect(turns.count).to eq 2
+      expect(turns.first.duration).to eq 11.minutes
+      expect(turns.second.duration).to eq 21.minutes
     end
 
     it 'w/ duration for prebooking if race is started and mode is :both' do
@@ -42,9 +65,10 @@ RSpec.describe Turn, type: :model do
       Timecop.travel 20.minutes
       att2.create_event # gehend
 
-      expect(team.turns.count).to eq 2
-      expect(team.turns.first.duration).to eq 11.minutes
-      expect(team.turns.second.duration).to eq 21.minutes
+      turns = Turn.for_team(team)
+      expect(turns.count).to eq 2
+      expect(turns.first.duration).to eq 11.minutes
+      expect(turns.second.duration).to eq 21.minutes
     end
 
     it 'w/ duration if race is started and mode is :leaving' do
@@ -59,9 +83,10 @@ RSpec.describe Turn, type: :model do
       Timecop.travel 20.minutes
       att2.create_event # gehend
 
-      expect(team.turns.count).to eq 2
-      expect(team.turns.first.duration).to eq 10.minutes
-      expect(team.turns.second.duration).to eq 20.minutes
+      turns = Turn.for_team(team)
+      expect(turns.count).to eq 2
+      expect(turns.first.duration).to eq 10.minutes
+      expect(turns.second.duration).to eq 20.minutes
     end
   end
 end

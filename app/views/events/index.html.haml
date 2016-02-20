@@ -40,10 +40,10 @@
           .panel-body
             .form-group.select
               = f.label :team_id_eq, class:'select control-label'
-              = f.select :team_id_eq, options_from_collection_for_select(@race.teams, :id, :name), {}, class:'select form-control input-sm'
+              = f.select :team_id_eq, options_from_collection_for_select(@race.teams, :id, :name), { include_blank:true }, class:'select form-control input-sm'
             .form-group.select
               = f.label :mode_eq, class:'select control-label'
-              = f.select :mode_eq, options_for_select(Event.modes.map{|k ,v| [I18n.t(k, scope:'event.modes'), v]}), {}, class:'select form-control input-sm'
+              = f.select :mode_eq, options_for_select(Event.modes.map{|k ,v| [I18n.t(k, scope:'event.modes'), v]}), { include_blank:true }, class:'select form-control input-sm'
           .panel-footer
             = f.submit 'Suchen', class:'btn btn-secondary'
             = link_to 'Zurücksetzen', race_events_path(@race), class:'btn btn-text'

@@ -11,7 +11,15 @@ RSpec.describe Stats do
     expect(s.mode).to eq :leaving
   end
 
-  it 'sorts events into order given by timestamp'
+  it 'sorts events into order given by timestamp' do
+    e = [
+      [1, 1, 3, 'arriving'],
+      [1, 1, 1, 'arriving'],
+      [1, 1, 2, 'arriving']
+    ]
+    s = Stats.new e, []
+    expect(s.events.map(&:third)).to eq [1, 2, 3]
+  end
 
   context 'per race' do
     before(:each) do

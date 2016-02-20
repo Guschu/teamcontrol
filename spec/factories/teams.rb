@@ -11,10 +11,12 @@
 #  logo_updated_at   :datetime
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  team_token        :string(255)
 #
 # Indexes
 #
-#  index_teams_on_race_id  (race_id)
+#  index_teams_on_race_id     (race_id)
+#  index_teams_on_team_token  (team_token)
 #
 # Foreign Keys
 #
@@ -25,6 +27,7 @@ FactoryGirl.define do
   factory :team do
     race
     name { Forgery::Name.company_name }
+    team_token nil
     logo do
       file = Dir['spec/fixtures/team_logos/*.png'].sample
       Rack::Test::UploadedFile.new(Rails.root.join(file), 'image/png')

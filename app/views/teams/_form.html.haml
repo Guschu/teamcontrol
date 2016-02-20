@@ -23,6 +23,9 @@
       %tr
         %td{ colspan:2 }
           = link_to_add_association 'Fahrer hinzufügen', f, :attendances, class:'btn btn-primary', data:{ 'association-insertion-method'=>'append', 'association-insertion-node'=>'#attendances tbody'}, render_options:{ locals:{race:@race} }
+      %tr
+        %td{ colspan:2 }
+          = f.input :batch_create_drivers, as: :text, input_html:{ rows:5 }, hint:'1 Fahrername pro Zeile'
 
     %tbody
       = f.simple_fields_for :attendances do |fa|
