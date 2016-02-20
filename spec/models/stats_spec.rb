@@ -45,7 +45,7 @@ RSpec.describe Stats do
     end
 
     it 'returns last driver id' do
-      expect(subject.last_driver_id).to eq 1
+      expect(subject.last_driver_id).to eq 2
     end
 
     it 'calculates minimum drive time' do
@@ -141,7 +141,7 @@ RSpec.describe Stats do
     end
 
     it 'returns last driver id' do
-      expect(subject.last_driver_id).to eq 1
+      expect(subject.last_driver_id).to be_nil
     end
 
     it 'calculates minimum drive time' do
