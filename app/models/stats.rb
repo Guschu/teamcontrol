@@ -71,7 +71,7 @@ class Stats
     tg = @turns.group_by(&:first)
     keys = (eg.keys + tg.keys).uniq.sort
     Hash[keys.map do |k|
-      [k, Stats.new(eg[k] || [], tg[k] || [], self.mode)]
+      [k, Stats.new(eg[k] || [], tg[k] || [], self.mode)]
     end]
   end
 
