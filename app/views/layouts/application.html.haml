@@ -3,6 +3,8 @@
   %head
     %meta{name: "viewport", content: "width=device-width, initial-scale=1.0"}
     %title= content_for?(:title) ? yield(:title) : 'Teamcontrol'
+    = favicon_link_tag 'favicon.png', type: 'image/png'
+    = favicon_link_tag 'apple-touch-icon-128x128.png', rel: 'apple-touch-icon', type: 'image/png'
     = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags
   %body
