@@ -148,4 +148,20 @@ footer {
   &.negative {
     color: $brand-danger;
   }
+
+  &.error {
+    color: $brand-danger !important;
+    font-weight: bold;
+    &:before {
+      display: inline-block;
+      margin-right: 0.4em;
+      font-family: FontAwesome;
+      content: "\f071"; // fa-exclamation-triangle
+    }
+  }
+
+  &.warning {
+    color: $brand-warning;
+    font-weight: bold;
+  }
 }

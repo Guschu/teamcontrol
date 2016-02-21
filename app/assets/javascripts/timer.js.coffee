@@ -16,8 +16,8 @@
       show_seconds: true
       interval: 1000 # 1 second update interval
       duration: 0    # required for countdown
-      warning: 0     #
-      error: 0
+      warning: 0     # triggers timer:warning when timer diff > value
+      error: 0       # triggers timer:error when timer diff > value
 
     constructor: (el, options) ->
       @$el = $(el)
@@ -64,6 +64,17 @@
 
       @$el.toggleClass 'negative', negative
       @$el.text content
+      switch @options.mode
+        when 'timer'
+          if @options.error > 0 && diff >= @options.error
+            @$el.trigger('timer:error', diff)
+          else if @options.warning > 0 && diff >= @options.warning
+            @$el.trigger('timer:warning', diff)
+        when 'countdown'
+          if diff <= @options.error
+            @$el.trigger('timer:error', diff)
+          else if @options.warning > 0 && diff <= @options.warning
+            @$el.trigger('timer:warning', diff)
 
   # Define the plugin
   $.fn.extend timer: (option, args...) ->

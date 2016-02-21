@@ -10,7 +10,7 @@
         %th= fa_icon 'clock-o'
         %td.text-right
           - if stats && race.active?
-            %span.timer{ data:{ mode:'timer', start:(Time.now - stats.current_drive_time).to_i*1000 } }= time_format Time.at(stats.current_drive_time).utc
+            %span.timer{ data:{ mode:'timer', start:(Time.now - stats.current_drive_time).to_i*1000, warning:(race.max_turn-3)*60, error:race.max_turn*60 } }= seconds_format stats.current_drive_time
           - else
             n/a
         - if stats && stats.current_driver_id
