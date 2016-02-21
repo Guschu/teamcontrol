@@ -40,6 +40,46 @@ RSpec.describe TeamsController, type: :controller do
     it_behaves_like 'a successful index request', 'team'
   end
 
+  describe 'GET show' do
+    it 'redirects if id is invalid' do
+      get :show, race_id:race.slug, id:4711
+      expect(response).to be_redirect
+    end
+
+    it 'redirects if team_token is invalid' do
+      get :show, race_id:race.slug, id:'ABCDEFGH'
+      expect(response).to be_redirect
+    end
+
+    context 'with internal id' do
+      subject { get :show, race_id:race.slug, id:team.id }
+
+      it 'assigns @team' do
+        subject
+        expect(assigns(:team)).to eq team
+      end
+
+      it_behaves_like 'a successful show request'
+    end
+
+    context 'with external token' do
+      subject { get :show, race_id:race.slug, id:team.team_token }
+
+      it 'assigns @team' do
+        subject
+        expect(assigns(:team)).to eq team
+      end
+
+      it 'returns an successful status code' do
+        expect(subject).to be_success
+      end
+
+      it 'renders the score template' do
+        expect(subject).to render_template 'score'
+      end
+    end
+  end
+
   describe 'GET edit' do
     subject { get :edit, race_id:race.slug, id:team.id }
 
@@ -77,25 +117,6 @@ RSpec.describe TeamsController, type: :controller do
       it 'fails' do
         expect { subject }.to raise_error ActionController::ParameterMissing
       end
-    end
-  end
-
-  describe 'GET :race_team_score' do
-    let(:team) { create :team }
-
-    it 'renders score template with valid team_token' do
-      get :score, race_id: team.race.slug, team_token: team.team_token
-      expect(response).to render_template 'score'
-    end
-
-    it 'redirects to root with invalid team_token' do
-      get :score, race_id: team.race.slug, team_token: 'fjjif'
-      expect(response).to redirect_to root_path
-    end
-
-    it 'redirects to root with invalid race' do
-      get :score, race_id: 'zz', team_token: team.team_token
-      expect(response).to redirect_to root_path
     end
   end
 end

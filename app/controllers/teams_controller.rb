@@ -13,6 +13,7 @@ class TeamsController < ApplicationController
   # GET /teams/1
   # GET /teams/1.json
   def show
+    render request_by_team_token? ? 'score' : 'show'
   end
 
   # GET /teams/new
@@ -31,7 +32,7 @@ class TeamsController < ApplicationController
 
     respond_to do |format|
       if @team.save
-        format.html { redirect_to [@race, @team], notice: 'Team was successfully created.' }
+        format.html { redirect_to [@race, @team], notice: I18n.t(:create, scope:'messages.crud', model:Team.model_name.human )}
         format.json { render :show, status: :created, location: @team }
       else
         format.html { ap @team.errors; render :new }
@@ -49,7 +50,7 @@ class TeamsController < ApplicationController
 
     respond_to do |format|
       if @team.update(team_params)
-        format.html { redirect_to [@race, @team], notice: 'Team was successfully updated.' }
+        format.html { redirect_to [@race, @team], notice: I18n.t(:update, scope:'messages.crud', model:Team.model_name.human ) }
         format.json { render :show, status: :ok, location: @team }
       else
         format.html { render :edit }
@@ -63,20 +64,17 @@ class TeamsController < ApplicationController
   def destroy
     @team.destroy
     respond_to do |format|
-      format.html { redirect_to race_teams_url(@race), notice: 'Team was successfully destroyed.' }
+      format.html { redirect_to race_teams_url(@race), notice: I18n.t(:destroy, scope:'messages.crud', model:Team.model_name.human ) }
       format.json { head :no_content }
     end
   end
 
-  # GET /races/:race_id/:team_token
-  def score
-    @team = Team.where(team_token: params[:team_token]).first
-    redirect_to root_path unless @team.present?
-  end
-
   private
 
-  # Use callbacks to share common setup or constraints between actions.
+  def request_by_team_token?
+    params[:id] =~ /\A[A-Z0-9]{8}\z/
+  end
+
   def set_race
     begin
       @race = Race.friendly.find(params[:race_id])
@@ -86,7 +84,13 @@ class TeamsController < ApplicationController
   end
 
   def set_team
-    @team = Team.find(params[:id])
+    @team = if request_by_team_token?
+      Team.find_by!(team_token:params[:id])
+    else
+      Team.find(params[:id])
+    end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to race_teams_url(@race)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

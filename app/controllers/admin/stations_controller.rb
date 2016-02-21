@@ -29,7 +29,7 @@ class Admin::StationsController < ApplicationController
 
     respond_to do |format|
       if @station.save
-        format.html { redirect_to [:admin, @station], notice: 'Station was successfully created.' }
+        format.html { redirect_to [:admin, @station], notice: I18n.t(:create, scope:'messages.crud', model:Station.model_name.human ) }
         format.json { render :show, status: :created, location: @station }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class Admin::StationsController < ApplicationController
   def update
     respond_to do |format|
       if @station.update(station_params)
-        format.html { redirect_to [:admin, @station], notice: 'Station was successfully updated.' }
+        format.html { redirect_to [:admin, @station], notice: I18n.t(:update, scope:'messages.crud', model:Station.model_name.human ) }
         format.json { render :show, status: :ok, location: @station }
       else
         format.html { render :edit }
@@ -57,7 +57,7 @@ class Admin::StationsController < ApplicationController
   def destroy
     @station.destroy
     respond_to do |format|
-      format.html { redirect_to admin_stations_url, notice: 'Station was successfully destroyed.' }
+      format.html { redirect_to admin_stations_url, notice: I18n.t(:destroy, scope:'messages.crud', model:Station.model_name.human ) }
       format.json { head :no_content }
     end
   end

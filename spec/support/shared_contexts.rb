@@ -8,12 +8,22 @@ RSpec.shared_context 'a successful index request' do
   end
 end
 
+RSpec.shared_context 'a successful show request' do
+  it 'returns an successful status code' do
+    expect(subject).to be_success
+  end
+
+  it 'renders the show template' do
+    expect(subject).to render_template 'show'
+  end
+end
+
 RSpec.shared_context 'a successful edit request' do
   it 'returns an successful status code' do
     expect(subject).to be_success
   end
 
-  it 'renders the index template' do
+  it 'renders the edit template' do
     expect(subject).to render_template 'edit'
   end
 end
@@ -23,7 +33,7 @@ RSpec.shared_context 'a successful new request' do
     expect(subject).to be_success
   end
 
-  it 'renders the index template' do
+  it 'renders the new template' do
     expect(subject).to render_template 'new'
   end
 end

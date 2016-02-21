@@ -8,3 +8,8 @@ de:
     ok: OK
     cancel: Abbrechen
   pluralize: "%{count} %{model}"
+  messages:
+    crud:
+      create: "%{model} wurde erfolgreich erstellt"
+      update: "%{model} wurde erfolgreich aktualisiert"
+      destroy: "%{model} wurde gelöscht"

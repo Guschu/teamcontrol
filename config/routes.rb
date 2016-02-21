@@ -21,8 +21,7 @@ Rails.application.routes.draw do
       post 'start'
       post 'finish'
     end
-    get ':team_token' => 'teams#score', as:'team_score'
   end
-  
+
   root to: 'races#current'
 end

@@ -15,7 +15,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to [@race, :events], notice: 'Event wurde angelegt.' }
+        format.html { redirect_to [@race, :events], notice: I18n.t(:create, scope:'messages.crud', model:Event.model_name.human ) }
       else
         format.html { render :new }
       end
