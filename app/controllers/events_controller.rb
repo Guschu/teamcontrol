@@ -3,6 +3,7 @@ class EventsController < ApplicationController
 
   def index
     @q = @race.events.includes(:driver, :team).ransack(params[:q])
+    @q.sorts = 'created_at desc' if @q.sorts.empty?
     page = (params[:page] || '1').to_i
     @events = @q.result.page(page)
   end

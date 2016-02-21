@@ -53,7 +53,7 @@
           %h3.panel-title Manuelle Erfassung
         = simple_form_for [@race, Event.new] do |f|
           .panel-body
-            = f.input :driver_id, as: :select, collection:@race.drivers.order(:name), input_html:{ class:'input-sm' }
+            = f.input :driver_id, as: :grouped_select, collection:@race.teams.order('name asc'), group_method: :drivers, input_html:{ class:'input-sm' }
             = f.input :mode, as: :radio_buttons, collection:Event.modes.map{|k, _v| [I18n.t(k, scope:'event.modes'), k]}
           .panel-footer
             = f.submit 'Anlegen', class:'btn btn-secondary'
