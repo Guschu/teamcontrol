@@ -1,5 +1,7 @@
 # TeamControl Rennsoftware
 
+* **Staging** http://teamcontrol.apps.software-consultant.net/
+
 Kartrennen wie das jährliche [race4hospiz](http://race4hospiz.de) Rennen bestehen aus einer Anzahl von Teams, die gegeneinander antreten, um in einer vorgegebenen Gesamtzeit möglichst viele Runden zu fahren. Jedes Team besteht dabei aus einer Anzahl von Fahrern (5-8 Fahrer pro Team). Die Fahrer wechseln sich ab. Es muss überwacht werden, dass
 
 * Fahrer nicht länger als vorgeschrieben am Stück fahren
