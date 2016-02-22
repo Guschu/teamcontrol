@@ -36,8 +36,8 @@ RSpec.describe Race, type: :model do
 
   it 'has events' do
     race = create :race, :started
-    team = create :team, race:race
-    att = create :attendance, team:team
+    team = create :team, race: race
+    att = create :attendance, team: team
     evt = att.create_event
 
     expect(team.events).to be_a ActiveRecord::Relation

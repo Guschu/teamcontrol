@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'yaml'
 
 RSpec.describe Stats do
-
   it 'gets initialized w/ optional param' do
     s = Stats.new [], [] # default param
     expect(s.mode).to eq :both
@@ -72,8 +71,8 @@ RSpec.describe Stats do
   context 'per team' do
     before(:each) do
       data = YAML.load_file Rails.root.join('spec', 'fixtures', 'examples.yml')
-      @events = data[:events].select{|e| e[0] == 1}
-      @turns  = data[:turns].select{|e| e[0] == 1}
+      @events = data[:events].select { |e| e[0] == 1 }
+      @turns  = data[:turns].select { |e| e[0] == 1 }
     end
 
     subject { Stats.new @events, @turns }
@@ -120,8 +119,8 @@ RSpec.describe Stats do
   context 'per driver' do
     before(:each) do
       data = YAML.load_file Rails.root.join('spec', 'fixtures', 'examples.yml')
-      @events = data[:events].select{|e| e[1] == 1}
-      @turns  = data[:turns].select{|e| e[1] == 1}
+      @events = data[:events].select { |e| e[1] == 1 }
+      @turns  = data[:turns].select { |e| e[1] == 1 }
     end
 
     subject { Stats.new @events, @turns }

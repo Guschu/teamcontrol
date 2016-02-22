@@ -26,12 +26,12 @@
 
 module RacesHelper
   def current_race?
-    session.has_key?(:current_race) || Race.current_race?
+    session.key?(:current_race) || Race.current_race?
   end
 
   def current_race
     current_race = begin
-      Race.find(session[:current_race]) if session.has_key?(:current_race)
+      Race.find(session[:current_race]) if session.key?(:current_race)
     rescue ActiveRecord::RecordNotFound
       Rails.logger.error "Invalid race ID in session: #{session[:current_race]}"
       session.delete :current_race

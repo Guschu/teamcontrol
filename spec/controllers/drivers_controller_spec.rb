@@ -40,13 +40,13 @@ RSpec.describe DriversController, type: :controller do
 
   describe 'POST create' do
     context 'with valid data' do
-      subject { post :create, driver:attributes_for(:driver) }
+      subject { post :create, driver: attributes_for(:driver) }
 
       it_behaves_like 'a successful create request'
     end
 
     context 'with invalid data' do
-      subject { post :create, foo:'bar' }
+      subject { post :create, foo: 'bar' }
 
       it 'fails' do
         expect { subject }.to raise_error ActionController::ParameterMissing

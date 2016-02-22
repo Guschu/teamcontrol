@@ -35,14 +35,14 @@ class Team < ActiveRecord::Base
   accepts_nested_attributes_for :attendances, reject_if: :all_blank, allow_destroy: true
 
   has_attached_file :logo,
-    styles: { large:'256x256>', thumb:['32x32>', :png] },
-    default_url: "/images/:style/missing.png"
+                    styles: { large: '256x256>', thumb: ['32x32>', :png] },
+                    default_url: '/images/:style/missing.png'
   validates_attachment :logo, content_type: {
     content_type: %w(image/jpg image/jpeg image/png image/gif)
   }
 
-  validates :name, :team_token, :team_lead, presence:true
-  validates :team_token, uniqueness:{ scope: :race_id }
+  validates :name, :team_token, :team_lead, presence: true
+  validates :team_token, uniqueness: { scope: :race_id }
 
   acts_as_list scope: :race
 
@@ -51,13 +51,9 @@ class Team < ActiveRecord::Base
   before_save :destroy_logo!
 
   # intentionally returns nothing
-  def batch_create_drivers
-    @batch_create_drivers
-  end
+  attr_reader :batch_create_drivers
 
-  def batch_create_drivers=(val)
-    @batch_create_drivers = val
-  end
+  attr_writer :batch_create_drivers
 
   def has_unassigned_attendances?
     attendances.unassigned.any?
@@ -67,13 +63,11 @@ class Team < ActiveRecord::Base
     @logo_delete ||= '0'
   end
 
-  def logo_delete=(val)
-    @logo_delete = val
-  end
+  attr_writer :logo_delete
 
   def to_stats
-    events = Event.where(team_id:self.id).map{|e| [e.team_id, e.driver_id, e.created_at.to_time.utc.to_i, e.mode]}
-    turns  = Turn.where(team_id:self.id).map{|t| [t.team_id, t.driver_id, t.duration]}
+    events = Event.where(team_id: id).map { |e| [e.team_id, e.driver_id, e.created_at.to_time.utc.to_i, e.mode] }
+    turns  = Turn.where(team_id: id).map { |t| [t.team_id, t.driver_id, t.duration] }
     Stats.new events, turns, race.mode
   end
 
@@ -82,9 +76,9 @@ class Team < ActiveRecord::Base
   def batch_create_drivers!
     (@batch_create_drivers || '').lines.each do |line|
       line.chomp!
-      d = Driver.find_or_create_by(name:line)
-      unless attendances.where(driver_id:d.id).any?
-        attendances.build(driver_id:d.id)
+      d = Driver.find_or_create_by(name: line)
+      unless attendances.where(driver_id: d.id).any?
+        attendances.build(driver_id: d.id)
       end
     end
   end
@@ -92,11 +86,11 @@ class Team < ActiveRecord::Base
   def generate_token
     self.team_token ||= begin
       allowed = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ'.chars
-      8.times.map{ allowed.sample }.join
+      Array.new(8) { allowed.sample }.join
     end
   end
 
   def destroy_logo!
-    self.logo.clear if @logo_delete == "1"
+    logo.clear if @logo_delete == '1'
   end
 end

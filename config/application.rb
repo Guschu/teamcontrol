@@ -8,7 +8,6 @@ Bundler.require(*Rails.groups)
 
 module Teamcontrol
   class Application < Rails::Application
-
     config.autoload_paths << Rails.root.join('lib')
 
     config.generators do |g|
@@ -38,7 +37,7 @@ module Teamcontrol
     config.active_record.raise_in_transactional_callbacks = true
 
     def self.version
-      @@version ||= Version.new
+      @version ||= Version.new
     end
   end
 end

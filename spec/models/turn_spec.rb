@@ -31,9 +31,9 @@ RSpec.describe Turn, type: :model do
   context '#for_event builds instance' do
     it 'w/ duration if race is started and mode is :both' do
       race = create :race, :started
-      team = create :team, race:race
-      att1 = create :attendance, team:team
-      att2 = create :attendance, team:team
+      team = create :team, race: race
+      att1 = create :attendance, team: team
+      att2 = create :attendance, team: team
 
       Timecop.travel race.started_at.to_time
       att1.create_event # kommend
@@ -52,9 +52,9 @@ RSpec.describe Turn, type: :model do
 
     it 'w/ duration for prebooking if race is started and mode is :both' do
       race = create :race, :started
-      team = create :team, race:race
-      att1 = create :attendance, team:team
-      att2 = create :attendance, team:team
+      team = create :team, race: race
+      att1 = create :attendance, team: team
+      att2 = create :attendance, team: team
 
       Timecop.travel race.started_at.to_time - 5.minutes
       att1.create_event # kommend, Vorbuchung
@@ -73,9 +73,9 @@ RSpec.describe Turn, type: :model do
 
     it 'w/ duration if race is started and mode is :leaving' do
       race = create :race, :started, mode: :leaving
-      team = create :team, race:race
-      att1 = create :attendance, team:team
-      att2 = create :attendance, team:team
+      team = create :team, race: race
+      att1 = create :attendance, team: team
+      att2 = create :attendance, team: team
 
       Timecop.travel race.started_at.to_time
       Timecop.travel 10.minutes

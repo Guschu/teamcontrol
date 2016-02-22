@@ -17,5 +17,12 @@ Lint/AmbiguousOperator:
 Lint/AssignmentInCondition:
   Enabled: false
 
+Lint/UselessAssignment:
+  Exclude:
+    - 'spec/**/*'
+
 Style/PredicateName:
   Enabled: false
+
+Metrics/AbcSize:
+  Max: 27

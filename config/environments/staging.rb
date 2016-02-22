@@ -59,8 +59,8 @@ Rails.application.configure do
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = false
     config.action_mailer.delivery_method = :sendmail
-    config.action_mailer.default_url_options = { :host => 'teamcontrol.apps.software-consultant.net' }
-    config.action_mailer.sendmail_settings = { location:'ssmtp', arguments:'-i' }
+    config.action_mailer.default_url_options = { host: 'teamcontrol.apps.software-consultant.net' }
+    config.action_mailer.sendmail_settings = { location: 'ssmtp', arguments: '-i' }
   end
 
   # Use a different cache store in production.
@@ -87,10 +87,10 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.middleware.use ExceptionNotification::Rack,
-    :ignore_crawlers => %w{Googlebot bingbot MJ12bot},
-    :email => {
-      :email_prefix => "[TC Staging] ",
-      :sender_address => %{"Notifier" <notifier@teamcontrol.apps.software-consultant.net>},
-      :exception_recipients => %w{domains@software-consultant.net david.eibich@software-berater.net}
-    }
+                        ignore_crawlers: %w(Googlebot bingbot MJ12bot),
+                        email: {
+                          email_prefix: '[TC Staging] ',
+                          sender_address: %("Notifier" <notifier@teamcontrol.apps.software-consultant.net>),
+                          exception_recipients: %w(domains@software-consultant.net david.eibich@software-berater.net)
+                        }
 end

@@ -6,10 +6,10 @@ class Stats
     instance_values
   end
 
-  def as_json(opts = nil)
+  def as_json(_opts = nil)
     super(
-      only:[:mode],
-      methods:[
+      only: [:mode],
+      methods: [
         :active_driver_count, :average_drive_time, :maximum_drive_time,
         :minimum_drive_time, :current_driver_id, :current_drive_time,
         :last_driver_id, :last_drive_time, :total_drive_time
@@ -18,7 +18,7 @@ class Stats
   end
 
   def initialize(events, turns, mode = :both)
-    @events = events.sort{|e1, e2| e1[2] <=> e2[2]}
+    @events = events.sort { |e1, e2| e1[2] <=> e2[2] }
     @turns = turns
     @mode = mode.to_sym
   end
@@ -45,14 +45,14 @@ class Stats
   def current_driver
     id = current_driver_id
     return if id.nil?
-    Driver.where(id:id).first
+    Driver.where(id: id).first
   end
 
   def current_driver_id
     case @mode
     when :both then
-      e = @events.reverse_each.find{|e| e[3] == 'arriving'}
-      e[1] if e.present?
+      evt = @events.reverse_each.find { |e| e[3] == 'arriving' }
+      evt[1] if evt.present?
     when :leaving then nil
     end
   end
@@ -60,8 +60,8 @@ class Stats
   def current_drive_time
     case @mode
     when :both then
-      e = @events.reverse_each.find{|e| e[3] == 'arriving'}
-      Time.zone.now.to_i - e[2] if e.present?
+      evt = @events.reverse_each.find { |e| e[3] == 'arriving' }
+      Time.zone.now.to_i - evt[2] if evt.present?
     when :leaving then nil
     end
   end
@@ -71,24 +71,24 @@ class Stats
     tg = @turns.group_by(&:first)
     keys = (eg.keys + tg.keys).uniq.sort
     Hash[keys.map do |k|
-      [k, Stats.new(eg[k] || [], tg[k] || [], self.mode)]
+      [k, Stats.new(eg[k] || [], tg[k] || [], mode)]
     end]
   end
 
   def last_driver
     id = last_driver_id
     return if id.nil?
-    Driver.where(id:id).first
+    Driver.where(id: id).first
   end
 
   def last_driver_id
     case @mode
     when :both
-      e = @events.select{|e| e[3] == 'arriving'}[-2]
-      e[1] if e.present?
+      evt = @events.select { |e| e[3] == 'arriving' }[-2]
+      evt[1] if evt.present?
     when :leaving
-      e = @events.select{|e| e[3] == 'leaving'}[-2]
-      e[1] if e.present?
+      evt = @events.select { |e| e[3] == 'leaving' }[-2]
+      evt[1] if evt.present?
     end
   end
 

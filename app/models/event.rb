@@ -26,5 +26,5 @@ class Event < ActiveRecord::Base
 
   enum mode: { arriving: 1, leaving: 2 }
 
-  validates :team_id, :driver_id, :mode, presence:true
+  validates :team_id, :driver_id, :mode, presence: true
 end

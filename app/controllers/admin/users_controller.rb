@@ -29,7 +29,7 @@ class Admin::UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to [:admin, @user], notice: I18n.t(:create, scope:'messages.crud', model:User.model_name.human ) }
+        format.html { redirect_to [:admin, @user], notice: I18n.t(:create, scope: 'messages.crud', model: User.model_name.human) }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class Admin::UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to [:admin, @user], notice: I18n.t(:update, scope:'messages.crud', model:User.model_name.human ) }
+        format.html { redirect_to [:admin, @user], notice: I18n.t(:update, scope: 'messages.crud', model: User.model_name.human) }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -57,7 +57,7 @@ class Admin::UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to admin_users_url, notice: I18n.t(:destroy, scope:'messages.crud', model:User.model_name.human ) }
+      format.html { redirect_to admin_users_url, notice: I18n.t(:destroy, scope: 'messages.crud', model: User.model_name.human) }
       format.json { head :no_content }
     end
   end

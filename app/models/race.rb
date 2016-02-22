@@ -69,7 +69,7 @@ class Race < ActiveRecord::Base
   end
 
   def drivers
-    Driver.where(id:Attendance.where(team_id: teams.select(:id)).select(:driver_id))
+    Driver.where(id: Attendance.where(team_id: teams.select(:id)).select(:driver_id))
   end
 
   def events
@@ -78,22 +78,22 @@ class Race < ActiveRecord::Base
 
   def race_duration
     return 0 unless active?
-    return self.finished_at.to_time - self.started_at.to_time if finished?
+    return finished_at.to_time - started_at.to_time if finished?
 
-    Time.zone.now - self.started_at.to_time
+    Time.zone.now - started_at.to_time
   end
 
   def race_time
     return unless active?
-    return self.finished_at.to_time if finished?
+    return finished_at.to_time if finished?
 
-    Time.at(self.race_duration)
+    Time.at(race_duration)
   end
 
   def to_stats
-    events = Event.where(team_id: teams.select(:id)).map{|e| [e.team_id, e.driver_id, e.created_at.to_time.utc.to_i, e.mode]}
-    turns  = Turn.where(team_id: teams.select(:id)).map{|t| [t.team_id, t.driver_id, t.duration]}
-    Stats.new events, turns, self.mode
+    events = Event.where(team_id: teams.select(:id)).map { |e| [e.team_id, e.driver_id, e.created_at.to_time.utc.to_i, e.mode] }
+    turns  = Turn.where(team_id: teams.select(:id)).map { |t| [t.team_id, t.driver_id, t.duration] }
+    Stats.new events, turns, mode
   end
 
   def self.current_race?

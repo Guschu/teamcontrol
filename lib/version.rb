@@ -10,11 +10,11 @@ class Version
   def revision
     @revision ||= begin
       s = if Rails.env.development?
-        `git rev-parse HEAD`
-      else
-        path = Rails.root.join('REVISION')
-        path.exist? ? path.read : 'n/a'
-      end
+            `git rev-parse HEAD`
+          else
+            path = Rails.root.join('REVISION')
+            path.exist? ? path.read : 'n/a'
+          end
       s[0..7]
     end
   end

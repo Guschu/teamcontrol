@@ -55,7 +55,7 @@ group :development do
   gem 'capistrano-rvm', '~> 0.1.1'
   gem 'html2haml'
   gem 'quiet_assets'
-  gem 'airbrussh', require:false
+  gem 'airbrussh', require: false
 end
 
 group :test do

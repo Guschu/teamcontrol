@@ -31,17 +31,17 @@ RSpec.describe Attendance, type: :model do
 
   describe '#is_unassigned?' do
     it 'returns true if tag_id is unset' do
-      expect(Attendance.new(tag_id:'ABC').is_unassigned?).to be false
-      expect(Attendance.new(tag_id:'').is_unassigned?).to be true
-      expect(Attendance.new(tag_id:nil).is_unassigned?).to be true
+      expect(Attendance.new(tag_id: 'ABC').is_unassigned?).to be false
+      expect(Attendance.new(tag_id: '').is_unassigned?).to be true
+      expect(Attendance.new(tag_id: nil).is_unassigned?).to be true
     end
   end
 
   it 'creates events and turns' do
     race = create :race, :started
-    team = create :team, race:race
-    att1 = create :attendance, team:team
-    att2 = create :attendance, team:team
+    team = create :team, race: race
+    att1 = create :attendance, team: team
+    att2 = create :attendance, team: team
 
     Timecop.travel race.started_at.to_time
 

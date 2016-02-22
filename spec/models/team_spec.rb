@@ -52,13 +52,13 @@ RSpec.describe Team, type: :model do
   describe '#has_unassigned_attendances?' do
     it 'returns true if any attendances have empty tag ids' do
       team = create :team
-      create :attendance, team:team, tag_id:nil
+      create :attendance, team: team, tag_id: nil
       expect(team.has_unassigned_attendances?).to be true
     end
 
     it 'returns false if all attendances have tag ids set' do
       team = create :team
-      create :attendance, team:team, tag_id:'abc'
+      create :attendance, team: team, tag_id: 'abc'
       expect(team.has_unassigned_attendances?).to be false
     end
   end

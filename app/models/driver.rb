@@ -12,10 +12,10 @@ class Driver < ActiveRecord::Base
   has_many :attendances
   has_many :events
 
-  validates :name, presence:true
+  validates :name, presence: true
 
   def has_unassigned_attendance?(team_id)
-    attendances.where(team_id:team_id).unassigned.any?
+    attendances.where(team_id: team_id).unassigned.any?
   end
 
   def self.free_for_race(race)

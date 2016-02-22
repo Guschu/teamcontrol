@@ -47,17 +47,13 @@ class RacesController < ApplicationController
 
   # POST /races/1/start
   def start
-    if @race.start && @race.save
-      flash[:notice] = 'Das Rennen wurde gestartet'
-    end
+    flash[:notice] = 'Das Rennen wurde gestartet' if @race.start && @race.save
     redirect_to settings_race_path(@race)
   end
 
   # POST /races/1/finish
   def finish
-    if @race.finish && @race.save
-      flash[:notice] = 'Das Rennen wurde beendet'
-    end
+    flash[:notice] = 'Das Rennen wurde beendet' if @race.finish && @race.save
     redirect_to settings_race_path(@race)
   end
 
@@ -92,7 +88,7 @@ class RacesController < ApplicationController
 
     respond_to do |format|
       if @race.save
-        format.html { redirect_to @race, notice: I18n.t(:create, scope:'messages.crud', model:Race.model_name.human ) }
+        format.html { redirect_to @race, notice: I18n.t(:create, scope: 'messages.crud', model: Race.model_name.human) }
         format.json { render :show, status: :created, location: @race }
       else
         format.html { render :new }
@@ -106,7 +102,7 @@ class RacesController < ApplicationController
   def update
     respond_to do |format|
       if @race.update(race_params)
-        format.html { redirect_to @race, notice: I18n.t(:update, scope:'messages.crud', model:Race.model_name.human ) }
+        format.html { redirect_to @race, notice: I18n.t(:update, scope: 'messages.crud', model: Race.model_name.human) }
         format.json { render :show, status: :ok, location: @race }
       else
         format.html { render :edit }
@@ -120,7 +116,7 @@ class RacesController < ApplicationController
   def destroy
     @race.destroy
     respond_to do |format|
-      format.html { redirect_to races_url, notice: I18n.t(:destroy, scope:'messages.crud', model:Race.model_name.human ) }
+      format.html { redirect_to races_url, notice: I18n.t(:destroy, scope: 'messages.crud', model: Race.model_name.human) }
       format.json { head :no_content }
     end
   end
@@ -129,11 +125,9 @@ class RacesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_race
-    begin
-      @race = Race.friendly.find(params[:id])
-    rescue ActiveRecord::RecordNotFound => e
-      redirect_to root_path
-    end
+    @race = Race.friendly.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

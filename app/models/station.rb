@@ -18,8 +18,8 @@ class Station < ActiveRecord::Base
 
   private
 
-  def convert_token()
-    token.gsub!(/\s+/,'')
+  def convert_token
+    token.gsub!(/\s+/, '')
     token.upcase!
   end
 end

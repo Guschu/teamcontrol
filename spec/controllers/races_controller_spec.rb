@@ -52,7 +52,7 @@ RSpec.describe RacesController, type: :controller do
       get :current
       expect(response).to redirect_to races_path
 
-      race = create :race, scheduled:7.days.ago
+      race = create :race, scheduled: 7.days.ago
       expect(response).to redirect_to races_path
     end
   end

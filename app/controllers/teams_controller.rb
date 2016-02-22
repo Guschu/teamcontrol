@@ -33,16 +33,16 @@ class TeamsController < ApplicationController
 
     if file.present?
       teams = drivers = 0
-      CSV.foreach(file.path, encoding:'windows-1252:utf-8', headers:true, col_sep:';', skip_blanks:true) do |row|
-        team = Team.where(race:@race).find_or_create_by( name:row[0] ) do |team|
-          team.team_lead = row[1]
+      CSV.foreach(file.path, encoding: 'windows-1252:utf-8', headers: true, col_sep: ';', skip_blanks: true) do |row|
+        team = Team.where(race: @race).find_or_create_by(name: row[0]) do |t|
+          t.team_lead = row[1]
           teams += 1
         end
         unless row[2].blank?
-          driver = Driver.find_or_create_by(name:row[2]) do |driver|
+          driver = Driver.find_or_create_by(name: row[2]) do |_driver|
             drivers += 1
           end
-          team.attendances.create(driver:driver)
+          team.attendances.create(driver: driver)
         end
       end
       flash[:notice] = "#{teams} Teams und #{drivers} Fahrer neu angelegt"
@@ -60,10 +60,10 @@ class TeamsController < ApplicationController
 
     respond_to do |format|
       if @team.save
-        format.html { redirect_to [@race, @team], notice: I18n.t(:create, scope:'messages.crud', model:Team.model_name.human )}
+        format.html { redirect_to [@race, @team], notice: I18n.t(:create, scope: 'messages.crud', model: Team.model_name.human) }
         format.json { render :show, status: :created, location: @team }
       else
-        format.html { ap @team.errors; render :new }
+        format.html { render :new }
         format.json { render json: @team.errors, status: :unprocessable_entity }
       end
     end
@@ -78,7 +78,7 @@ class TeamsController < ApplicationController
 
     respond_to do |format|
       if @team.update(team_params)
-        format.html { redirect_to [@race, @team], notice: I18n.t(:update, scope:'messages.crud', model:Team.model_name.human ) }
+        format.html { redirect_to [@race, @team], notice: I18n.t(:update, scope: 'messages.crud', model: Team.model_name.human) }
         format.json { render :show, status: :ok, location: @team }
       else
         format.html { render :edit }
@@ -92,7 +92,7 @@ class TeamsController < ApplicationController
   def destroy
     @team.destroy
     respond_to do |format|
-      format.html { redirect_to race_teams_url(@race), notice: I18n.t(:destroy, scope:'messages.crud', model:Team.model_name.human ) }
+      format.html { redirect_to race_teams_url(@race), notice: I18n.t(:destroy, scope: 'messages.crud', model: Team.model_name.human) }
       format.json { head :no_content }
     end
   end
@@ -104,25 +104,23 @@ class TeamsController < ApplicationController
   end
 
   def set_race
-    begin
-      @race = Race.friendly.find(params[:race_id])
-    rescue ActiveRecord::RecordNotFound => e
-      redirect_to root_path
-    end
+    @race = Race.friendly.find(params[:race_id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path
   end
 
   def set_team
     @team = if request_by_team_token?
-      Team.find_by!(team_token:params[:id])
-    else
-      Team.find(params[:id])
-    end
+              Team.find_by!(team_token: params[:id])
+            else
+              Team.find(params[:id])
+            end
   rescue ActiveRecord::RecordNotFound
     redirect_to race_teams_url(@race)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def team_params
-    params.require(:team).permit(:name, :logo, :logo_delete, :team_lead, :batch_create_drivers, attendances_attributes:[ :id, :driver_id, :_destroy ])
+    params.require(:team).permit(:name, :logo, :logo_delete, :team_lead, :batch_create_drivers, attendances_attributes: [:id, :driver_id, :_destroy])
   end
 end

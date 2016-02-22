@@ -24,10 +24,10 @@ class Turn < ActiveRecord::Base
   belongs_to :team
   belongs_to :driver
 
-  validates :team, :driver, presence:true
-  validates :duration, numericality:{ greater_than:0.0 }
+  validates :team, :driver, presence: true
+  validates :duration, numericality: { greater_than: 0.0 }
 
-  scope :for_team, ->(team) { where(team_id:team.id) }
+  scope :for_team, ->(team) { where(team_id: team.id) }
 
   def self.for_event(evt)
     race = evt.team.race
@@ -35,33 +35,33 @@ class Turn < ActiveRecord::Base
     when :both
       # letzte kommend-Buchung des gleichen Fahrers, frühestens/alternativ Rennbeginn
       evt_start = Event
-        .arriving
-        .where(team_id:evt.team_id, driver_id:evt.driver_id)
-        .where('created_at<?', evt.created_at)
-        .order('created_at desc')
-        .first
+                  .arriving
+                  .where(team_id: evt.team_id, driver_id: evt.driver_id)
+                  .where('created_at<?', evt.created_at)
+                  .order('created_at desc')
+                  .first
 
-      if evt_start.present?
-        start_at = evt_start.created_at > race.started_at ? evt_start.created_at : race.started_at
-      else
-        start_at = race.started_at
-      end
-      new team_id:evt.team_id, driver_id:evt.driver_id, duration:(Time.now - start_at.to_time)
+      start_at = if evt_start.present?
+                   evt_start.created_at > race.started_at ? evt_start.created_at : race.started_at
+                 else
+                   race.started_at
+                 end
+      new team_id: evt.team_id, driver_id: evt.driver_id, duration: (Time.now - start_at.to_time)
     when :leaving
       # vorletzte gehend-Buchung des gleichen Teams, frühestens/alternativ Rennbeginn
       evt_start = Event
-        .leaving
-        .where(team_id:evt.team_id)
-        .where('created_at<?', evt.created_at)
-        .order('created_at desc')
-        .second
+                  .leaving
+                  .where(team_id: evt.team_id)
+                  .where('created_at<?', evt.created_at)
+                  .order('created_at desc')
+                  .second
 
-      if evt_start.present?
-        start_at = evt_start.created_at > race.started_at ? evt_start.created_at : race.started_at
-      else
-        start_at = race.started_at
-      end
-      new team_id:evt.team_id, driver_id:evt.driver_id, duration:(Time.now - start_at.to_time)
+      start_at = if evt_start.present?
+                   evt_start.created_at > race.started_at ? evt_start.created_at : race.started_at
+                 else
+                   race.started_at
+                 end
+      new team_id: evt.team_id, driver_id: evt.driver_id, duration: (Time.now - start_at.to_time)
     end
   end
 end

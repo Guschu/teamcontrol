@@ -29,12 +29,12 @@ RSpec.describe Station, type: :model do
   end
 
   it 'convert token to upper case and remove empty spaces' do
-    station = create :station, token:'1a a2 2b 3f ff 0c'
+    station = create :station, token: '1a a2 2b 3f ff 0c'
     expect(station).to be_valid
-    expect(station.token).to eq("1AA22B3FFF0C")
+    expect(station.token).to eq('1AA22B3FFF0C')
   end
 
   it 'only accepts token with hex values' do
-    expect{ create :station, token:'1a g2 2b 3f ff 0c' }.to raise_error ActiveRecord::RecordInvalid
+    expect { create :station, token: '1a g2 2b 3f ff 0c' }.to raise_error ActiveRecord::RecordInvalid
   end
 end

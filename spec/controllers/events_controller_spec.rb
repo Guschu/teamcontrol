@@ -26,7 +26,7 @@ RSpec.describe EventsController, type: :controller do
   let(:race) { create :race, :started, :with_teams }
 
   describe 'GET index' do
-    subject { get :index, race_id:race.slug }
+    subject { get :index, race_id: race.slug }
 
     it 'assigns @events' do
       subject

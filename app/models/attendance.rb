@@ -28,11 +28,11 @@ class Attendance < ActiveRecord::Base
   scope :unassigned, -> { where('tag_id IS NULL OR tag_id=""') }
 
   def is_unassigned?
-    self.tag_id.blank?
+    tag_id.blank?
   end
 
   def total_drivetime
-    Time.at(Turn.where(team_id:self.team_id, driver_id:self.driver_id).sum(:duration)).utc
+    Time.at(Turn.where(team_id: team_id, driver_id: driver_id).sum(:duration)).utc
   end
 
   def create_event

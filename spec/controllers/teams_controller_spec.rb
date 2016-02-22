@@ -30,7 +30,7 @@ RSpec.describe TeamsController, type: :controller do
   let(:team) { race.teams.first }
 
   describe 'GET index' do
-    subject { get :index, race_id:race.slug }
+    subject { get :index, race_id: race.slug }
 
     it 'assigns @teams' do
       subject
@@ -42,17 +42,17 @@ RSpec.describe TeamsController, type: :controller do
 
   describe 'GET show' do
     it 'redirects if id is invalid' do
-      get :show, race_id:race.slug, id:4711
+      get :show, race_id: race.slug, id: 4711
       expect(response).to be_redirect
     end
 
     it 'redirects if team_token is invalid' do
-      get :show, race_id:race.slug, id:'ABCDEFGH'
+      get :show, race_id: race.slug, id: 'ABCDEFGH'
       expect(response).to be_redirect
     end
 
     context 'with internal id' do
-      subject { get :show, race_id:race.slug, id:team.id }
+      subject { get :show, race_id: race.slug, id: team.id }
 
       it 'assigns @team' do
         subject
@@ -63,7 +63,7 @@ RSpec.describe TeamsController, type: :controller do
     end
 
     context 'with external token' do
-      subject { get :show, race_id:race.slug, id:team.team_token }
+      subject { get :show, race_id: race.slug, id: team.team_token }
 
       it 'assigns @team' do
         subject
@@ -81,7 +81,7 @@ RSpec.describe TeamsController, type: :controller do
   end
 
   describe 'GET edit' do
-    subject { get :edit, race_id:race.slug, id:team.id }
+    subject { get :edit, race_id: race.slug, id: team.id }
 
     it 'assigns @team' do
       subject
@@ -92,7 +92,7 @@ RSpec.describe TeamsController, type: :controller do
   end
 
   describe 'GET new' do
-    subject { get :new, race_id:race.slug }
+    subject { get :new, race_id: race.slug }
 
     it 'assigns @team' do
       subject
@@ -107,7 +107,7 @@ RSpec.describe TeamsController, type: :controller do
   describe 'POST import' do
     it 'accepts CSV data' do
       race = create :race
-      post :import, race_id:race.slug, import_file:Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/import.csv'), 'text/csv')
+      post :import, race_id: race.slug, import_file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/import.csv'), 'text/csv')
       expect(controller).to set_flash[:notice]
       expect(response).to be_redirect
       expect(race.teams.count).to be 3
@@ -132,7 +132,7 @@ RSpec.describe TeamsController, type: :controller do
 
     it 'sets error flash if no file uploaded' do
       race = create :race
-      post :import, race_id:race.slug, import_file:nil
+      post :import, race_id: race.slug, import_file: nil
       expect(response).to be_redirect
       expect(controller).to set_flash[:error]
     end
@@ -140,13 +140,13 @@ RSpec.describe TeamsController, type: :controller do
 
   describe 'POST create' do
     context 'with valid data' do
-      subject { post :create, race_id:race.slug, team:attributes_for(:team) }
+      subject { post :create, race_id: race.slug, team: attributes_for(:team) }
 
       it_behaves_like 'a successful create request'
     end
 
     context 'with invalid data' do
-      subject { post :create, race_id:race.slug, foo:{ bar:'baz' } }
+      subject { post :create, race_id: race.slug, foo: { bar: 'baz' } }
 
       it 'fails' do
         expect { subject }.to raise_error ActionController::ParameterMissing
