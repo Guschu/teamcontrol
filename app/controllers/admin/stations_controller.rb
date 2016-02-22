@@ -29,7 +29,7 @@ class Admin::StationsController < ApplicationController
 
     respond_to do |format|
       if @station.save
-        format.html { redirect_to [:admin, @station], notice: I18n.t(:create, scope:'messages.crud', model:Station.model_name.human ) }
+        format.html { redirect_to admin_stations_url, notice: I18n.t(:create, scope:'messages.crud', model:Station.model_name.human ) }
         format.json { render :show, status: :created, location: @station }
       else
         format.html { render :new }
