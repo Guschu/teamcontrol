@@ -17,6 +17,7 @@
 #  scheduled      :date
 #  started_at     :datetime
 #  finished_at    :datetime
+#  min_turn       :integer
 #
 # Indexes
 #
@@ -30,6 +31,7 @@ FactoryGirl.define do
     scheduled { Date.current }
     duration 540
     max_drive 170
+    min_turn 20
     max_turn 40
     break_time 45
     waiting_period 3

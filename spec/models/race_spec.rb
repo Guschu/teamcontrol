@@ -17,6 +17,7 @@
 #  scheduled      :date
 #  started_at     :datetime
 #  finished_at    :datetime
+#  min_turn       :integer
 #
 # Indexes
 #

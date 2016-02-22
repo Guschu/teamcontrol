@@ -10,10 +10,11 @@
 
   .row
     = f.input :duration, hint:'In Minuten', wrapper_html:{ class:'col-sm-3' }
-    = f.input :max_drive, hint:'In Minuten', wrapper_html:{ class:'col-sm-3' }
+    = f.input :min_turn, hint:'In Minuten', wrapper_html:{ class:'col-sm-3' }
     = f.input :max_turn, hint:'In Minuten', wrapper_html:{ class:'col-sm-3' }
 
   .row
+    = f.input :max_drive, hint:'In Minuten', wrapper_html:{ class:'col-sm-3' }
     = f.input :break_time, hint:'In Minuten', wrapper_html:{ class:'col-sm-3' }
     = f.input :waiting_period, hint:'In Minuten', wrapper_html:{ class:'col-sm-3' }
 

@@ -74,7 +74,7 @@ class RacesController < ApplicationController
 
   # GET /races/new
   def new
-    @race = Race.new mode: :both, duration: 540, max_drive: 170, max_turn: 40, break_time: 45, waiting_period: 3
+    @race = Race.new mode: :both, duration: 540, max_drive: 170, min_turn: 20, max_turn: 40, break_time: 45, waiting_period: 3
   end
 
   # GET /races/1/edit
@@ -132,6 +132,6 @@ class RacesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def race_params
-    params.require(:race).permit :name, :duration, :mode, :max_drive, :max_turn, :break_time, :waiting_period, :scheduled
+    params.require(:race).permit :name, :duration, :mode, :max_drive, :max_turn, :min_turn, :break_time, :waiting_period, :scheduled
   end
 end

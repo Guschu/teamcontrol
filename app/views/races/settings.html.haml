@@ -57,6 +57,9 @@
                 %th= Race.human_attribute_name :max_drive
                 %td= minutes_to_time @race.max_drive
               %tr
+                %th= Race.human_attribute_name :min_turn
+                %td= minutes_to_time @race.min_turn
+              %tr
                 %th= Race.human_attribute_name :max_turn
                 %td= minutes_to_time @race.max_turn
               %tr
