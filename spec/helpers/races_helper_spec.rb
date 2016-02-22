@@ -7,6 +7,12 @@ RSpec.describe RacesHelper, type: :helper do
       race = create :race, :started
       expect(helper.current_race).to eq race
     end
+
+    it 'handles invalid session content' do
+      session[:current_race] = 'foobar'
+      race = create :race, :started
+      expect(helper.current_race).to eq race
+    end
   end
 
   describe '#minutes_to_time' do
