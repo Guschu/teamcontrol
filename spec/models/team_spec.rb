@@ -12,6 +12,9 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  team_token        :string(255)
+#  position          :integer
+#  team_lead         :string(255)
+#  attendances_count :integer
 #
 # Indexes
 #
