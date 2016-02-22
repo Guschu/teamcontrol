@@ -144,10 +144,17 @@ footer {
 }
 
 .text-large {
-  line-height: $font-size-base * 3.75;
-  font-size: $font-size-base * 2.5;
+  line-height: $font-size-base * 2.25;
+  font-size: $font-size-base * 1.5;
   font-weight: 600;
 }
+@media (min-width: $screen-md-min) {
+  .text-large {
+    line-height: $font-size-base * 3.75;
+    font-size: $font-size-base * 2.5;
+  }
+}
+
 
 .simple_form {
   .form-actions {
