@@ -23,8 +23,6 @@
       $(document).on 'timer:warning', (evt, diff) ->
         $(evt.target).toggleClass 'warning', true
       $('#search').keyup ->
-        if $(this).val() == ''
-          $('.team').show()
-        else
-          $('.team').not('[data-name*=' + $(this).val() + ']').hide()
-
+        $('.team').show()
+        if $(this).val() != ''
+          $('.team').not('[data-name*="' + $(this).val() + '"]').hide()
