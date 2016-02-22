@@ -70,9 +70,22 @@ class Stats
     eg = @events.group_by(&:first)
     tg = @turns.group_by(&:first)
     keys = (eg.keys + tg.keys).uniq.sort
-    Hash[keys.map do |k|
+    h = Hash[keys.map do |k|
       [k, Stats.new(eg[k] || [], tg[k] || [], mode)]
     end]
+    h.default_proc = proc {|h, k| h[k] = Stats.new [], [], mode}
+    h
+  end
+
+  def group_by_driver
+    eg = @events.group_by(&:second)
+    tg = @turns.group_by(&:second)
+    keys = (eg.keys + tg.keys).uniq.sort
+    h = Hash[keys.map do |k|
+      [k, Stats.new(eg[k] || [], tg[k] || [], mode)]
+    end]
+    h.default_proc = proc {|h, k| h[k] = Stats.new [], [], mode}
+    h
   end
 
   def last_driver

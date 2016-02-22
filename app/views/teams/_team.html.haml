@@ -12,15 +12,15 @@
       %tr
         %th= fa_icon 'clock-o'
         %td.text-right
-          - if stats && race.active?
-            %span.timer{ data:{ mode:'timer', start:(Time.now - stats.current_drive_time).to_i*1000, warning:(race.max_turn-3)*60, error:race.max_turn*60 } }= seconds_format stats.current_drive_time
+          - if race.active?
+            %span.timer{ data:{ mode:'timer', start:(Time.now - stats.current_drive_time).to_i*1000, warning:race.max_turn*60, error:(race.max_turn+@race.waiting_period)*60 } }= seconds_format stats.current_drive_time
           - else
             n/a
-        - if stats && stats.current_driver_id
+        - if stats.current_driver_id
           %tr
             %th= fa_icon 'user', title:'Aktueller Fahrer'
             %td.text-right= stats.current_driver.try(:name)
-        - if stats && stats.last_driver_id
+        - if stats.last_driver_id
           %tr
             %th.text-muted= fa_icon 'user', title:'Letzter Fahrer'
             %td.text-right= stats.last_driver.try(:name)

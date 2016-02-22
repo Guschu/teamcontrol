@@ -1,1 +1,95 @@
-%h1 Team Statistiken
+%h1
+  - if @team.logo.exists?
+    = image_tag @team.logo.url(:large), class:'pull-right'
+  = @team.name
+
+- st = @team.to_stats
+%table.table.table-striped
+  %thead
+    %tr
+      %th Fahrer
+      %th.text-right Letzte Fahrzeit
+      %th.text-right Aktuelle Fahrzeit
+      %th.text-right Fahrpause
+      %th.text-right Gesamtzeit
+      %th.text-right Anzahl Fehler
+  %tbody
+    - s = @team.to_stats.group_by_driver
+    - @team.attendances.includes(:driver).each do |att|
+      - sd = s[att.driver_id]
+      %tr
+        %th= att.driver.name
+        %td.text-right
+          - if att.driver_id == st.current_driver_id
+            –
+          - else
+            = seconds_format sd.last_drive_time
+        %td.text-right
+          - if att.driver_id == st.current_driver_id
+            %span.timer{ data:{ mode:'timer', start:(Time.now - sd.current_drive_time).to_i*1000, warning:@race.max_turn*60, error:(@race.max_turn+@race.waiting_period)*60 } }= seconds_format sd.current_drive_time
+          - else
+            –
+        %td.text-right n/a
+        %td.text-right= seconds_format sd.total_drive_time
+        %td.text-right n/a
+
+  %tfoot
+    %tr
+      %td
+      %td.text-right
+      %td.text-right
+      %td.text-right
+      %td.text-right= seconds_format @team.to_stats.total_drive_time
+      %td.text-right
+
+.row
+  .col-md-4
+    .panel.panel-default.panel-info.panel-compact
+      .panel-heading Stammdaten
+      %table.table
+        %colgroup
+          %col{ width:'50%' }
+          %col
+        %tbody
+          %tr
+            %th= Team.human_attribute_name :name
+            %td= @team.name
+          %tr
+            %th= Team.human_attribute_name :team_lead
+            %td= @team.team_lead
+          %tr
+            %th= Team.human_attribute_name :team_token
+            %td
+              = external_link_to @team
+          %tr
+            %th= Team.human_attribute_name :created_at
+            %td= l @team.created_at
+          %tr
+            %th= Team.human_attribute_name :updated_at
+            %td= l @team.updated_at
+
+  .col-md-4
+    .panel.panel-default.panel-info.panel-compact
+      .panel-heading Fahrer
+      %table.table
+        %colgroup
+          %col{ width:'50%' }
+          %col
+        %tbody
+          - @team.attendances.includes(:driver).each do |attendance|
+            %tr
+              %td
+                - if attendance.is_unassigned?
+                  %span.label.label-danger.pull-right{ title:'Tag-Zuordnung fehlt', data:{toggle:'tooltip', placement:'bottom'} } Tag!
+                = fa_icon 'user'
+                = attendance.driver.name
+              %td.text-right
+                n/a
+
+- content_for :bottom do
+  :coffee
+    $ ->
+      $(document).on 'timer:error', (evt, diff) ->
+        $(evt.target).toggleClass 'error', true
+      $(document).on 'timer:warning', (evt, diff) ->
+        $(evt.target).toggleClass 'warning', true
