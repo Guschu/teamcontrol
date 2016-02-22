@@ -32,6 +32,8 @@ RSpec.describe TeamsController, type: :controller do
   let(:race) { create :race, :started, :with_teams }
   let(:team) { race.teams.first }
 
+  login_user
+
   describe 'GET index' do
     subject { get :index, race_id: race.slug }
 

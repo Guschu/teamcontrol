@@ -23,6 +23,8 @@
 require 'rails_helper'
 
 RSpec.describe EventsController, type: :controller do
+  login_user
+
   let(:race) { create :race, :started, :with_teams }
 
   describe 'GET index' do

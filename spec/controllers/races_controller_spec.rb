@@ -28,6 +28,8 @@
 require 'rails_helper'
 
 RSpec.describe RacesController, type: :controller do
+  login_user
+
   describe 'GET index' do
     it 'assigns @races' do
       race = create :race

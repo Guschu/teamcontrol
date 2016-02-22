@@ -11,6 +11,8 @@
 require 'rails_helper'
 
 RSpec.describe DriversController, type: :controller do
+  login_user
+
   describe 'GET index' do
     it 'assigns @drivers' do
       driver = create :driver

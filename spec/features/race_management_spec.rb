@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.feature 'Widget management', type: :feature do
+  before(:each) do
+    user = FactoryGirl.create :user
+    login_as user, scope: :user
+  end
+
   scenario 'User creates a new race' do
     a = attributes_for :race
     visit new_race_path
