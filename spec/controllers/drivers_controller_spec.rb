@@ -43,5 +43,10 @@ RSpec.describe DriversController, type: :controller do
       post :create, driver:{ name:"Dagobert Duck" }
       expect(response).to redirect_to action: :show, id:assigns(:driver).id
     end
+
+    it 'a driver without name' do
+      post :create, driver:{ name:"" }
+      expect(response).to render_template 'new'
+    end
   end
 end
