@@ -54,6 +54,6 @@
         = simple_form_for [@race, Event.new] do |f|
           .panel-body
             = f.input :driver_id, as: :grouped_select, collection:@race.teams.order('name asc'), group_method: :drivers, input_html:{ class:'input-sm' }
-            = f.input :mode, as: :radio_buttons, collection:Event.modes.map{|k, _v| [I18n.t(k, scope:'event.modes'), k]}
+            = f.input :mode, as: :radio_buttons, collection:Event.modes.map{|k, _v| [I18n.t(k, scope:'event.modes'), k]}, disabled:(@race.leaving? ? 'arriving' : '')
           .panel-footer
             = f.submit 'Anlegen', class:'btn btn-secondary'
