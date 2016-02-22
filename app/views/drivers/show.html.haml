@@ -1,6 +1,7 @@
 %p#notice= notice
 
+%h1= @driver.name
 
-= link_to 'Edit', edit_driver_path(@driver)
-\|
-= link_to 'Back', drivers_path
+%p
+  = link_to t('edit'), edit_driver_path(@driver), class:'btn btn-primary'
+  = link_to t('back'), drivers_path, class:'btn btn-default'
