@@ -104,6 +104,40 @@ RSpec.describe TeamsController, type: :controller do
     it_behaves_like 'a successful new request'
   end
 
+  describe 'POST import' do
+    it 'accepts CSV data' do
+      race = create :race
+      post :import, race_id:race.slug, import_file:Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/import.csv'), 'text/csv')
+      expect(controller).to set_flash[:notice]
+      expect(response).to be_redirect
+      expect(race.teams.count).to be 3
+
+      team1 = race.teams.first
+      expect(team1.name).to eq 'Team A'
+      expect(team1.team_lead).to eq 'Team Lead 1'
+      expect(team1.drivers.count).to be 6
+      expect(team1.drivers.first.name).to eq 'Driver 1'
+
+      team2 = race.teams.second
+      expect(team2.name).to eq 'Team B'
+      expect(team2.team_lead).to eq 'Team Lead 2'
+      expect(team2.drivers.count).to be 0
+
+      team3 = race.teams.third
+      expect(team3.name).to eq 'Team C'
+      expect(team3.team_lead).to eq 'Team Lead 3'
+      expect(team3.drivers.count).to be 1
+      expect(team3.drivers.first.name).to eq 'Driver 7'
+    end
+
+    it 'sets error flash if no file uploaded' do
+      race = create :race
+      post :import, race_id:race.slug, import_file:nil
+      expect(response).to be_redirect
+      expect(controller).to set_flash[:error]
+    end
+  end
+
   describe 'POST create' do
     context 'with valid data' do
       subject { post :create, race_id:race.slug, team:attributes_for(:team) }

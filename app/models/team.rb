@@ -12,6 +12,9 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  team_token        :string(255)
+#  position          :integer
+#  team_lead         :string(255)
+#  attendances_count :integer
 #
 # Indexes
 #
@@ -38,8 +41,10 @@ class Team < ActiveRecord::Base
     content_type: %w(image/jpg image/jpeg image/png image/gif)
   }
 
-  validates :name, :team_token, presence:true
+  validates :name, :team_token, :team_lead, presence:true
   validates :team_token, uniqueness:{ scope: :race_id }
+
+  acts_as_list scope: :race
 
   before_validation :generate_token
   after_validation :batch_create_drivers!

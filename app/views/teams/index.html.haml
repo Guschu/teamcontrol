@@ -5,34 +5,47 @@
     .col-md-9
       %table.table.table-striped.teams
         %colgroup
+          %col{ width:24 }
           %col
+          %col{ width:180 }
           %col{ width:110 }
           %col{ width:110 }
           %col{ width:110 }
         %thead
           %tr
+            %th= sort_link @q, :position, '#'
             %th= sort_link @q, :name
-            %th.text-center Anzahl Fahrer
+            %th= sort_link @q, :team_lead
+            %th.text-center= sort_link @q, :attendances_count, 'Anzahl Fahrer'
             %th
             %th
 
-        %tbody
-          - @teams.each do |team|
+        - if @teams.any?
+          %tbody
+            - @teams.each do |team|
+              %tr
+                %th= team.position
+                %td
+                  = link_to [@race, team] do
+                    - if team.logo.exists?
+                      = image_tag team.logo.url(:thumb), style:'vertical-align:center'
+                    - if team.has_unassigned_attendances?
+                      %span.label.label-danger.pull-right{ title:'Tag-Zuordnungen fehlen', data:{toggle:'tooltip', placement:'left'} } Tag!
+                    = team.name
+                %td= team.team_lead
+                %td.text-center= team.attendances.count
+                %td.text-right
+                  = link_to edit_race_team_path(@race, team) do
+                    = fa_icon 'edit fw'
+                    = t(:edit)
+                %td.text-right
+                  = destroy_link_to [@race, team]
+
+        - else
+          %tbody
             %tr
-              %td
-                = link_to [@race, team] do
-                  - if team.logo.exists?
-                    = image_tag team.logo.url(:thumb), style:'vertical-align:center'
-                  - if team.has_unassigned_attendances?
-                    %span.label.label-danger.pull-right{ title:'Tag-Zuordnungen fehlen', data:{toggle:'tooltip', placement:'left'} } Tag!
-                  = team.name
-              %td.text-center= team.attendances.size
-              %td.text-right
-                = link_to edit_race_team_path(@race, team) do
-                  = fa_icon 'edit fw'
-                  = t(:edit)
-              %td.text-right
-                = destroy_link_to [@race, team]
+              %td{ colspan:6 }
+                %p.text-center Zu diesem Rennen gibt es noch keine Teams.
 
       = paginate @teams
 
@@ -51,4 +64,15 @@
           .panel-footer
             = f.submit 'Suchen', class:'btn btn-secondary'
             = link_to 'Zurücksetzen', race_teams_path(@race), class:'btn btn-text'
+
+      .panel.panel-secondary
+        .panel-heading
+          %h3.panel-title Import von Teams &amp; Fahrern
+        = form_tag import_race_teams_path(@race), method:'POST', multipart: true do
+          .panel-body
+            .form-group
+              = file_field_tag :import_file, accept:'text/csv', class:'form-control input-sm'
+              %p.help-block Zum Anlegen von Teams und Fahrern kann hier eine CSV-Datei hochgeladen werden.
+          .panel-footer
+            = submit_tag 'Importieren', class:'btn btn-secondary'
 

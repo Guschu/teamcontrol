@@ -19,6 +19,7 @@
     $ ->
       $(document).on 'timer:error', (evt, diff) ->
         $(evt.target).toggleClass 'error', true
+        $(evt.target).closest('.panel').removeClass('panel-secondary panel-info').addClass('panel-danger')
       $(document).on 'timer:warning', (evt, diff) ->
         $(evt.target).toggleClass 'warning', true
       $('#search').keyup ->

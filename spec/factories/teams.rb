@@ -28,6 +28,7 @@ FactoryGirl.define do
     race
     name { Forgery::Name.company_name }
     team_token nil
+    team_lead { Forgery::Name.full_name }
     logo do
       file = Dir['spec/fixtures/team_logos/*.png'].sample
       Rack::Test::UploadedFile.new(Rails.root.join(file), 'image/png')

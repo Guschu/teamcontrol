@@ -42,6 +42,11 @@ RSpec.shared_context 'a successful create request' do
   it 'redirects' do
     expect(subject).to be_redirect
   end
+
+  it 'sets a flash notice' do
+    subject
+    expect(controller).to set_flash[:notice]
+  end
 end
 
 RSpec.shared_context 'an unsuccessful create request' do

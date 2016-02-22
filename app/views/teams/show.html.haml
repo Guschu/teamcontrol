@@ -18,6 +18,9 @@
                 = image_tag @team.logo.url(:thumb), class:'pull-right img-thumbnail'
               = @team.name
           %tr
+            %th= Team.human_attribute_name :team_lead
+            %td= @team.team_lead
+          %tr
             %th= Team.human_attribute_name :team_token
             %td
               = external_link_to @team

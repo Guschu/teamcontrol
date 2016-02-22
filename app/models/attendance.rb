@@ -22,7 +22,7 @@
 #
 
 class Attendance < ActiveRecord::Base
-  belongs_to :team
+  belongs_to :team, counter_cache: true
   belongs_to :driver
 
   scope :unassigned, -> { where('tag_id IS NULL OR tag_id=""') }

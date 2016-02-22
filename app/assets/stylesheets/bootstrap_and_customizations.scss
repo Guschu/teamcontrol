@@ -82,6 +82,13 @@ footer {
 
   .panel-title {
     font-size: 12px;
+
+    .badge {
+      font-weight: normal;
+      border-radius: 2px;
+      padding: 2px 3px 1px 3px;
+      margin-right: 0.5em;
+    }
   }
 }
 
@@ -119,8 +126,14 @@ footer {
 }
 
 .team {
-  .panel-title a {
-    font-weight: bold;
+  .panel-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    a {
+      font-weight: bold;
+    }
   }
 }
 

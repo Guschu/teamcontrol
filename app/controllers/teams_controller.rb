@@ -1,3 +1,5 @@
+require 'csv'
+
 class TeamsController < ApplicationController
   before_action :set_race
   before_action :set_team, only: [:show, :edit, :update, :destroy]
@@ -23,6 +25,32 @@ class TeamsController < ApplicationController
 
   # GET /teams/1/edit
   def edit
+  end
+
+  # POST /teams/import
+  def import
+    file = params[:import_file]
+
+    if file.present?
+      teams = drivers = 0
+      CSV.foreach(file.path, encoding:'windows-1252:utf-8', headers:true, col_sep:';', skip_blanks:true) do |row|
+        team = Team.where(race:@race).find_or_create_by( name:row[0] ) do |team|
+          team.team_lead = row[1]
+          teams += 1
+        end
+        unless row[2].blank?
+          driver = Driver.find_or_create_by(name:row[2]) do |driver|
+            drivers += 1
+          end
+          team.attendances.create(driver:driver)
+        end
+      end
+      flash[:notice] = "#{teams} Teams und #{drivers} Fahrer neu angelegt"
+    else
+      flash[:error] = 'Keine Importdatei angegeben'
+    end
+
+    redirect_to race_teams_url(@race)
   end
 
   # POST /teams
@@ -95,6 +123,6 @@ class TeamsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def team_params
-    params.require(:team).permit(:name, :logo, :logo_delete, :batch_create_drivers, attendances_attributes:[ :id, :driver_id, :_destroy ])
+    params.require(:team).permit(:name, :logo, :logo_delete, :team_lead, :batch_create_drivers, attendances_attributes:[ :id, :driver_id, :_destroy ])
   end
 end

@@ -23,6 +23,7 @@ gem 'devise'
 gem 'ransack'
 gem 'cocoon'
 gem 'exception_notification'
+gem 'acts_as_list'
 
 # API related Gems
 gem 'grape'

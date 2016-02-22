@@ -10,7 +10,11 @@ Rails.application.routes.draw do
 
   resources :drivers
   resources :races do
-    resources :teams
+    resources :teams do
+      collection do
+        post 'import'
+      end
+    end
     resources :events, only: [:index, :create]
 
     member do

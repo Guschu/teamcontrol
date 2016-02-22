@@ -1,6 +1,9 @@
-.panel.panel-compact{ class:(race.active? ? 'panel-info' : 'panel-secondary') }
+.team.panel.panel-compact{ class:(race.active? ? 'panel-info' : 'panel-secondary') }
   .panel-heading
-    %h4.panel-title= link_to team.name, [race, team]
+    %h3.panel-title
+      = link_to [race, team] do
+        %span.badge= team.position
+        = team.name
   %table.table.table-condensed
     %colgroup
       %col{ width:32 }

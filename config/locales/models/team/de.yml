@@ -6,9 +6,11 @@ de:
         other: Teams
     attributes:
       team:
+        position: Position
         name: Name
         logo: Logo
         team_token: Team Token
         batch_create_drivers: Fahrer neu anlegen
+        team_lead: Teamleiter
         created_at: Angelegt am
         updated_at: Bearbeitet am

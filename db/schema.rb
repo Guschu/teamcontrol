@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160219100513) do
+ActiveRecord::Schema.define(version: 20160222102322) do
 
   create_table "attendances", force: :cascade do |t|
     t.integer  "team_id",    limit: 4
@@ -93,6 +93,9 @@ ActiveRecord::Schema.define(version: 20160219100513) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.string   "team_token",        limit: 255
+    t.integer  "position",          limit: 4
+    t.string   "team_lead",         limit: 255
+    t.integer  "attendances_count", limit: 4
   end
 
   add_index "teams", ["race_id"], name: "index_teams_on_race_id", using: :btree
