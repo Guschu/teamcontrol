@@ -1,8 +1,5 @@
 require File.expand_path('../boot', __FILE__)
 
-# https://github.com/activerecord-hackery/ransack#using-simpleform
-# ENV['RANSACK_FORM_BUILDER'] = '::SimpleForm::FormBuilder'
-
 require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
@@ -11,9 +8,8 @@ Bundler.require(*Rails.groups)
 
 module Teamcontrol
   class Application < Rails::Application
-    # Auto-load API and its subdirectories
-    # config.paths.add 'app/api', glob: '**/*.rb'
-    # config.autoload_paths += Dir["#{Rails.root}/app/api/*"]
+
+    config.autoload_paths << Rails.root.join('lib')
 
     config.generators do |g|
       g.test_framework :rspec,
@@ -40,5 +36,9 @@ module Teamcontrol
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    def self.version
+      @@version ||= Version.new
+    end
   end
 end
