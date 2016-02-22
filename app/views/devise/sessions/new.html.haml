@@ -1,0 +1,31 @@
+.row
+  .col-md-6.col-md-offset-3
+    %ul.nav.nav-tabs{ role:'tablist' }
+      %li.active{ role:'presentation' }
+        %a{ href:'#login', data:{ toggle:'tab' } } Anmeldung
+      %li{ role:'presentation' }
+        %a{ href:'#team', data:{ toggle:'tab' } } Team Token
+
+    .tab-content
+      #login.tab-pane.fade.in.active{ role:'tabpanel' }
+        .content
+          %p
+            Bitte melde dich mit deiner E-Mail Adresse und deinem Passwort an, um fortzufahren. Du hast einen <strong>Team Token</strong> von der Rennleitung erhalten? <strong>Dann klick bitte auf Team Token.</strong>
+
+          = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+            = f.input :email, required: false, autofocus: true, placeholder:'name@domain.de'
+            = f.input :password, required: false, placeholder:'***'
+            = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+            = f.button :submit, t('.login')
+
+          = render "devise/shared/links"
+
+      #team.tab-pane.fade{ role:'tabpanel' }
+        .content
+          %p Mit deinem Team Token kannst du auf die Ergebnisse deines Teams zugreifen.
+
+          = simple_form_for(Team.new, url: handle_team_login_race_teams_path(current_race)) do |f|
+            = f.input :team_token, input_html:{ class:'monospace' }, placeholder:'ABCDEFGHIJ', hint:'8-stellige Kombination von Buchstaben und Zahlen'
+            = f.button :submit, t('.login')
+
+

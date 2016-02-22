@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :races do
     resources :teams do
       collection do
+        post 'handle_team_login'
         post 'import'
       end
     end

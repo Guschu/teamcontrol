@@ -1,6 +1,6 @@
 .container-fluid
   %ul.footer-links.pull-right
-    %li= link_to 'API', '/docs/api/'
+    %li= link_to 'API', '/docs/api/' if user_signed_in?
     %li
       Made with
       = link_to fa_icon('heart'), 'https://software-berater.net/?pk_campaign=TeamControl', target:'_blank'

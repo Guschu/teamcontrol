@@ -3,6 +3,8 @@ require 'csv'
 class TeamsController < ApplicationController
   before_action :set_race
   before_action :set_team, only: [:show, :edit, :update, :destroy]
+  skip_before_filter :authenticate_user!, only: :handle_team_login
+  skip_before_filter :authenticate_user!, only: :show, if: :request_by_team_token?
 
   # GET /teams
   # GET /teams.json
@@ -10,6 +12,19 @@ class TeamsController < ApplicationController
     @q = @race.teams.ransack(params[:q])
     page = (params[:page] || '1').to_i
     @teams = @q.result.includes(:attendances).page(page)
+  end
+
+  # POST /teams/handle_team_login
+  def handle_team_login
+    token = params.require(:team).permit(:team_token)[:team_token]
+    if token.present?
+      team = @race.teams.find_by(team_token:token)
+      if team
+        redirect_to race_team_url(@race, team.team_token)
+        return
+      end
+    end
+    redirect_to root_url
   end
 
   # GET /teams/1
@@ -72,10 +87,6 @@ class TeamsController < ApplicationController
   # PATCH/PUT /teams/1
   # PATCH/PUT /teams/1.json
   def update
-    # drivers = Driver.where(id: team_params[:drivers]).where.not(id: @team.attendances.pluck(:driver_id))
-    # build_attendances(drivers)
-    # @team.attendances.where.not(driver_id: drivers.map(&:id)).destroy_all
-
     respond_to do |format|
       if @team.update(team_params)
         format.html { redirect_to [@race, @team], notice: I18n.t(:update, scope: 'messages.crud', model: Team.model_name.human) }
