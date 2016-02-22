@@ -28,9 +28,7 @@
               = fa_icon 'edit fw'
               = t(:edit)
           %td.text-right
-            = link_to race, :method => :delete, data:{ confirm:t(:confirm) } do
-              = fa_icon 'trash fw'
-              = t(:destroy)
+            = destroy_link_to race
   - else
     %tbody
       %tr.info

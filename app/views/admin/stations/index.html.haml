@@ -4,7 +4,7 @@
   %colgroup
     %col
     %col{ width:80 }
-    %col{ width:80 }
+    %col{ width:110 }
   %thead
     %tr
       %th Token
@@ -17,7 +17,7 @@
         %tr
           %td.monospace= link_to station.token, [:admin, station]
           %td= link_to 'Bearbeiten', edit_admin_station_path(station)
-          %td= link_to 'Löschen', [:admin, station], :method => :delete, :data => { :confirm => 'Are you sure?' }
+          %td= destroy_link_to [:admin, station]
   - else
     %tbody
       %tr.info
