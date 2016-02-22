@@ -2,5 +2,5 @@
   = f.error_notification
   = f.input :token, placeholder:'12-stelliger Hex Code', input_html:{ class:'monospace' }
 
-  = f.button :submit
-  = link_to t('cancel'), admin_stations_path, class:'btn btn-text'
+  = f.button :submit, class:'btn-primary'
+  = link_to t('cancel'), admin_stations_path, class:'btn btn-link'

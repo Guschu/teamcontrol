@@ -4,5 +4,6 @@
   = f.input :password
   = f.input :password_confirmation
 
-  = f.button :submit
-  = link_to t('cancel'), admin_users_path, class:'btn btn-text'
+  = f.button :submit, class:'btn-primary'
+  = link_to t('cancel'), admin_users_path, class:'btn btn-link'
+  
