@@ -21,7 +21,10 @@
             - @events.each do |event|
               %tr
                 %td= link_to event.team.name, [@race, event.team]
-                %td= event.driver.name
+                %td
+                  - if event.penalty.present?
+                    %span.label.label-danger.pull-right{ title:event.penalty.reason, data:{toggle:'tooltip', placement:'left'} }= fa_icon 'gavel'
+                  = event.driver.name
                 %td= t event.mode, scope:'event.modes'
                 %td= l event.created_at
         - else

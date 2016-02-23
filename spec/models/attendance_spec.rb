@@ -47,32 +47,43 @@ RSpec.describe Attendance, type: :model do
 
     att1.create_event # kommend
     expect(team.events.arriving.count).to eq 1
-    expect(Turn.for_team(team).count).to eq 0
-    expect(team.to_stats.current_driver_id).to eq att1.driver_id
-    expect(team.to_stats.last_driver_id).to be_nil
+
+    s = team.to_stats
+    expect(s.turns.size).to eq 0
+    expect(s.current_driver_id).to eq att1.driver_id
+    expect(s.last_driver_id).to be_nil
     Timecop.travel 10.minutes
 
     att2.create_event # kommend
     expect(team.events.arriving.count).to eq 2
-    expect(Turn.for_team(team).count).to eq 0
-    expect(team.to_stats.current_driver_id).to eq att2.driver_id
-    expect(team.to_stats.last_driver_id).to eq att1.driver_id
+
+    s = team.to_stats
+    expect(s.turns.size).to eq 0
+    expect(s.current_driver_id).to eq att2.driver_id
+    expect(s.last_driver_id).to eq att1.driver_id
     Timecop.travel 1.minutes
 
     att1.create_event # gehend, 11 Minuten Fahrzeit
     expect(team.events.arriving.count).to eq 2
     expect(team.events.leaving.count).to eq 1
-    expect(Turn.for_team(team).count).to eq 1
-    expect(team.to_stats.current_driver_id).to eq att2.driver_id
-    expect(team.to_stats.last_driver_id).to eq att1.driver_id
+
+    s = team.to_stats
+    expect(s.turns.size).to eq 1
+    expect(s.current_driver_id).to eq att2.driver_id
+    expect(s.last_driver_id).to eq att1.driver_id
     Timecop.travel 20.minutes
+
+    s = team.to_stats
+    expect(s.last_break_time).to eq 20.minutes # att1 fährt nicht seit 20 Minuten
 
     att2.create_event # gehend, 21 Minuten Fahrzeit
     Timecop.travel 10.minutes
     expect(team.events.arriving.count).to eq 2
     expect(team.events.leaving.count).to eq 2
-    expect(team.to_stats.current_driver_id).to be_nil
-    expect(team.to_stats.last_driver_id).to eq att2.driver_id
-    expect(Turn.for_team(team).count).to eq 2
+
+    s = team.to_stats
+    expect(s.turns.size).to eq 2
+    expect(s.current_driver_id).to be_nil
+    expect(s.last_driver_id).to eq att2.driver_id
   end
 end

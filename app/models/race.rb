@@ -94,7 +94,8 @@ class Race < ActiveRecord::Base
   def to_stats
     events = Event.where(team_id: teams.select(:id)).map { |e| [e.team_id, e.driver_id, e.created_at.to_time.utc.to_i, e.mode] }
     turns  = Turn.where(team_id: teams.select(:id)).map { |t| [t.team_id, t.driver_id, t.duration] }
-    Stats.new events, turns, mode
+    penalties = Penalty.where(team_id: teams.select(:id)).map { |pe| [pe.team_id, pe.driver_id, pe.created_at.to_time.utc.to_i, pe.reason] }
+    Stats.new events, turns, penalties, mode
   end
 
   def self.current_race?

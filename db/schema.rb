@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160222134416) do
+ActiveRecord::Schema.define(version: 20160223192004) do
 
   create_table "attendances", force: :cascade do |t|
     t.integer  "team_id",    limit: 4
@@ -37,9 +37,11 @@ ActiveRecord::Schema.define(version: 20160222134416) do
     t.integer  "mode",       limit: 4
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.integer  "penalty_id", limit: 4
   end
 
   add_index "events", ["driver_id"], name: "index_events_on_driver_id", using: :btree
+  add_index "events", ["penalty_id"], name: "index_events_on_penalty_id", using: :btree
   add_index "events", ["team_id"], name: "index_events_on_team_id", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -54,6 +56,17 @@ ActiveRecord::Schema.define(version: 20160222134416) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "penalties", force: :cascade do |t|
+    t.integer  "team_id",    limit: 4
+    t.integer  "driver_id",  limit: 4
+    t.string   "reason",     limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "penalties", ["driver_id"], name: "index_penalties_on_driver_id", using: :btree
+  add_index "penalties", ["team_id"], name: "index_penalties_on_team_id", using: :btree
 
   create_table "races", force: :cascade do |t|
     t.string   "name",           limit: 255
@@ -97,6 +110,7 @@ ActiveRecord::Schema.define(version: 20160222134416) do
     t.integer  "position",          limit: 4
     t.string   "team_lead",         limit: 255
     t.integer  "attendances_count", limit: 4
+    t.integer  "penalties_count",   limit: 4
   end
 
   add_index "teams", ["race_id"], name: "index_teams_on_race_id", using: :btree
@@ -134,7 +148,10 @@ ActiveRecord::Schema.define(version: 20160222134416) do
   add_foreign_key "attendances", "drivers"
   add_foreign_key "attendances", "teams"
   add_foreign_key "events", "drivers"
+  add_foreign_key "events", "penalties"
   add_foreign_key "events", "teams"
+  add_foreign_key "penalties", "drivers"
+  add_foreign_key "penalties", "teams"
   add_foreign_key "teams", "races"
   add_foreign_key "turns", "drivers"
   add_foreign_key "turns", "teams"

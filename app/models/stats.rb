@@ -1,6 +1,6 @@
 class Stats
   include ActiveModel::Serializers::JSON
-  attr_reader :mode, :events, :turns
+  attr_reader :mode, :events, :turns, :penalties
 
   def attributes
     instance_values
@@ -12,14 +12,16 @@ class Stats
       methods: [
         :active_driver_count, :average_drive_time, :maximum_drive_time,
         :minimum_drive_time, :current_driver_id, :current_drive_time,
-        :last_driver_id, :last_drive_time, :total_drive_time
+        :last_break_time, :last_driver_id, :last_drive_time,
+        :total_drive_time
       ]
     )
   end
 
-  def initialize(events, turns, mode = :both)
+  def initialize(events, turns, penalties, mode = :both)
     @events = events.sort { |e1, e2| e1[2] <=> e2[2] }
     @turns = turns
+    @penalties = penalties
     @mode = mode.to_sym
   end
 
@@ -76,22 +78,24 @@ class Stats
   def group_by_team
     eg = @events.group_by(&:first)
     tg = @turns.group_by(&:first)
-    keys = (eg.keys + tg.keys).uniq.sort
+    pg = @penalties.group_by(&:first)
+    keys = (eg.keys + tg.keys + pg.keys).uniq.sort
     h = Hash[keys.map do |k|
-      [k, Stats.new(eg[k] || [], tg[k] || [], mode)]
+      [k, Stats.new(eg[k] || [], tg[k] || [], pg[k] || [], mode)]
     end]
-    h.default_proc = proc {|h, k| h[k] = Stats.new [], [], mode}
+    h.default_proc = proc {|h, k| h[k] = Stats.new [], [], [], mode}
     h
   end
 
   def group_by_driver
     eg = @events.group_by(&:second)
     tg = @turns.group_by(&:second)
-    keys = (eg.keys + tg.keys).uniq.sort
+    pg = @penalties.group_by(&:second)
+    keys = (eg.keys + tg.keys + pg.keys).uniq.sort
     h = Hash[keys.map do |k|
-      [k, Stats.new(eg[k] || [], tg[k] || [], mode)]
+      [k, Stats.new(eg[k] || [], tg[k] || [], pg[k] || [], mode)]
     end]
-    h.default_proc = proc {|h, k| h[k] = Stats.new [], [], mode}
+    h.default_proc = proc {|h, k| h[k] = Stats.new [], [], [], mode}
     h
   end
 
@@ -120,6 +124,10 @@ class Stats
 
   def last_drive_time
     @turns.map(&:third)[-1]
+  end
+
+  def penalty_count
+    @penalties.size
   end
 
   def total_drive_time

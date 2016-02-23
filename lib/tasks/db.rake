@@ -31,7 +31,7 @@ namespace :db do
         attendances = team.attendances.to_a
         Timecop.travel race.started_at.to_time
         attendances.each_with_index do |att, idx|
-          Timecop.travel(20.minutes + rand(300) - 150) if idx > 0
+          Timecop.travel(race.max_turn.minutes + rand(15.minutes) - 5.minutes) if idx > 0
           att.create_event
           if idx > 0
             Timecop.travel(1.minutes + rand(60) - 30)

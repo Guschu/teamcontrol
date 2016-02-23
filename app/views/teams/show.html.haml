@@ -2,10 +2,74 @@
 
 %h1= @team.name
 
+- st = @team.to_stats
+%table.table.table-striped
+  %thead
+    %tr
+      %th Fahrer
+      %th.text-right Aktuelle Fahrzeit
+      %th.text-right Letzte Fahrzeit
+      %th.text-right Fahrpause
+      %th.text-right Gesamtzeit
+      %th.text-right Anzahl Fehler
+  %tbody
+    - s = @team.to_stats.group_by_driver
+    - @team.attendances.includes(:driver).each do |att|
+      - sd = s[att.driver_id]
+      %tr
+        %th= att.driver.name
+        %td.text-right
+          - if @race.active? && att.driver_id == st.current_driver_id
+            %span.timer{ data:{ mode:'timer', start:(Time.now - sd.current_drive_time).to_i*1000, warning:@race.max_turn*60, error:(@race.max_turn+@race.waiting_period)*60 } }= seconds_format sd.current_drive_time
+          - else
+            –
+        %td.text-right
+          - if att.driver_id == st.current_driver_id
+            –
+          - else
+            = seconds_format sd.last_drive_time
+        %td.text-right
+          - if @race.planned? || @race.finished? || att.driver_id == st.current_driver_id
+            –
+          - else
+            %span.timer{ data:{ mode:'countdown', start:(Time.now - sd.last_break_time).to_i*1000, duration:@race.break_time*60 } }= seconds_format sd.last_break_time
+
+        %td.text-right= seconds_format sd.total_drive_time
+        %td.text-right= sd.penalty_count
+
+  %tfoot
+    %tr
+      %td
+      %td.text-right
+      %td.text-right
+      %td.text-right
+      %td.text-right= seconds_format @team.to_stats.total_drive_time
+      %td.text-right
+
+%h2.subheader Strafen
+
+%table.table.table-striped
+  %colgroup
+    %col{ width:180 }
+    %col{ width:180 }
+    %col
+  %thead
+    %tr
+      %th Zeit
+      %th Fahrer
+      %th Begründung
+  %tbody
+    - @team.penalties.includes(:driver).each do |p|
+      %tr
+        %td= l p.created_at, format: :short
+        %td= p.driver.name
+        %td= p.reason
+
 .row
   .col-md-4
     .panel.panel-default.panel-info.panel-compact
-      .panel-heading Stammdaten
+      .panel-heading
+        %h3.panel-title Stammdaten
       %table.table
         %colgroup
           %col{ width:'40%' }
@@ -33,7 +97,8 @@
 
   .col-md-4
     .panel.panel-default.panel-info.panel-compact
-      .panel-heading Fahrer
+      .panel-heading
+        %h3.panel-title Fahrer und Tagzuordnung
       %table.table
         %colgroup
           %col{ width:'50%' }
@@ -47,16 +112,15 @@
                 = fa_icon 'user'
                 = attendance.driver.name
               %td.text-right
-                - if attendance.driver_id == @team.to_stats.current_driver_id
-                  = fa_icon 'user', title:'Aktueller Fahrer'
-                  = seconds_format @team.to_stats.current_drive_time
-                - if attendance.driver_id == @team.to_stats.last_driver_id
-                  = fa_icon 'user', title:'Aktueller Fahrer', class:'text-muted'
-                  = seconds_format @team.to_stats.last_drive_time
+                - if attendance.is_unassigned?
+                  %span.label.label-danger{ title:'Tag-Zuordnung fehlt', data:{toggle:'tooltip', placement:'bottom'} } Tag!
+                - else
+                  %span.label.label-success OK
 
   .col-md-4
     .panel.panel-default.panel-info.panel-compact
-      .panel-heading Statistik
+      .panel-heading
+        %h3.panel-title Teamzeiten
       %table.table
         %tbody
           - s = @team.to_stats
@@ -76,5 +140,6 @@
             %th Max. Fahrzeit
             %td= seconds_format s.maximum_drive_time
 
-= link_to 'Team bearbeiten', edit_race_team_path(@race, @team), class:'btn btn-primary'
-= link_to 'zurück', race_teams_path(@race), class:'btn btn-link'
+.form-action
+  = link_to 'Team bearbeiten', edit_race_team_path(@race, @team), class:'btn btn-primary'
+  = link_to 'zurück', race_teams_path(@race), class:'btn btn-link'

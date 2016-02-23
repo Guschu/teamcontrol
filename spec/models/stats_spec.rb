@@ -3,10 +3,10 @@ require 'yaml'
 
 RSpec.describe Stats do
   it 'gets initialized w/ optional param' do
-    s = Stats.new [], [] # default param
+    s = Stats.new [], [], [] # default param
     expect(s.mode).to eq :both
 
-    s = Stats.new [], [], :leaving
+    s = Stats.new [], [], [], :leaving
     expect(s.mode).to eq :leaving
   end
 
@@ -16,7 +16,7 @@ RSpec.describe Stats do
       [1, 1, 1, 'arriving'],
       [1, 1, 2, 'arriving']
     ]
-    s = Stats.new e, []
+    s = Stats.new e, [], []
     expect(s.events.map(&:third)).to eq [1, 2, 3]
   end
 
@@ -29,7 +29,7 @@ RSpec.describe Stats do
         Timecop.freeze Time.at(0)
       end
 
-      subject { Stats.new @events, @turns }
+      subject { Stats.new @events, @turns, [] }
 
       it 'calculates number of active drivers' do
         expect(subject.active_driver_count).to eq 2
@@ -72,7 +72,7 @@ RSpec.describe Stats do
         Timecop.freeze Time.at(1201)
       end
 
-      subject { Stats.new @events, @turns }
+      subject { Stats.new @events, @turns, [] }
 
       it 'calculates number of active drivers' do
         expect(subject.active_driver_count).to eq 4
@@ -99,7 +99,7 @@ RSpec.describe Stats do
         Timecop.freeze Time.at(1900)
       end
 
-      subject { Stats.new @events, @turns }
+      subject { Stats.new @events, @turns, [] }
 
       it 'calculates number of active drivers' do
         expect(subject.active_driver_count).to eq 4
@@ -132,7 +132,7 @@ RSpec.describe Stats do
         Timecop.freeze Time.at(1201)
       end
 
-      subject { Stats.new @events, @turns }
+      subject { Stats.new @events, @turns, [] }
 
       it 'calculates number of active drivers' do
         expect(subject.active_driver_count).to eq 2
@@ -159,7 +159,7 @@ RSpec.describe Stats do
         Timecop.freeze Time.at(1900)
       end
 
-      subject { Stats.new @events, @turns }
+      subject { Stats.new @events, @turns, [] }
 
       it 'calculates number of active drivers' do
         expect(subject.active_driver_count).to eq 2
@@ -192,7 +192,7 @@ RSpec.describe Stats do
         Timecop.freeze Time.at(1201)
       end
 
-      subject { Stats.new @events, @turns }
+      subject { Stats.new @events, @turns, [] }
 
       it 'calculates number of active drivers' do
         expect(subject.active_driver_count).to eq 2
@@ -219,7 +219,7 @@ RSpec.describe Stats do
         Timecop.freeze Time.at(1900)
       end
 
-      subject { Stats.new @events, @turns }
+      subject { Stats.new @events, @turns, [] }
 
       it 'calculates number of active drivers' do
         expect(subject.active_driver_count).to eq 2
@@ -252,7 +252,7 @@ RSpec.describe Stats do
         Timecop.freeze Time.at(800)
       end
 
-      subject { Stats.new @events, @turns }
+      subject { Stats.new @events, @turns, [] }
 
       it 'calculates number of active drivers' do
         expect(subject.active_driver_count).to eq 1

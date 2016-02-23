@@ -15,6 +15,7 @@
 #  position          :integer
 #  team_lead         :string(255)
 #  attendances_count :integer
+#  penalties_count   :integer
 #
 # Indexes
 #
@@ -29,8 +30,9 @@
 class Team < ActiveRecord::Base
   belongs_to :race
   has_many :attendances, dependent: :destroy
-  has_many :events, dependent: :destroy
   has_many :drivers, through: :attendances
+  has_many :events, dependent: :destroy
+  has_many :penalties, dependent: :destroy
 
   accepts_nested_attributes_for :attendances, reject_if: :all_blank, allow_destroy: true
 
@@ -68,7 +70,8 @@ class Team < ActiveRecord::Base
   def to_stats
     events = Event.where(team_id: id).map { |e| [e.team_id, e.driver_id, e.created_at.to_time.utc.to_i, e.mode] }
     turns  = Turn.where(team_id: id).map { |t| [t.team_id, t.driver_id, t.duration] }
-    Stats.new events, turns, race.mode
+    penalties = Penalty.where(team_id: id).map { |pe| [pe.team_id, pe.driver_id, pe.created_at.to_time.utc.to_i, pe.reason] }
+    Stats.new events, turns, penalties, race.mode
   end
 
   private

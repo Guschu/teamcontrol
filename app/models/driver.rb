@@ -11,6 +11,7 @@
 class Driver < ActiveRecord::Base
   has_many :attendances
   has_many :events
+  has_many :penalties
 
   validates :name, presence: true
 

@@ -30,6 +30,7 @@ class Turn < ActiveRecord::Base
   scope :for_team, ->(team) { where(team_id: team.id) }
 
   def self.for_event(evt)
+    return if evt.nil? || evt.arriving?
     race = evt.team.race
     case race.mode.to_sym
     when :both
@@ -37,7 +38,6 @@ class Turn < ActiveRecord::Base
       evt_start = Event
                   .arriving
                   .where(team_id: evt.team_id, driver_id: evt.driver_id)
-                  .where('created_at<?', evt.created_at)
                   .order('created_at desc')
                   .first
 
@@ -46,22 +46,21 @@ class Turn < ActiveRecord::Base
                  else
                    race.started_at
                  end
-      new team_id: evt.team_id, driver_id: evt.driver_id, duration: (Time.now - start_at.to_time)
+      new team_id: evt.team_id, driver_id: evt.driver_id, duration: (Time.now - start_at.to_time).to_i
     when :leaving
       # vorletzte gehend-Buchung des gleichen Teams, frühestens/alternativ Rennbeginn
       evt_start = Event
                   .leaving
                   .where(team_id: evt.team_id)
-                  .where('created_at<?', evt.created_at)
                   .order('created_at desc')
-                  .second
+                  .first
 
       start_at = if evt_start.present?
                    evt_start.created_at > race.started_at ? evt_start.created_at : race.started_at
                  else
                    race.started_at
                  end
-      new team_id: evt.team_id, driver_id: evt.driver_id, duration: (Time.now - start_at.to_time)
+      new team_id: evt.team_id, driver_id: evt.driver_id, duration: (Time.now - start_at.to_time).to_i
     end
   end
 end

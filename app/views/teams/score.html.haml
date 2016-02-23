@@ -56,7 +56,7 @@
             %span.timer{ data:{ mode:'countdown', start:(Time.now - sd.last_break_time).to_i*1000, duration:@race.break_time*60 } }= seconds_format sd.last_break_time
 
         %td.text-right= seconds_format sd.total_drive_time
-        %td.text-right n/a
+        %td.text-right= sd.penalty_count
 
   %tfoot
     %tr
@@ -121,7 +121,7 @@
   .col-md-4
     .panel.panel-default.panel-info.panel-compact
       .panel-heading
-        %h3.panel-title Fahrer
+        %h3.panel-title Fahrer und Tagzuordnung
       %table.table
         %colgroup
           %col{ width:'50%' }
