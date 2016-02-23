@@ -58,12 +58,19 @@
       %th Zeit
       %th Fahrer
       %th Begründung
-  %tbody
-    - @team.penalties.includes(:driver).each do |p|
-      %tr
-        %td= l p.created_at, format: :short
-        %td= p.driver.name
-        %td= p.reason
+  - if @penalties.any?
+    %tbody
+      - @penalties.each do |p|
+        %tr
+          %td= l p.created_at, format: :short
+          %td= p.driver.name
+          %td= p.reason
+  - else
+    %tbody
+      %tr.info
+        %td{ colspan:3 }
+          %p.text-center Keine Strafen verhängt.
+
 
 .row
   .col-md-4
