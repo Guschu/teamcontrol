@@ -24,12 +24,11 @@ class Stats
   end
 
   def active_driver_count
-    @turns.map(&:second).uniq.size
+    @events.map(&:second).uniq.size
   end
 
   def average_drive_time
-    c = active_driver_count
-    return if c.nil?
+    c = @turns.size
     return 0.0 if c == 0
     total_drive_time.to_f / c
   end
@@ -49,21 +48,29 @@ class Stats
   end
 
   def current_driver_id
-    case @mode
-    when :both then
-      evt = @events.reverse_each.find { |e| e[3] == 'arriving' }
-      evt[1] if evt.present?
-    when :leaving then nil
+    return if @mode == :leaving
+
+    evt = @events.reverse_each.find { |e| e[3] == 'arriving' }
+    if evt.present?
+      # find leaving from same driver later in the events
+      later_leaving = @events.select do |e|
+        e[2]>evt[2] && # only where timestamp is greater
+        e[1] == evt[1] && #same driver id
+        e[3] == 'leaving'
+      end
+      evt[1] unless later_leaving.any?
     end
   end
 
   def current_drive_time
-    case @mode
-    when :both then
-      evt = @events.reverse_each.find { |e| e[3] == 'arriving' }
-      Time.zone.now.to_i - evt[2] if evt.present?
-    when :leaving then nil
-    end
+    return if @mode == :leaving
+
+    id = current_driver_id
+    return if id.nil?
+
+    now = Time.zone.now.to_i
+    evt = @events.reverse_each.find { |e| e[1] == id && e[3] == 'arriving' }
+    now - evt[2] if evt.present?
   end
 
   def group_by_team
@@ -88,6 +95,13 @@ class Stats
     h
   end
 
+  def last_break_time
+    now = Time.zone.now.to_i
+    evt = @events.reverse_each.find { |e| e[3] == 'leaving' }
+    return now - evt[2] if evt.present?
+    0
+  end
+
   def last_driver
     id = last_driver_id
     return if id.nil?
@@ -95,14 +109,13 @@ class Stats
   end
 
   def last_driver_id
-    case @mode
-    when :both
-      evt = @events.select { |e| e[3] == 'arriving' }[-2]
-      evt[1] if evt.present?
-    when :leaving
-      evt = @events.select { |e| e[3] == 'leaving' }[-2]
-      evt[1] if evt.present?
-    end
+    idx = current_driver_id.nil? ? -1 : -2
+    direction = case @mode
+                when :both then 'arriving'
+                when :leaving then 'leaving'
+                end
+    evt = @events.select { |e| e[3] == direction }[idx]
+    evt[1] if evt.present?
   end
 
   def last_drive_time

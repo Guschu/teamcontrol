@@ -31,10 +31,6 @@ class Attendance < ActiveRecord::Base
     tag_id.blank?
   end
 
-  def total_drivetime
-    Time.at(Turn.where(team_id: team_id, driver_id: driver_id).sum(:duration)).utc
-  end
-
   def create_event
     case team.race.mode.to_sym
     when :both

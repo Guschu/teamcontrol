@@ -1,0 +1,18 @@
+---
+# Renndaten: 2 Fahrer in 2 Teams fahren jeweils abwechselnd 1-2-1
+:mode: both
+:events:
+  # Team 1
+  -
+    - 1
+    - 1
+    - 1
+    - arriving
+
+  # Team 2
+  -
+    - 2
+    - 3
+    - 3
+    - arriving
+:turns: []

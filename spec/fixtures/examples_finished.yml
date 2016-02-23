@@ -1,0 +1,103 @@
+---
+# Renndaten: 2 Fahrer in 2 Teams fahren jeweils abwechselnd 1-2-1
+:mode: both
+:events:
+  # Team 1
+  -
+    - 1
+    - 1
+    - 1
+    - arriving
+
+  # Team 2
+  -
+    - 2
+    - 3
+    - 3
+    - arriving
+
+  -
+    - 1
+    - 2
+    - 550
+    - arriving
+
+  -
+    - 2
+    - 4
+    - 563
+    - arriving
+
+  -
+    - 1
+    - 1
+    - 601
+    - leaving
+  -
+    - 2
+    - 3
+    - 611
+    - leaving
+  -
+    - 1
+    - 1
+    - 1150
+    - arriving
+
+  -
+    - 2
+    - 3
+    - 1151
+    - arriving
+
+  -
+    - 1
+    - 2
+    - 1200
+    - leaving
+
+  -
+    - 2
+    - 4
+    - 1212
+    - leaving
+
+  -
+    - 1
+    - 1
+    - 1802
+    - leaving
+  -
+    - 2
+    - 3
+    - 1812
+    - leaving
+
+:turns:
+  # Team 1
+  -
+    - 1
+    - 1
+    - 600
+  -
+    - 1
+    - 2
+    - 650
+  -
+    - 1
+    - 1
+    - 652
+
+  # Team 2
+  -
+    - 2
+    - 3
+    - 608
+  -
+    - 2
+    - 4
+    - 649
+  -
+    - 2
+    - 3
+    - 661

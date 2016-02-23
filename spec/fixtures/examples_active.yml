@@ -1,4 +1,5 @@
 ---
+# Renndaten: 2 Fahrer in 2 Teams fahren jeweils abwechselnd 1-2-1
 :mode: both
 :events:
   # Team 1
@@ -40,13 +41,21 @@
   -
     - 1
     - 1
-    - 1200
-    - leaving
+    - 1150
+    - arriving
+
   -
     - 2
-    - 4
-    - 1212
+    - 3
+    - 1151
+    - arriving
+
+  -
+    - 1
+    - 2
+    - 1200
     - leaving
+
 :turns:
   # Team 1
   -
@@ -56,14 +65,10 @@
   -
     - 1
     - 2
-    - 610
+    - 650
 
   # Team 2
   -
     - 2
     - 3
     - 608
-  -
-    - 2
-    - 4
-    - 649

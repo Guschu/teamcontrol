@@ -18,6 +18,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
+        Turn.for_event(@event).save! if @event.leaving?
         format.html { redirect_to [@race, :events], notice: I18n.t(:create, scope: 'messages.crud', model: Event.model_name.human) }
       else
         format.html { redirect_to [@race, :events], alert: 'Event konnte nicht angelegt werden' }

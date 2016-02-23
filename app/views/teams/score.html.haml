@@ -1,6 +1,26 @@
+- if @race.active?
+  .row
+    .col-xs-6.col-md-4
+      .panel.panel-info.card
+        .panel-body
+          .text-center.text-large
+            = fa_icon 'clock-o', class:'text-muted'
+            %span.timer{ data:{ mode:'timer', start:@race.started_at.to_time.to_i*1000 } }= time_format @race.race_time.utc
+        .panel-footer
+          %h4.panel-title.text-center Rennzeit
+    .col-xs-6.col-md-4
+      .panel.panel-info.card
+        .panel-body
+          .text-center.text-large
+            = fa_icon 'arrow-circle-o-right', class:'text-muted'
+            %span.timer{ data:{ mode:'countdown', duration:@race.duration*60, start:@race.started_at.to_time.to_i*1000 } }
+        .panel-footer
+          %h4.panel-title.text-center Rest
+    .col-md-4.hidden-xs.hidden-sm
+      - if @team.logo.exists?
+        = image_tag @team.logo.url(:large), class:'pull-right'
+
 %h1
-  - if @team.logo.exists?
-    = image_tag @team.logo.url(:large), class:'pull-right'
   = @team.name
 
 - st = @team.to_stats
@@ -8,8 +28,8 @@
   %thead
     %tr
       %th Fahrer
-      %th.text-right Letzte Fahrzeit
       %th.text-right Aktuelle Fahrzeit
+      %th.text-right Letzte Fahrzeit
       %th.text-right Fahrpause
       %th.text-right Gesamtzeit
       %th.text-right Anzahl Fehler
@@ -20,16 +40,21 @@
       %tr
         %th= att.driver.name
         %td.text-right
+          - if @race.active? && att.driver_id == st.current_driver_id
+            %span.timer{ data:{ mode:'timer', start:(Time.now - sd.current_drive_time).to_i*1000, warning:@race.max_turn*60, error:(@race.max_turn+@race.waiting_period)*60 } }= seconds_format sd.current_drive_time
+          - else
+            –
+        %td.text-right
           - if att.driver_id == st.current_driver_id
             –
           - else
             = seconds_format sd.last_drive_time
         %td.text-right
-          - if att.driver_id == st.current_driver_id
-            %span.timer{ data:{ mode:'timer', start:(Time.now - sd.current_drive_time).to_i*1000, warning:@race.max_turn*60, error:(@race.max_turn+@race.waiting_period)*60 } }= seconds_format sd.current_drive_time
-          - else
+          - if @race.planned? || @race.finished? || att.driver_id == st.current_driver_id
             –
-        %td.text-right n/a
+          - else
+            %span.timer{ data:{ mode:'countdown', start:(Time.now - sd.last_break_time).to_i*1000, duration:@race.break_time*60 } }= seconds_format sd.last_break_time
+
         %td.text-right= seconds_format sd.total_drive_time
         %td.text-right n/a
 
@@ -42,10 +67,41 @@
       %td.text-right= seconds_format @team.to_stats.total_drive_time
       %td.text-right
 
+%h2.subheader Rennen und Team
+
 .row
   .col-md-4
     .panel.panel-default.panel-info.panel-compact
-      .panel-heading Stammdaten
+      .panel-heading
+        %h3.panel-title Über das Rennen
+      %table.table
+        %colgroup
+          %col{ width:'50%' }
+          %col
+        %tbody
+          %tr
+            %th= Race.human_attribute_name :state
+            %td= t @race.state, scope:'race.states'
+          %tr
+            %th= Race.human_attribute_name :duration
+            %td= minutes_to_time @race.duration
+          %tr
+            %th= Race.human_attribute_name :max_drive
+            %td= minutes_to_time @race.max_drive
+          %tr
+            %th= Race.human_attribute_name :min_turn
+            %td= minutes_to_time @race.min_turn
+          %tr
+            %th= Race.human_attribute_name :max_turn
+            %td= minutes_to_time @race.max_turn
+          %tr
+            %th= Race.human_attribute_name :break_time
+            %td= minutes_to_time @race.break_time
+
+  .col-md-4
+    .panel.panel-default.panel-info.panel-compact
+      .panel-heading
+        %h3.panel-title Über das Team
       %table.table
         %colgroup
           %col{ width:'50%' }
@@ -61,16 +117,11 @@
             %th= Team.human_attribute_name :team_token
             %td
               = external_link_to @team
-          %tr
-            %th= Team.human_attribute_name :created_at
-            %td= l @team.created_at
-          %tr
-            %th= Team.human_attribute_name :updated_at
-            %td= l @team.updated_at
 
   .col-md-4
     .panel.panel-default.panel-info.panel-compact
-      .panel-heading Fahrer
+      .panel-heading
+        %h3.panel-title Fahrer
       %table.table
         %colgroup
           %col{ width:'50%' }
@@ -79,12 +130,13 @@
           - @team.attendances.includes(:driver).each do |attendance|
             %tr
               %td
-                - if attendance.is_unassigned?
-                  %span.label.label-danger.pull-right{ title:'Tag-Zuordnung fehlt', data:{toggle:'tooltip', placement:'bottom'} } Tag!
                 = fa_icon 'user'
                 = attendance.driver.name
               %td.text-right
-                n/a
+                - if attendance.is_unassigned?
+                  %span.label.label-danger{ title:'Tag-Zuordnung fehlt', data:{toggle:'tooltip', placement:'bottom'} } Tag!
+                - else
+                  %span.label.label-success OK
 
 - content_for :bottom do
   :coffee

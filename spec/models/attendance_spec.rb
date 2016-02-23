@@ -71,8 +71,8 @@ RSpec.describe Attendance, type: :model do
     Timecop.travel 10.minutes
     expect(team.events.arriving.count).to eq 2
     expect(team.events.leaving.count).to eq 2
-    expect(team.to_stats.current_driver_id).to eq att2.driver_id
-    expect(team.to_stats.last_driver_id).to eq att1.driver_id
+    expect(team.to_stats.current_driver_id).to be_nil
+    expect(team.to_stats.last_driver_id).to eq att2.driver_id
     expect(Turn.for_team(team).count).to eq 2
   end
 end
