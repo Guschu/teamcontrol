@@ -9,3 +9,7 @@ de:
         token: Kennung
         created_at: Angelegt am
         updated_at: Bearbeitet am
+    errors:
+      models:
+        station:
+          hex_only: 'Erlaubte Zeichen: 0-9, A-F'
