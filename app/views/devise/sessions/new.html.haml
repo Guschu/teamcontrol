@@ -3,8 +3,9 @@
     %ul.nav.nav-tabs{ role:'tablist' }
       %li.active{ role:'presentation' }
         %a{ href:'#login', data:{ toggle:'tab' } } Anmeldung
-      %li{ role:'presentation' }
-        %a{ href:'#team', data:{ toggle:'tab' } } Team Token
+      - if current_race?
+        %li{ role:'presentation' }
+          %a{ href:'#team', data:{ toggle:'tab' } } Team Token
 
     .tab-content
       #login.tab-pane.fade.in.active{ role:'tabpanel' }
@@ -20,12 +21,13 @@
 
           = render "devise/shared/links"
 
-      #team.tab-pane.fade{ role:'tabpanel' }
-        .content
-          %p Mit deinem Team Token kannst du auf die Ergebnisse deines Teams zugreifen.
+      - if current_race?
+        #team.tab-pane.fade{ role:'tabpanel' }
+          .content
+            %p Mit deinem Team Token kannst du auf die Ergebnisse deines Teams zugreifen.
 
-          = simple_form_for(Team.new, url: handle_team_login_race_teams_path(current_race)) do |f|
-            = f.input :team_token, input_html:{ class:'monospace' }, placeholder:'ABCDEFGHIJ', hint:'8-stellige Kombination von Buchstaben und Zahlen'
-            = f.button :submit, t('.login')
+            = simple_form_for(Team.new, url: handle_team_login_race_teams_path(current_race)) do |f|
+              = f.input :team_token, input_html:{ class:'monospace' }, placeholder:'ABCDEFGHIJ', hint:'8-stellige Kombination von Buchstaben und Zahlen'
+              = f.button :submit, t('.login')
 
 

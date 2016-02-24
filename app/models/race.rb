@@ -77,6 +77,10 @@ class Race < ActiveRecord::Base
     Event.where(team_id: teams.select(:id))
   end
 
+  def penalties
+    Penalty.where(team_id: teams.select(:id))
+  end
+
   def race_duration
     return 0 unless active?
     return finished_at.to_time - started_at.to_time if finished?

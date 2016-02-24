@@ -27,12 +27,30 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: $footer-height;
+
+  &.public {
+    margin-bottom: 0;
+  }
 }
 
 .main {
   padding-top: 60px;
   padding-bottom: 40px;
   background-color: white;
+}
+
+.public {
+  .main {
+    padding: 10px 0;
+  }
+
+  .content {
+    margin: 0;
+  }
+
+  .panel {
+    margin-bottom: 10px;
+  }
 }
 
 .navbar-inverse {

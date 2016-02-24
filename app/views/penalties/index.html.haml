@@ -1,0 +1,49 @@
+= render partial:'races/header'
+
+.content
+  .row
+    .col-md-9
+      %table.table.table-striped
+        %colgroup
+          %col{ width:'20%' }
+          %col
+          %col{ width:'15%' }
+          %col{ width:'15%' }
+        %thead
+          %tr
+            %th= sort_link @q, :team_id, 'Team'
+            %th= sort_link @q, :driver_id, 'Name'
+            %th= Penalty.human_attribute_name :reason
+            %th= sort_link @q, :created_at
+
+        - if @penalties.any?
+          %tbody
+            - @penalties.each do |penalty|
+              %tr
+                %td= link_to penalty.team.name, [@race, penalty.team]
+                %td= penalty.driver.name
+                %td= penalty.reason
+                %td= l penalty.created_at
+        - else
+          %tbody
+            %tr
+              %td{ colspan:4 }
+                %p.text-center Zu diesem Rennen gibt es noch keine Event-Daten.
+
+      = paginate @penalties
+
+    .col-md-3
+      .panel.panel-secondary
+        .panel-heading
+          %h3.panel-title Suche
+        = search_form_for @q, url:race_penalties_path(@race), class:'simple_form' do |f|
+          .panel-body
+            .form-group.select
+              = f.label :team_id_eq, class:'select control-label'
+              = f.select :team_id_eq, options_from_collection_for_select(@race.teams.order(:name), :id, :name), { include_blank:true }, class:'select form-control input-sm'
+            .form-group.select
+              = f.label :driver_id_eq, class:'select control-label'
+              = f.select :driver_id_eq, options_from_collection_for_select(@race.drivers.order(:name), :id, :name), { include_blank:true }, class:'select form-control input-sm'
+          .panel-footer
+            = f.submit 'Suchen', class:'btn btn-secondary'
+            = link_to 'Zurücksetzen', race_penalties_path(@race), class:'btn btn-text'

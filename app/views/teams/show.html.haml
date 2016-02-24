@@ -46,7 +46,7 @@
       %td.text-right= seconds_format @team.to_stats.total_drive_time
       %td.text-right
 
-%h2.subheader Strafen
+%h2.subheader Vergehen
 
 %table.table.table-striped
   %colgroup
@@ -114,8 +114,6 @@
           - @team.attendances.includes(:driver).each do |attendance|
             %tr
               %td
-                - if attendance.is_unassigned?
-                  %span.label.label-danger.pull-right{ title:'Tag-Zuordnung fehlt', data:{toggle:'tooltip', placement:'bottom'} } Tag!
                 = fa_icon 'user'
                 = attendance.driver.name
               %td.text-right

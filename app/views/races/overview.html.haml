@@ -4,6 +4,10 @@
       .form-group
         %label.control-label{ for:'search' } Filter
         %input.form-control.input-sm#search{ type:'search', placeholder:'Teamname', autocomplete:'off' }
+  %li.pull-right
+    = link_to public_overview_race_path(@race), target:'_blank' do
+      = fa_icon 'television'
+      Externe Ansicht
 
 = render partial:'header'
 

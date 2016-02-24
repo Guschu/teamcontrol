@@ -27,6 +27,7 @@
 class RacesController < ApplicationController
   include RacesHelper
   before_action :set_race, except: [:index, :current, :new, :create]
+  skip_before_filter :authenticate_user!, only:[:current, :public_overview]
 
   # GET /races
   # GET /races.json
@@ -66,6 +67,11 @@ class RacesController < ApplicationController
 
   # GET /races/1/overview
   def overview
+  end
+
+  # GET /races/1/public_overview
+  def public_overview
+    render layout:'public'
   end
 
   # GET /races/1/settings

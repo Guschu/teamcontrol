@@ -32,7 +32,7 @@
       %th.text-right Letzte Fahrzeit
       %th.text-right Fahrpause
       %th.text-right Gesamtzeit
-      %th.text-right Anzahl Fehler
+      %th.text-right Anzahl Vergehen
   %tbody
     - s = @team.to_stats.group_by_driver
     - @team.attendances.includes(:driver).each do |att|

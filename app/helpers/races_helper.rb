@@ -26,7 +26,7 @@
 
 module RacesHelper
   def current_race?
-    session.key?(:current_race) || Race.current_race?
+    current_race.present?
   end
 
   def current_race

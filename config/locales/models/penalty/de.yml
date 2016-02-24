@@ -1,0 +1,13 @@
+de:
+  activerecord:
+    models:
+      penalty:
+        one: Vergehen
+        other: Vergehen
+    attributes:
+      penalty:
+        team_id: Team
+        driver_id: Fahrer
+        reason: Begründung
+        created_at: Angelegt am
+        updated_at: Bearbeitet am

@@ -4,7 +4,7 @@
 ul[class*="block-grid-"] {
   display: block;
   list-style-type: none;
-  margin: -$padding-small-horizontal/2;
+  margin: -$padding-small-horizontal;
   padding: 0;
 
   &:before, &:after {
@@ -20,7 +20,7 @@ ul[class*="block-grid-"] {
     list-style: none;
     display: block;
     margin: 0;
-    padding: $padding-small-vertical/2 $padding-small-horizontal/2;
+    padding: $padding-small-vertical/2 $padding-small-horizontal;
     height: auto;
     float: left;
   }

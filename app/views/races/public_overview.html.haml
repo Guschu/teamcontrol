@@ -33,20 +33,23 @@
         .panel-footer
           %h4.panel-title.text-center Anzahl aktive Fahrer
 
-%ul.nav.nav-tabs
-  = nav_link_to overview_race_path(@race) do
-    = fa_icon 'tachometer'
-    Aktueller Stand
-  = nav_link_to race_teams_path(@race) do
-    = fa_icon 'users'
-    Teams
-  = nav_link_to race_events_path(@race) do
-    = fa_icon 'info-circle'
-    Events
-  = nav_link_to race_penalties_path(@race) do
-    = fa_icon 'gavel'
-    Vergehen
-  = nav_link_to settings_race_path(@race) do
-    = fa_icon 'wrench'
-    Einstellungen
-  = yield :subnav
+.content
+  %ul.block-grid-xs-2.block-grid-sm-4.block-grid-md-6.block-grid-lg-8
+    - stats = @race.to_stats.group_by_team
+    - @race.teams.includes(:attendances, :events).each do |team|
+      %li.team{ data:{ name:team.name.downcase } }
+        = render partial:'teams/team', locals:{ race:@race, team:team, stats:stats[team.id] }
+
+- content_for :bottom do
+  :coffee
+    $ ->
+      $(document).on 'timer:error', (evt, diff) ->
+        $(evt.target).toggleClass 'error', true
+        $(evt.target).closest('.panel').removeClass('panel-secondary panel-info').addClass('panel-danger')
+      $(document).on 'timer:warning', (evt, diff) ->
+        $(evt.target).toggleClass 'warning', true
+      $('#search').keyup ->
+        $('.team').show()
+        if $(this).val() != ''
+          $('.team').not('[data-name*="' + $(this).val() + '"]').hide()
+

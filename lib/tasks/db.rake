@@ -16,7 +16,7 @@ namespace :db do
     task :active do
       race = FactoryGirl.create :race, :started, name: 'race4hospiz 2016', started_at: 100.minutes.ago
       teams = []
-      16.times do
+      38.times do
         teams << FactoryGirl.create(:team, race: race)
       end
 
