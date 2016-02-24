@@ -78,10 +78,12 @@ class Team < ActiveRecord::Base
 
   def batch_create_drivers!
     (@batch_create_drivers || '').lines.each do |line|
-      line.chomp!
-      d = Driver.find_or_create_by(name: line)
-      unless attendances.where(driver_id: d.id).any?
-        attendances.build(driver_id: d.id)
+      l = line.chomp
+      unless l.empty?
+        d = Driver.find_or_create_by(name: l)
+        unless attendances.where(driver_id: d.id).any?
+          attendances.build(driver_id: d.id)
+        end
       end
     end
   end

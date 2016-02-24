@@ -145,9 +145,13 @@ RSpec.describe TeamsController, type: :controller do
 
   describe 'POST create' do
     context 'with valid data' do
-      subject { post :create, race_id: race.slug, team: attributes_for(:team) }
-
+      subject { post :create, race_id: race.slug, team: attributes_for(:team).merge(batch_create_drivers:"Herr David\r\nHerr Christian") }
+      
       it_behaves_like 'a successful create request'
+
+      it 'created two drivers' do
+        expect{ subject }.to change{ Driver.count }.by(2)
+      end
     end
 
     context 'with invalid data' do
@@ -155,6 +159,16 @@ RSpec.describe TeamsController, type: :controller do
 
       it 'fails' do
         expect { subject }.to raise_error ActionController::ParameterMissing
+      end
+    end
+
+    context 'with invalid batch data' do
+      subject { post :create, race_id: race.slug, team: attributes_for(:team).merge(batch_create_drivers:"\r\n\r\nHerr David\r\nHerr Christian\r\n\r\nDummy User\r\n\r\n") }
+
+      it_behaves_like 'a successful create request'
+
+      it 'creates three drivers' do
+        expect { subject }.to change{ Driver.count }.by(3)
       end
     end
   end
