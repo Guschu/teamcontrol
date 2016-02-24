@@ -23,7 +23,7 @@ RSpec.describe Station, type: :model do
     expect(station).not_to be_valid
     expect(station.errors[:token]).to eq [
       'muss ausgefüllt werden',
-      'nur Hex',
+      'Erlaubte Zeichen: 0-9, A-F',
       'hat die falsche Länge (muss genau 12 Zeichen haben)'
     ]
   end

@@ -13,7 +13,7 @@
 #
 
 class Station < ActiveRecord::Base
-  validates :token, presence: true, format: { with: /\A\h+\z/, message: 'nur Hex' }, length: { is: 12 }, uniqueness: true
+  validates :token, presence: true, format: { with: /\A\h+\z/, message: :hex_only }, length: { is: 12 }, uniqueness: true
   before_validation :convert_token
 
   private
