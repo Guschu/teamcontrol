@@ -40,12 +40,14 @@ FactoryGirl.define do
 
     trait :started do
       started_at { scheduled.to_datetime.change(hour: 9) }
+      allow_booking true
       state :active
     end
 
     trait :finished do
       started_at { scheduled.to_datetime.change(hour: 9) }
       finished_at { started_at + duration.minutes }
+      allow_booking true
       state :finished
     end
 

@@ -18,6 +18,7 @@
 #  started_at     :datetime
 #  finished_at    :datetime
 #  min_turn       :integer
+#  allow_booking  :boolean          default(FALSE)
 #
 # Indexes
 #
@@ -48,6 +49,7 @@ class Race < ActiveRecord::Base
     event :start do
       after do
         self.started_at = Time.zone.now
+        self.allow_booking = true
       end
       transitions from: :planned, to: :active
     end
