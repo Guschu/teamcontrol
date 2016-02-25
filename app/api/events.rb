@@ -28,39 +28,21 @@ class Events < Grape::API
       return
     end
 
+    # driver_id, team_id
+
     attendances = Attendance.where(team_id: race.teams.select(:id))
+
     if a = attendances.where(tag_id: params[:id]).first
-      case race.aasm.current_state
-      when :planned
-        if race.both?
-          existing_events = race.events.where(team_id: a.team_id)
-          if existing_events.empty?
-            logger.info "Creating event for driver #{a.driver.name}"
-            evt = a.create_event
-            present ApiResponse.success 'Buchung angelegt', "#{a.driver.name} #{I18n.t evt.mode, scope: 'event.modes'}"
-          else
-            logger.warn "Pre-race event for #{a.team.name} already exists"
-            status 406
-            present ApiResponse.error 'Vorabbuchung besteht bereits', "#{a.team.name} / #{a.driver.name}"
-          end
-        else
-          logger.warn 'Race mode :leaving does not allow events before race is started'
-          status 406
-          present ApiResponse.error 'Keine Vorabbuchung in diesem Rennen', "Nicht möglich"
-        end
-      when :active
-        logger.info "Creating event for driver #{a.driver.name}"
-        evt = a.create_event
+      evt = Event.create driver_id: a.driver_id, team_id: a.team_id
+      if evt.errors.empty?
+        status 200
         present ApiResponse.success 'Buchung angelegt', "#{a.driver.name} #{I18n.t evt.mode, scope: 'event.modes'}"
-      when :finished
-        logger.warn "Can't create event, race is finished"
-        status 406
-        present ApiResponse.error 'Rennen ist beendet', "Nicht möglich"
       else
-        logger.error "Unexpected race state #{race.state}"
-        status 500
-        present ApiResponse.error 'Allgemeiner Fehler', "Nicht möglich"
+        logger.info evt.errors.full_messages.to_sentence
+        status 406
+        present ApiResponse.error evt.errors.full_messages.to_sentence, "#{a.team.name} / #{a.driver.name}"
       end
+
     else
       if a = attendances.unassigned.first
         logger.info "Assigning tag_id to driver #{a.driver.name}"

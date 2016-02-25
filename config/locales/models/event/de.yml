@@ -15,6 +15,7 @@ de:
         event:
           must_be_different_to_predecessor: muss unterschiedlich zum Vorgänger sein
           cant_leave_before_start: "'gehend' kann nicht vor dem Start erfolgen"
+          race_does_not_allow_booking: Das Rennen erlaubt noch keine Buchungen
   event:
     modes:
       leaving: geht

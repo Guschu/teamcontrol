@@ -62,7 +62,7 @@ RSpec.describe Events, type: :request do
       let(:attendance) { create :attendance, tag_id: '000000000000', team: team }
 
       it 'creates event data if race mode is :both' do
-        @race = create :race, mode: :both
+        @race = create :race, mode: :both, allow_booking: true
         post '/api/v1/event', { id: attendance.tag_id }, headers
         expect(response).to be_success
 
@@ -87,6 +87,20 @@ RSpec.describe Events, type: :request do
         expect(data['message']).not_to be_blank
 
         expect(team.events.count).to eq 1
+      end
+
+      it 'denies events if race mode is :both and booking is not allowed' do
+        @race = create :race, mode: :both
+        post '/api/v1/event', { id: attendance.tag_id }, headers
+        expect(response).to_not be_success
+
+        data = JSON.parse(response.body)
+        expect(data.keys).to eq allowed_response_keys
+        expect(data['status']).to eq 'error'
+        expect(data['title']).not_to be_blank
+        expect(data['message']).not_to be_blank
+        expect(data['title']).to eq 'das Rennen erlaubt noch keine Buchungen'
+        expect(team.events.count).to eq 0
       end
 
       it 'denies events if race mode is :leaving' do
