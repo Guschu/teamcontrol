@@ -32,6 +32,7 @@ class Event < ActiveRecord::Base
 
   validates :team_id, :driver_id, :mode, presence: true
   validate :valid_sequence
+  validate :prebooking_validation
 
   before_validation :set_mode
   before_create :create_turn
@@ -67,10 +68,14 @@ class Event < ActiveRecord::Base
     @events ||= Event.where(team_id:self.team_id, driver_id:self.driver_id).order('created_at asc')
   end
 
-  def valid_sequence
-    if race.mode.to_sym == :both && !race.active?
+  def prebooking_validation
+    if race.mode.to_sym == :both && race.planned?
+      errors.add(:base, :prebooking_already_exist) if Event.where(team_id: self.team_id).exists?
       errors.add(:base, :prebooking_is_not_open) unless race.prebooking_open?
     end
+  end
+
+  def valid_sequence
     errors.add(:mode, :cant_leave_before_start) if self.leaving? && race.planned?
     if race.both?
       if similar_events.any?
