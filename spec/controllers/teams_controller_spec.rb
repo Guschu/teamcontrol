@@ -146,7 +146,7 @@ RSpec.describe TeamsController, type: :controller do
   describe 'POST create' do
     context 'with valid data' do
       subject { post :create, race_id: race.slug, team: attributes_for(:team).merge(batch_create_drivers:"Herr David\r\nHerr Christian") }
-      
+
       it_behaves_like 'a successful create request'
 
       it 'created two drivers' do
@@ -175,22 +175,17 @@ RSpec.describe TeamsController, type: :controller do
 
   describe 'PATCH update' do
     context 'remove Driver from Team' do
-      context 'without events on driver and team'
+      context 'without events on driver and team' do
         let(:race) { create :race, prebooking_open:true }
         let(:team) { create :team, race:race }
         let!(:attendance) { create :attendance, team:team }
-        
-        it 'should success' do
 
-        end
+        it 'should success'
       end
+
       context 'with Event should Fail' do
-        it 'should be redirected to edit' do
-
-        end
-        it 'should not throw an Error' do
-
-        end
+        it 'should be redirected to edit'
+        it 'should not throw an Error'
       end
     end
   end

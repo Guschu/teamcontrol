@@ -41,23 +41,27 @@ RSpec.describe Attendance, type: :model do
     context 'without event' do
       let(:race) { create :race, prebooking_open:true }
       let(:team) { create :team, race:race }
-      let(:attendance) { create :attendance }
 
       it 'is possible' do
-        expect(attendance.destroy).not_to be_persisted
-        expect(attendance.destroy).to be_destroyed
+        att = create :attendance, team:team
+
+        expect(Event.where(team_id:att.team_id, driver_id:att.driver_id).count).to eq 0
+        expect{ att.destroy! }.not_to raise_error
+        expect(Attendance.where(team_id:att.team_id, driver_id:att.driver_id).count).to eq 0
       end
     end
 
     context 'with event' do
       let(:race) { create :race, prebooking_open:true }
       let(:team) { create :team, race:race }
-      let(:attendance) { create :attendance, team:team }
 
       it 'is not possible' do
-        event = create :event, team: attendance.team, driver: attendance.driver
+        att = create :attendance, team:team
+        att.create_event
 
-        expect(attendance.destroy).not_to be_destroyed
+        expect(Event.where(team_id:att.team_id, driver_id:att.driver_id).count).to eq 1
+        expect(att.destroy).to be_falsy
+        expect(Attendance.where(team_id:att.team_id, driver_id:att.driver_id).count).to eq 1
       end
     end
   end

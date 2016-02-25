@@ -25,7 +25,7 @@ class Attendance < ActiveRecord::Base
   belongs_to :team, counter_cache: true
   belongs_to :driver
 
-  scope :unassigned, -> { where('tag_id IS NULL OR tag_id=""') }
+  scope :unassigned, -> { where('tag_id IS NULL OR tag_id=?', '') }
 
   def is_unassigned?
     tag_id.blank?
@@ -36,13 +36,11 @@ class Attendance < ActiveRecord::Base
   end
 
   def destroy
-    super if may_destroy?
+    return false unless may_destroy?
+    super
   end
 
   def may_destroy?
-    if Event.where(team_id: self.team_id, driver_id: self.driver_id).exists?
-      return false
-    end
-    true
+    !Event.where(team_id: self.team_id, driver_id: self.driver_id).exists?
   end
 end
