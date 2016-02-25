@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160223192004) do
+ActiveRecord::Schema.define(version: 20160225085636) do
 
   create_table "attendances", force: :cascade do |t|
     t.integer  "team_id",    limit: 4
@@ -75,8 +75,8 @@ ActiveRecord::Schema.define(version: 20160223192004) do
     t.integer  "max_turn",       limit: 4
     t.integer  "break_time",     limit: 4
     t.integer  "waiting_period", limit: 4
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.string   "slug",           limit: 255
     t.integer  "state",          limit: 4,   default: 0
     t.integer  "mode",           limit: 4,   default: 0
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20160223192004) do
     t.datetime "started_at"
     t.datetime "finished_at"
     t.integer  "min_turn",       limit: 4
+    t.boolean  "allow_booking",              default: false
   end
 
   add_index "races", ["mode"], name: "index_races_on_mode", using: :btree
