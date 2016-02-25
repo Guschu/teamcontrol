@@ -124,7 +124,6 @@ RSpec.describe Events, type: :request do
       it 'creates event data' do
         post '/api/v1/event', { id: attendance.tag_id }, headers
         expect(response).to be_success
-
         data = JSON.parse(response.body)
         expect(data.keys).to eq allowed_response_keys
         expect(data['status']).to eq 'success'

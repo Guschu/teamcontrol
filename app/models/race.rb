@@ -49,7 +49,6 @@ class Race < ActiveRecord::Base
     event :start do
       after do
         self.started_at = Time.zone.now
-        self.prebooking_open = true
       end
       transitions from: :planned, to: :active
     end
