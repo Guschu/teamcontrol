@@ -14,7 +14,6 @@
     defaults:
       mode: 'timer'  # timer or countdown
       show_seconds: true
-      interval: 1000 # 1 second update interval
       duration: 0    # required for countdown
       warning: 0     # triggers timer:warning when timer diff > value
       error: 0       # triggers timer:error when timer diff > value
@@ -24,15 +23,13 @@
       @options = $.extend({}, @defaults, @$el.data(), options)
       @options.show_seconds = (@options.show_seconds == true || @options.show_seconds == 'true')
       @start = if @options.start? then @options.start else Date.now()
-      @update()
-      @setInterval()
+      $(document).on 'timer:heartbeat', $.proxy((evt, now) ->
+          @update(now)
+        , @)
+      @update(Date.now())
 
-    setInterval: ->
-      cb = @update.bind @
-      setInterval cb, @options.interval
-
-    update: ->
-      current = if @options.current? then @options.current else Date.now()
+    update: (now) ->
+      current = if @options.current? then @options.current else now
       switch @options.mode
         when 'timer'
           diff = ((current - @start) / 1000) | 0
@@ -91,3 +88,6 @@
 
 $ ->
   $('.timer').timer()
+  timerHeartbeat = setInterval(->
+    $(document).trigger 'timer:heartbeat', Date.now()
+  , 1000)
