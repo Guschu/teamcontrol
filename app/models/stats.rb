@@ -103,7 +103,6 @@ class Stats
     now = Time.zone.now.to_i
     evt = @events.reverse_each.find { |e| e[3] == 'leaving' }
     return now - evt[2] if evt.present?
-    0
   end
 
   def last_driver

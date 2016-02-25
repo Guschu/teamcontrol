@@ -53,7 +53,10 @@
           - if @race.planned? || @race.finished? || att.driver_id == st.current_driver_id
             –
           - else
-            %span.timer{ data:{ mode:'countdown', start:(Time.now - sd.last_break_time).to_i*1000, duration:@race.break_time*60 } }= seconds_format sd.last_break_time
+            - if sd.last_break_time.present?
+              %span.timer{ data:{ mode:'countdown', start:(Time.now - sd.last_break_time).to_i*1000, duration:@race.break_time*60 } }= seconds_format sd.last_break_time
+            - else
+              –
 
         %td.text-right= seconds_format sd.total_drive_time
         %td.text-right= sd.penalty_count

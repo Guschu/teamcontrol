@@ -35,7 +35,7 @@ class Penalty < ActiveRecord::Base
     case evt.mode.to_sym
     when :arriving
       # Unterschreitung der Pausenzeit
-      if s.last_break_time > 0 && s.last_break_time < race.break_time * 60
+      if s.last_break_time.present? && s.last_break_time < race.break_time * 60
         penalty = Penalty.new val.merge( reason:"Unterschreitung der Pausenzeit: #{Time.at(s.last_break_time).utc.strftime('%H:%M:%S')}" )
       end
     when :leaving
