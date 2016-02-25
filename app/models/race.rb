@@ -54,6 +54,7 @@ class Race < ActiveRecord::Base
 
     event :finish do
       after do
+        create_events_on_finish
         self.finished_at = Time.zone.now
       end
       transitions from: :active, to: :finished
@@ -75,6 +76,17 @@ class Race < ActiveRecord::Base
 
   def events
     Event.where(team_id: teams.select(:id))
+  end
+
+  def create_events_on_finish
+    active_drivers = to_stats
+      .group_by_team
+      .reject{|team_id, stats| stats.current_driver_id.nil? }
+      .map{|team_id, stats| [team_id, stats.current_driver_id] }
+
+    active_drivers.each do |team_id, driver_id|
+      Event.create team_id:team_id, driver_id:driver_id
+    end
   end
 
   def penalties

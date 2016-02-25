@@ -46,7 +46,7 @@ class Stats
   def current_driver
     id = current_driver_id
     return if id.nil?
-    Driver.where(id: id).first
+    Driver.find(id) rescue nil
   end
 
   def current_driver_id
@@ -109,7 +109,7 @@ class Stats
   def last_driver
     id = last_driver_id
     return if id.nil?
-    Driver.where(id: id).first
+    Driver.find(id) rescue nil
   end
 
   def last_driver_id

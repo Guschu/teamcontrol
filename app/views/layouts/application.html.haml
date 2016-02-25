@@ -7,6 +7,7 @@
     = favicon_link_tag 'apple-touch-icon-128x128.png', rel: 'apple-touch-icon', type: 'image/png'
     = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags
+    = yield :head
   %body
     %header
       = render 'layouts/navigation'
