@@ -22,6 +22,18 @@
 
 require 'rails_helper'
 
+RSpec::Matchers.define :be_successfully_created do
+  match do |actual|
+    actual.persisted? && actual.errors.empty?
+  end
+end
+
+RSpec::Matchers.define :be_created_with_errors do
+  match do |actual|
+    actual.new_record? && actual.errors.present?
+  end
+end
+
 RSpec.describe Event, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:team).class_name('Team') }
@@ -57,14 +69,12 @@ RSpec.describe Event, type: :model do
 
       # Erster Fahrer
       evt = Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
-      expect(evt.errors).to be_empty
-      expect(evt).to be_persisted
+      expect(evt).to be_successfully_created
 
       # Erster Fahrer nochmal
       Timecop.travel 5.seconds
       evt = Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
-      expect(evt.errors).not_to be_empty
-      expect(evt).to be_new_record
+      expect(evt).to be_created_with_errors
     end
 
     it 'is allowed once per team' do
@@ -72,31 +82,123 @@ RSpec.describe Event, type: :model do
 
       # erster Fahrer in Team 1
       evt = Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
-      expect(evt.errors).to be_empty
-      expect(evt).to be_persisted
+      expect(evt).to be_successfully_created
 
       # zweiter Fahrer des gleichen Teams
       Timecop.travel 5.seconds
       evt = Event.create team_id:attendance2.team_id, driver_id:attendance2.driver_id
-      expect(evt.errors).not_to be_empty
-      expect(evt).to be_new_record
+      expect(evt).to be_created_with_errors
 
       # Fahrer einen anderen Teams
       Timecop.travel 5.seconds
       evt = Event.create team_id:attendance3.team_id, driver_id:attendance3.driver_id
-      expect(evt.errors).to be_empty
-      expect(evt).to be_persisted
+      expect(evt).to be_successfully_created
     end
   end
 
   describe '#create while race active' do
     let(:race) { create :race, :started }
     let(:team) { create :team, race:race }
-    let(:team2) { create :team, race:race }
     let(:attendance) { create :attendance, team:team }
     let(:attendance2) { create :attendance, team:team }
-    let(:attendance3) { create :attendance, team:team2 }
+    let(:attendance3) { create :attendance, team:team }
 
-    it ''
+    it '1st driver arrives at first event' do
+      evt = Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
+      expect(evt).to be_successfully_created
+      expect(evt.arriving?).to be true
+    end
+
+    it '2nd driver arrives at second event' do
+      Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
+
+      Timecop.travel 5.seconds
+      evt = Event.create team_id:attendance2.team_id, driver_id:attendance2.driver_id
+      expect(evt).to be_successfully_created
+      expect(evt.arriving?).to be true
+    end
+
+    it '1st driver leaves at third event' do
+      Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
+
+      Timecop.travel 5.seconds
+      Event.create team_id:attendance2.team_id, driver_id:attendance2.driver_id
+
+      Timecop.travel 5.seconds
+      evt = Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
+      expect(evt).to be_successfully_created
+      expect(evt.leaving?).to be true
+    end
+
+    it '2nd driver leaves at fourth event' do
+      Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
+
+      Timecop.travel 5.seconds
+      Event.create team_id:attendance2.team_id, driver_id:attendance2.driver_id
+
+      Timecop.travel 5.seconds
+      Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
+
+      Timecop.travel 5.seconds
+      evt = Event.create team_id:attendance2.team_id, driver_id:attendance2.driver_id
+      expect(evt).to be_successfully_created
+      expect(evt.leaving?).to be true
+    end
+
+    it '3rd driver arrives at fourth event' do
+      Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
+
+      Timecop.travel 5.seconds
+      Event.create team_id:attendance2.team_id, driver_id:attendance2.driver_id
+
+      Timecop.travel 5.seconds
+      Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
+
+      Timecop.travel 5.seconds
+      evt = Event.create team_id:attendance3.team_id, driver_id:attendance3.driver_id
+      expect(evt).to be_successfully_created
+      expect(evt.arriving?).to be true
+    end
+
+    it '2nd driver leaves at fifth event' do
+      Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
+
+      Timecop.travel 5.seconds
+      Event.create team_id:attendance2.team_id, driver_id:attendance2.driver_id
+
+      Timecop.travel 5.seconds
+      Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
+
+      Timecop.travel 5.seconds
+      evt = Event.create team_id:attendance3.team_id, driver_id:attendance3.driver_id
+
+      Timecop.travel 5.seconds
+      evt = Event.create team_id:attendance2.team_id, driver_id:attendance2.driver_id
+      expect(evt).to be_successfully_created
+      expect(evt.leaving?).to be true
+    end
+
+    it '1st leaves at second event' do
+      Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
+
+      Timecop.travel 5.seconds
+      evt = Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
+      expect(evt).to be_successfully_created
+      expect(evt.leaving?).to be true
+    end
+
+    context 'errors' do
+    end
+  end
+
+  describe '#create while race finished' do
+    let(:race) { create :race, :finished }
+    let(:team) { create :team, race:race }
+    let(:attendance) { create :attendance, team:team }
+
+    it 'does not allow event creation' do
+      evt = Event.create team_id:attendance.team_id, driver_id:attendance.driver_id
+      expect(evt).to be_created_with_errors
+    end
   end
 end

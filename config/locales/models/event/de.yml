@@ -13,6 +13,7 @@ de:
     errors:
       models:
         event:
+          race_is_finished: Das Rennen ist beendet
           must_be_different_to_predecessor: muss unterschiedlich zum Vorgänger sein
           cant_leave_before_start: "'gehend' kann nicht vor dem Start erfolgen"
           prebooking_is_not_open: Das Rennen erlaubt noch keine Buchungen

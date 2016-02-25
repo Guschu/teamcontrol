@@ -69,9 +69,17 @@ class Event < ActiveRecord::Base
   end
 
   def prebooking_validation
-    if race.mode.to_sym == :both && race.planned?
-      errors.add(:base, :prebooking_already_exist) if Event.where(team_id: self.team_id).exists?
-      errors.add(:base, :prebooking_is_not_open) unless race.prebooking_open?
+    if race.both?
+      case race.aasm.current_state
+      when :planned
+        if race.prebooking_open?
+          errors.add(:base, :prebooking_already_exist) if Event.where(team_id: self.team_id).exists?
+        else
+          errors.add(:base, :prebooking_is_not_open)
+        end
+      when :finished
+        errors.add(:base, :race_is_finished)
+      end
     end
   end
 
