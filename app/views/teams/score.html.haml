@@ -96,7 +96,9 @@
             %td= minutes_to_time @race.min_turn
           %tr
             %th= Race.human_attribute_name :max_turn
-            %td= minutes_to_time @race.max_turn
+            %td
+              = minutes_to_time @race.max_turn
+              + #{minutes_to_time @race.waiting_period} Karenz
           %tr
             %th= Race.human_attribute_name :break_time
             %td= minutes_to_time @race.break_time
