@@ -51,6 +51,13 @@
                 %th= Race.human_attribute_name :mode
                 %td= t @race.mode, scope:'race.modes'
               %tr
+                %th= Race.human_attribute_name :allow_booking
+                %td
+                  - if @race.allow_booking
+                    %span.label.label-success{ title:'Keine Buchungen möglich', data:{toggle:'tooltip', placement:'bottom'} } Ja
+                  -else
+                    %span.label.label-danger{ title:'Keine Buchungen möglich', data:{toggle:'tooltip', placement:'bottom'} } Nein
+              %tr
                 %th= Race.human_attribute_name :duration
                 %td= minutes_to_time @race.duration
               %tr
