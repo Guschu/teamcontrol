@@ -34,7 +34,7 @@ RSpec.describe Race, type: :model do
 
   it { should define_enum_for :state }
   it { should define_enum_for :mode }
-
+  
   it 'has events' do
     race = create :race, :started
     team = create :team, race: race

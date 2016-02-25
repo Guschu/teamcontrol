@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160223192004) do
+ActiveRecord::Schema.define(version: 20160225085636) do
 
   create_table "attendances", force: :cascade do |t|
     t.integer  "team_id",    limit: 4
@@ -69,21 +69,22 @@ ActiveRecord::Schema.define(version: 20160223192004) do
   add_index "penalties", ["team_id"], name: "index_penalties_on_team_id", using: :btree
 
   create_table "races", force: :cascade do |t|
-    t.string   "name",           limit: 255
-    t.integer  "duration",       limit: 4
-    t.integer  "max_drive",      limit: 4
-    t.integer  "max_turn",       limit: 4
-    t.integer  "break_time",     limit: 4
-    t.integer  "waiting_period", limit: 4
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.string   "slug",           limit: 255
-    t.integer  "state",          limit: 4,   default: 0
-    t.integer  "mode",           limit: 4,   default: 0
+    t.string   "name",            limit: 255
+    t.integer  "duration",        limit: 4
+    t.integer  "max_drive",       limit: 4
+    t.integer  "max_turn",        limit: 4
+    t.integer  "break_time",      limit: 4
+    t.integer  "waiting_period",  limit: 4
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.string   "slug",            limit: 255
+    t.integer  "state",           limit: 4,   default: 0
+    t.integer  "mode",            limit: 4,   default: 0
     t.date     "scheduled"
     t.datetime "started_at"
     t.datetime "finished_at"
-    t.integer  "min_turn",       limit: 4
+    t.integer  "min_turn",        limit: 4
+    t.boolean  "prebooking_open",             default: false
   end
 
   add_index "races", ["mode"], name: "index_races_on_mode", using: :btree

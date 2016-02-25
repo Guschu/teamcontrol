@@ -6,7 +6,8 @@
     = f.input :mode, as: :radio_buttons, collection:Race.modes.map{|k, _v| [I18n.t(k, scope:'race.modes'), k]}, wrapper_html:{ class:'col-sm-3' }
 
   .row
-    = f.input :scheduled, wrapper_html:{ class:'col-sm-9' }
+    = f.input :prebooking_open, inline_label: true, wrapper_html:{ class:'col-sm-3 col-sm-push-9' }
+    = f.input :scheduled, wrapper_html:{ class:'col-sm-9 col-sm-pull-3' }
 
   .row
     = f.input :duration, hint:'In Minuten', wrapper_html:{ class:'col-sm-3' }

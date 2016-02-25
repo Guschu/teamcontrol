@@ -20,6 +20,7 @@ de:
         finished_at: Rennende
         created_at: Angelegt am
         updated_at: Bearbeitet am
+        prebooking_open: Vorabbuchungen erlaubt
   race:
     states:
       planned: in Planung

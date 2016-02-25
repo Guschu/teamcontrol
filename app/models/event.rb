@@ -68,6 +68,9 @@ class Event < ActiveRecord::Base
   end
 
   def valid_sequence
+    if race.mode.to_sym == :both && !race.active?
+      errors.add(:base, :prebooking_is_not_open) unless race.prebooking_open?
+    end
     errors.add(:mode, :cant_leave_before_start) if self.leaving? && race.planned?
     if race.both?
       if similar_events.any?
