@@ -172,4 +172,26 @@ RSpec.describe TeamsController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH update' do
+    context 'remove Driver from Team' do
+      context 'without events on driver and team'
+        let(:race) { create :race, prebooking_open:true }
+        let(:team) { create :team, race:race }
+        let!(:attendance) { create :attendance, team:team }
+        
+        it 'should success' do
+
+        end
+      end
+      context 'with Event should Fail' do
+        it 'should be redirected to edit' do
+
+        end
+        it 'should not throw an Error' do
+
+        end
+      end
+    end
+  end
 end

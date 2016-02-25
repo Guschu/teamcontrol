@@ -34,4 +34,15 @@ class Attendance < ActiveRecord::Base
   def create_event
     Event.create team_id:self.team_id, driver_id:self.driver_id
   end
+
+  def destroy
+    super if may_destroy?
+  end
+
+  def may_destroy?
+    if Event.where(team_id: self.team_id, driver_id: self.driver_id).exists?
+      return false
+    end
+    true
+  end
 end

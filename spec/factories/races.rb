@@ -37,6 +37,7 @@ FactoryGirl.define do
     waiting_period 3
     state 0
     mode 0
+    prebooking_open false
 
     trait :started do
       started_at { scheduled.to_datetime.change(hour: 9) }

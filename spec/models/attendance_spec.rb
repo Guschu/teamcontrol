@@ -37,6 +37,31 @@ RSpec.describe Attendance, type: :model do
     end
   end
 
+  describe 'destroy an attendance' do
+    context 'without event' do
+      let(:race) { create :race, prebooking_open:true }
+      let(:team) { create :team, race:race }
+      let(:attendance) { create :attendance }
+
+      it 'is possible' do
+        expect(attendance.destroy).not_to be_persisted
+        expect(attendance.destroy).to be_destroyed
+      end
+    end
+
+    context 'with event' do
+      let(:race) { create :race, prebooking_open:true }
+      let(:team) { create :team, race:race }
+      let(:attendance) { create :attendance, team:team }
+
+      it 'is not possible' do
+        event = create :event, team: attendance.team, driver: attendance.driver
+
+        expect(attendance.destroy).not_to be_destroyed
+      end
+    end
+  end
+
   it 'creates events and turns' do
     race = create :race, :started
     team = create :team, race: race
