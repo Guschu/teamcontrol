@@ -138,6 +138,6 @@ class RacesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def race_params
-    params.require(:race).permit :name, :duration, :mode, :max_drive, :max_turn, :min_turn, :break_time, :waiting_period, :scheduled
+    params.require(:race).permit :name, :duration, :mode, :max_drive, :max_turn, :min_turn, :break_time, :waiting_period, :scheduled, :allow_booking
   end
 end
