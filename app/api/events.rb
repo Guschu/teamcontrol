@@ -28,8 +28,6 @@ class Events < Grape::API
       return
     end
 
-    # driver_id, team_id
-
     attendances = Attendance.where(team_id: race.teams.select(:id))
 
     if a = attendances.where(tag_id: params[:id]).first

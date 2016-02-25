@@ -35,16 +35,16 @@ RSpec.describe Race, type: :model do
   it { should define_enum_for :state }
   it { should define_enum_for :mode }
 
-  context 'allow booking' do
+  context 'allow prebooking' do
     subject{ create :race }
 
     it 'to be false in default' do
-      expect(subject).to_not be_allow_booking
+      expect(subject).to_not be_prebooking_open
     end
 
     it 'after race started' do
       subject.start!
-      expect(subject).to be_allow_booking
+      expect(subject).to be_prebooking_open
     end
   end
   

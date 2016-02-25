@@ -51,12 +51,12 @@
                 %th= Race.human_attribute_name :mode
                 %td= t @race.mode, scope:'race.modes'
               %tr
-                %th= Race.human_attribute_name :allow_booking
+                %th= Race.human_attribute_name :prebooking_open
                 %td
-                  - if @race.allow_booking
-                    %span.label.label-success{ title:'Keine Buchungen möglich', data:{toggle:'tooltip', placement:'bottom'} } Ja
+                  - if @race.prebooking_open
+                    %span.label.label-success{ title:'Vorabbuchung noch nicht möglich', data:{toggle:'tooltip', placement:'bottom'} } Ja
                   -else
-                    %span.label.label-danger{ title:'Keine Buchungen möglich', data:{toggle:'tooltip', placement:'bottom'} } Nein
+                    %span.label.label-danger{ title:'Vorabbuchung möglich', data:{toggle:'tooltip', placement:'bottom'} } Nein
               %tr
                 %th= Race.human_attribute_name :duration
                 %td= minutes_to_time @race.duration
