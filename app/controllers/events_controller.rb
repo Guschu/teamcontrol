@@ -9,16 +9,14 @@ class EventsController < ApplicationController
   end
 
   def create
-    if event_params[:driver_id].present?
-      attendance = @race.attendances.where(driver_id: event_params[:driver_id]).first
-      @event = attendance.create_event(mode:event_params[:mode])
-    end
+    attendance = @race.attendances.where(driver_id: event_params[:driver_id]).first
+    @event = Event.new event_params.merge(team_id:attendance.team_id)
 
     respond_to do |format|
-      if @event
+      if @event.save
         format.html { redirect_to [@race, :events], notice: I18n.t(:create, scope: 'messages.crud', model: Event.model_name.human) }
       else
-        format.html { redirect_to [@race, :events], alert: 'Event konnte nicht angelegt werden' }
+        format.html { redirect_to [@race, :events], alert: 'Event konnte nicht angelegt werden: ' << @event.errors.full_messages.to_sentence }
       end
     end
   end

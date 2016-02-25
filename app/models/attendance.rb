@@ -31,30 +31,7 @@ class Attendance < ActiveRecord::Base
     tag_id.blank?
   end
 
-  def create_event(opts = {})
-    val = { team:self.team, driver:self.driver }.merge(opts)
-    val[:mode] ||= case val[:team].race.mode.to_sym
-                   when :leaving then :leaving
-                   when :both
-                     if val[:team].events.where(driver_id:val[:driver].id).count.even?
-                       :arriving
-                     else
-                       :leaving
-                     end
-                   end
-
-    evt = nil
-    Event.transaction do
-      evt = Event.new(val)
-      if turn = Turn.for_event(evt)
-        turn.save!
-      end
-      if penalty = Penalty.for_event(evt)
-        penalty.save!
-        evt.penalty = penalty
-      end
-      evt.save!
-    end
-    evt
+  def create_event
+    Event.create team_id:self.team_id, driver_id:self.driver_id
   end
 end

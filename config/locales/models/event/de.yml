@@ -10,6 +10,11 @@ de:
         mode: Buchungsmodus
         created_at: Angelegt am
         updated_at: Bearbeitet am
+    errors:
+      models:
+        event:
+          must_be_different_to_predecessor: muss unterschiedlich zum Vorgänger sein
+          cant_leave_before_start: "'gehend' kann nicht vor dem Start erfolgen"
   event:
     modes:
       leaving: geht
