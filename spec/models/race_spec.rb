@@ -47,7 +47,7 @@ RSpec.describe Race, type: :model do
       expect(subject).to be_allow_booking
     end
   end
-
+  
   it 'has events' do
     race = create :race, :started
     team = create :team, race: race
