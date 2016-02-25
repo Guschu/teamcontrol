@@ -10,3 +10,12 @@
       %strong TeamControl
       &copy; 2016 Die Software Berater
       %span.text-muted= Teamcontrol::Application.version
+
+- content_for :bottom do
+  :coffee
+    $(document).on 'timer:heartbeat', (evt, now) ->
+      $('footer .fa-heart').transition
+        scale: 1.25
+        complete: ->
+          $(this).transition
+            scale: 1.0

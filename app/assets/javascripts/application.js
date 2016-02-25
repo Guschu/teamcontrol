@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.transit.min
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require confirm
