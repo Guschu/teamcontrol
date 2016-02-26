@@ -109,7 +109,14 @@ class Race < ActiveRecord::Base
   end
 
   def to_stats
-    events = Event.where(team_id: teams.select(:id)).map { |e| [e.team_id, e.driver_id, e.created_at.to_time.utc.to_i, e.mode] }
+    events = Event.where(team_id: teams.select(:id)).map do |e|
+      ts = if self.started_at.present?
+        e.created_at < self.started_at ? self.started_at : e.created_at
+      else
+        e.created_at
+      end
+      [e.team_id, e.driver_id, ts.to_time.utc.to_i, e.mode]
+    end
     turns  = Turn.where(team_id: teams.select(:id)).map { |t| [t.team_id, t.driver_id, t.duration] }
     penalties = Penalty.where(team_id: teams.select(:id)).map { |pe| [pe.team_id, pe.driver_id, pe.created_at.to_time.utc.to_i, pe.reason] }
     Stats.new events, turns, penalties, mode

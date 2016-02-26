@@ -52,10 +52,7 @@ class Team < ActiveRecord::Base
   after_validation :batch_create_drivers!
   before_save :destroy_logo!
 
-  # intentionally returns nothing
-  attr_reader :batch_create_drivers
-
-  attr_writer :batch_create_drivers
+  attr_accessor :batch_create_drivers
 
   def has_unassigned_attendances?
     attendances.unassigned.any?
@@ -68,7 +65,14 @@ class Team < ActiveRecord::Base
   attr_writer :logo_delete
 
   def to_stats
-    events = Event.where(team_id: id).map { |e| [e.team_id, e.driver_id, e.created_at.to_time.utc.to_i, e.mode] }
+    events = Event.where(team_id: id).map do |e|
+      ts = if race.started_at.present?
+        e.created_at < race.started_at ? race.started_at : e.created_at
+      else
+        e.created_at
+      end
+      [e.team_id, e.driver_id, ts.to_time.utc.to_i, e.mode]
+    end
     turns  = Turn.where(team_id: id).map { |t| [t.team_id, t.driver_id, t.duration] }
     penalties = Penalty.where(team_id: id).map { |pe| [pe.team_id, pe.driver_id, pe.created_at.to_time.utc.to_i, pe.reason] }
     Stats.new events, turns, penalties, race.mode
