@@ -59,7 +59,7 @@ Rails.application.configure do
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = false
     config.action_mailer.delivery_method = :sendmail
-    config.action_mailer.default_url_options = { host: 'teamcontrol.apps.software-consultant.net' }
+    config.action_mailer.default_url_options = { host: 'r4h.teamcontrol.de' }
     config.action_mailer.sendmail_settings = { location: 'ssmtp', arguments: '-i' }
   end
 
@@ -89,8 +89,8 @@ Rails.application.configure do
   config.middleware.use ExceptionNotification::Rack,
                         ignore_crawlers: %w(Googlebot bingbot MJ12bot),
                         email: {
-                          email_prefix: '[TC Staging] ',
-                          sender_address: %("Notifier" <notifier@teamcontrol.apps.software-consultant.net>),
+                          email_prefix: '[TC r4h] ',
+                          sender_address: %("Notifier" <notifier@teamcontrol.de>),
                           exception_recipients: %w(domains@software-consultant.net david.eibich@software-berater.net)
                         }
 end
