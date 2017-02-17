@@ -40,12 +40,12 @@ FactoryGirl.define do
     prebooking_open false
 
     trait :started do
-      started_at { scheduled.to_datetime.change(hour: 9) }
+      started_at { Time.now.beginning_of_hour }
       state :active
     end
 
     trait :finished do
-      started_at { scheduled.to_datetime.change(hour: 9) }
+      started_at { (Time.now - duration.minutes).beginning_of_hour }
       finished_at { started_at + duration.minutes }
       state :finished
     end
