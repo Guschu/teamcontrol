@@ -14,7 +14,7 @@ Die TeamControl Software unterstützt das durch folgende Funktionen:
 * Protokollierung der Fahrerwechsel
 * Bereitstellen von sekundengenauen Anzeigen für Teams und Rennleitung
 
-## Dokumentation
+## API Dokumentation
 Die Dokumentation findet sich [hier](doc/docs.md)
 
 ## Aufbau
