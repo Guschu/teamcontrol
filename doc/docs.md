@@ -63,6 +63,10 @@ HTTP-StatusCodes
     - Die Lesestation ist bekannt und die NFC-Tag-Id wurde erfolgreich verarbeitet
     - Es wird ein __status__, eine __message__ und ein __title__ erwartet
     - status = success
+  - 201
+    - Ein Tag wurde mit einem Fahrer verknüpft
+    - Es wird ein __status__, eine __message__ und ein __title__ erwartet
+    - status = success
   - 401
     - Die Lesestation ist nicht bekannt
   - 406
