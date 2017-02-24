@@ -2,7 +2,7 @@ require 'csv'
 
 class TeamsController < ApplicationController
   before_action :set_race
-  before_action :set_team, only: [:show, :edit, :update, :destroy]
+  before_action :set_team, only: [:show, :edit, :move_up, :move_down, :update, :destroy]
   skip_before_filter :authenticate_user!, only: :handle_team_login
   skip_before_filter :authenticate_user!, only: :show, if: :request_by_team_token?
 
@@ -10,6 +10,7 @@ class TeamsController < ApplicationController
   # GET /teams.json
   def index
     @q = @race.teams.ransack(params[:q])
+    @q.sorts = 'position asc' if @q.sorts.empty?
     page = (params[:page] || '1').to_i
     @teams = @q.result.includes(:attendances).page(page)
   end
@@ -41,6 +42,20 @@ class TeamsController < ApplicationController
 
   # GET /teams/1/edit
   def edit
+  end
+
+  def move_up
+    if @team.move_higher
+      flash[:notice] = 'Team wurde hoch sortiert'
+    end
+    redirect_to race_teams_url(@race)
+  end
+
+  def move_down
+    if @team.move_lower
+      flash[:notice] = 'Team wurde tief sortiert'
+    end
+    redirect_to race_teams_url(@race)
   end
 
   # POST /teams/import

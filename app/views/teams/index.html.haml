@@ -10,6 +10,7 @@
           %col{ width:180 }
           %col{ width:110 }
           %col{ width:110 }
+          %col{ width:60 }
           %col{ width:110 }
         %thead
           %tr
@@ -17,6 +18,7 @@
             %th= sort_link @q, :name
             %th= sort_link @q, :team_lead
             %th.text-center= sort_link @q, :attendances_count, 'Anzahl Fahrer'
+            %th
             %th
             %th
 
@@ -38,6 +40,11 @@
                   = link_to edit_race_team_path(@race, team) do
                     = fa_icon 'edit fw'
                     = t(:edit)
+                %td.text-right
+                  = link_to move_up_race_team_path(@race, team), method: :post, data:{confirm:'Dies verändert die Startnummer. Forfahren?', ok: t('buttons.ok'), cancel: t('buttons.cancel') } do
+                    = fa_icon 'chevron-up fw'
+                  = link_to move_down_race_team_path(@race, team), method: :post, data:{confirm:'Dies verändert die Startnummer. Forfahren?', ok: t('buttons.ok'), cancel: t('buttons.cancel') } do
+                    = fa_icon 'chevron-down fw'
                 %td.text-right
                   = destroy_link_to [@race, team]
 

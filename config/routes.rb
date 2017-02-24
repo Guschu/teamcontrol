@@ -15,6 +15,11 @@ Rails.application.routes.draw do
         post 'handle_team_login'
         post 'import'
       end
+
+      member do
+        post 'move_up'
+        post 'move_down'
+      end
     end
     resources :events, only: [:index, :create]
     resources :penalties, only: [:index]
