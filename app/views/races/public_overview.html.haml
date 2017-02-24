@@ -36,7 +36,7 @@
 .content
   %ul.block-grid-xs-2.block-grid-sm-4.block-grid-md-6.block-grid-lg-8
     - stats = @race.to_stats.group_by_team
-    - @race.teams.includes(:attendances, :events).each do |team|
+    - @race.teams.includes(:events, :drivers).each do |team|
       %li.team{ data:{ name:team.name.downcase } }
         = render partial:'teams/team', locals:{ race:@race, team:team, stats:stats[team.id] }
 
