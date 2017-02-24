@@ -1,6 +1,8 @@
 = render partial:'races/header'
 
-%h1= @team.name
+%h1
+  %span.position= @team.position
+  = @team.name
 
 - st = @team.to_stats
 %table.table.table-striped
@@ -85,6 +87,9 @@
           %col{ width:'40%' }
           %col
         %tbody
+          %tr
+            %th= Team.human_attribute_name :position
+            %td= @team.position
           %tr
             %th= Team.human_attribute_name :name
             %td

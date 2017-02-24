@@ -21,6 +21,7 @@
         = image_tag @team.logo.url(:large), class:'pull-right'
 
 %h1
+  %span.position= @team.position
   = @team.name
 
 - st = @team.to_stats
@@ -112,6 +113,9 @@
           %col{ width:'50%' }
           %col
         %tbody
+          %tr
+            %th= Team.human_attribute_name :position
+            %td= @team.position
           %tr
             %th= Team.human_attribute_name :name
             %td= @team.name

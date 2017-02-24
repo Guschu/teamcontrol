@@ -20,7 +20,10 @@
           %tbody
             - @penalties.each do |penalty|
               %tr
-                %td= link_to penalty.team.name, [@race, penalty.team]
+                %td
+                  = link_to [@race, penalty.team] do
+                    %span.position= penalty.team.position
+                    = penalty.team.name
                 %td= penalty.driver.name
                 %td= penalty.reason
                 %td= l penalty.created_at

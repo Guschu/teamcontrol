@@ -225,3 +225,16 @@ footer {
     font-weight: bold;
   }
 }
+
+span.position {
+  text-align: center;
+  display: inline-block;
+  background-color: $gray-dark;
+  color: $body-bg;
+  font-weight: bold;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  min-width: 2em;
+  border-radius: 50%;
+  margin-right: 0.3em;
+}

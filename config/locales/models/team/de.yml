@@ -6,7 +6,7 @@ de:
         other: Teams
     attributes:
       team:
-        position: Position
+        position: Startnummer
         name: Name
         logo: Logo
         team_token: Team Token

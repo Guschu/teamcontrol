@@ -20,7 +20,10 @@
           %tbody
             - @events.each do |event|
               %tr
-                %td= link_to event.team.name, [@race, event.team]
+                %td
+                  = link_to [@race, event.team] do
+                    %span.position= event.team.position
+                    = event.team.name
                 %td
                   - if event.penalty.present?
                     %span.label.label-danger.pull-right{ title:event.penalty.reason, data:{toggle:'tooltip', placement:'left'} }= fa_icon 'gavel'
