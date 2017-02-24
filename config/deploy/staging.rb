@@ -5,9 +5,9 @@ set :stage, :staging
 # Supports bulk-adding hosts to roles, the primary
 # server in each group is considered to be the first
 # unless any hosts have the primary property set.
-role :app, %w(www-data@s6.software-consultant.net:22212)
-role :web, %w(www-data@s6.software-consultant.net:22212)
-role :db,  %w(www-data@s6.software-consultant.net:22212)
+role :app, %w{www-data@p12.priv.software-consultant.net:22212}
+role :web, %w{www-data@p12.priv.software-consultant.net:22212}
+role :db,  %w{www-data@p12.priv.software-consultant.net:22212}
 
 # Extended Server Syntax
 # ======================
