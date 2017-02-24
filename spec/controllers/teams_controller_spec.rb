@@ -15,6 +15,7 @@
 #  position          :integer
 #  team_lead         :string(255)
 #  attendances_count :integer
+#  penalties_count   :integer
 #
 # Indexes
 #
