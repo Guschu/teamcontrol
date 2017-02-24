@@ -17,7 +17,10 @@
                 %td= @race.name
               %tr
                 %th= Race.human_attribute_name :teams
-                %td= link_to t(:pluralize, count:@race.teams.count, model:Team), race_teams_path(@race)
+                %td
+                  = link_to race_teams_path(@race) do
+                    = @race.teams.count
+                    = Team.model_name.human(count:@race.teams.count)
               %tr
                 %th= Race.human_attribute_name :state
                 %td= t @race.state, scope:'race.states'
