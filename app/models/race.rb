@@ -62,7 +62,7 @@ class Race < ActiveRecord::Base
     end
   end
 
-  has_many :teams
+  has_many :teams, dependent: :destroy
 
   validates :name, :scheduled, presence: true
   friendly_id :name, use: :slugged
