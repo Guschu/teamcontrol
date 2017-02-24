@@ -21,7 +21,12 @@ Rails.application.routes.draw do
         post 'move_down'
       end
     end
-    resources :events, only: [:index, :create]
+    resources :events, only: [:index, :create] do
+      member do
+        get 'details'
+        post 'adjust'
+      end
+    end
     resources :penalties, only: [:index]
 
     member do

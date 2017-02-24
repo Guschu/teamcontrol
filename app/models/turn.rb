@@ -21,6 +21,7 @@
 #
 
 class Turn < ActiveRecord::Base
+  has_one :event
   belongs_to :team
   belongs_to :driver
 

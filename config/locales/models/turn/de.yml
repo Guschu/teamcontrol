@@ -1,0 +1,11 @@
+de:
+  activerecord:
+    models:
+      turn:
+        one: Ablauf
+        other: Abläufe
+    attributes:
+      turn:
+        duration: Dauer
+        created_at: Angelegt am
+        updated_at: Bearbeitet am

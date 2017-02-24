@@ -78,6 +78,10 @@ class Team < ActiveRecord::Base
     Stats.new events, turns, penalties, race.mode
   end
 
+  def position_and_name
+    [self.position.to_s, self.name].join(' ')
+  end
+
   private
 
   def batch_create_drivers!

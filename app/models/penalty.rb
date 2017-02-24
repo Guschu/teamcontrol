@@ -21,6 +21,7 @@
 #
 
 class Penalty < ActiveRecord::Base
+  has_one :event
   belongs_to :team, counter_cache: true
   belongs_to :driver
 
@@ -28,24 +29,25 @@ class Penalty < ActiveRecord::Base
 
   def self.for_event(evt)
     race = evt.team.race
-    s = evt.team.to_stats.group_by_driver[evt.driver_id]
     val = { team:evt.team, driver:evt.driver }
     penalty = nil
 
     case evt.mode.to_sym
     when :arriving
+      s = evt.team.to_stats.group_by_driver[evt.driver_id]
+
       # Unterschreitung der Pausenzeit
       if s.last_break_time.present? && s.last_break_time < race.break_time * 60
         penalty = Penalty.new val.merge( reason:"Unterschreitung der Pausenzeit: #{Time.at(s.last_break_time).utc.strftime('%H:%M:%S')}" )
       end
     when :leaving
       # Unterschreitung der Fahrzeit
-      if s.current_drive_time && s.current_drive_time < race.min_turn * 60
-        penalty = Penalty.new val.merge( reason:"Unterschreitung der minimalen Fahrzeit: #{Time.at(s.current_drive_time).utc.strftime('%H:%M:%S')}" )
+      if evt.turn && evt.turn.duration < race.min_turn * 60
+        penalty = Penalty.new val.merge( reason:"Unterschreitung der minimalen Fahrzeit: #{Time.at(evt.turn.duration).utc.strftime('%H:%M:%S')}" )
       end
       # Überschreitung der Fahrzeit
-      if s.current_drive_time && s.current_drive_time > (race.max_turn + race.waiting_period) * 60
-        penalty = Penalty.new val.merge( reason:"Überschreitung der maximalen Fahrzeit: #{Time.at(s.current_drive_time).utc.strftime('%H:%M:%S')}" )
+      if evt.turn && evt.turn.duration > (race.max_turn + race.waiting_period) * 60
+        penalty = Penalty.new val.merge( reason:"Überschreitung der maximalen Fahrzeit: #{Time.at(evt.turn.duration).utc.strftime('%H:%M:%S')}" )
       end
     end
 

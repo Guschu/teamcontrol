@@ -7,6 +7,7 @@
         %colgroup
           %col{ width:'20%' }
           %col
+          %col{ width:'10%' }
           %col{ width:'15%' }
           %col{ width:'15%' }
         %thead
@@ -15,6 +16,7 @@
             %th= sort_link @q, :driver_id, 'Name'
             %th= sort_link @q, :mode
             %th= sort_link @q, :created_at
+            %th
 
         - if @events.any?
           %tbody
@@ -28,8 +30,11 @@
                   - if event.penalty.present?
                     %span.label.label-danger.pull-right{ title:event.penalty.reason, data:{toggle:'tooltip', placement:'left'} }= fa_icon 'gavel'
                   = event.driver.name
-                %td= t event.mode, scope:'event.modes'
+                %td{ class:(event.arriving? ? 'text-left' : 'text-right') }
+                  = t event.mode, scope:'event.modes'
                 %td= l event.created_at
+                %td
+                  = link_to 'Korrigieren', details_race_event_path(@race, event)
         - else
           %tbody
             %tr
@@ -46,10 +51,12 @@
           .panel-body
             .form-group.select
               = f.label :team_id_eq, class:'select control-label'
-              = f.select :team_id_eq, options_from_collection_for_select(@race.teams, :id, :name), { include_blank:true }, class:'select form-control input-sm'
+              - selected_team_id = (params[:q] || {})[:team_id_eq]
+              = f.select :team_id_eq, options_from_collection_for_select(@race.teams, :id, :position_and_name, selected_team_id), { include_blank:true }, class:'select form-control input-sm'
             .form-group.select
               = f.label :mode_eq, class:'select control-label'
-              = f.select :mode_eq, options_for_select(Event.modes.map{|k ,v| [I18n.t(k, scope:'event.modes'), v]}), { include_blank:true }, class:'select form-control input-sm'
+              - selected_mode = (params[:q] || {})[:mode_eq]
+              = f.select :mode_eq, options_for_select(Event.modes.map{|k ,v| [I18n.t(k, scope:'event.modes'), v]}, selected_mode), { include_blank:true }, class:'select form-control input-sm'
           .panel-footer
             = f.submit 'Suchen', class:'btn btn-secondary'
             = link_to 'Zurücksetzen', race_events_path(@race), class:'btn btn-text'
@@ -59,7 +66,7 @@
           %h3.panel-title Manuelle Erfassung
         = simple_form_for [@race, Event.new] do |f|
           .panel-body
-            = f.input :driver_id, as: :grouped_select, collection:@race.teams.order('name asc'), group_method: :drivers, input_html:{ class:'input-sm' }
+            = f.input :driver_id, as: :grouped_select, collection:@race.teams.order('position asc'), group_label_method: :position_and_name, group_method: :drivers, input_html:{ class:'input-sm' }
             = f.input :mode, as: :radio_buttons, collection:Event.modes.map{|k, _v| [I18n.t(k, scope:'event.modes'), k]}, disabled:(@race.leaving? ? 'arriving' : '')
           .panel-footer
             = f.submit 'Anlegen', class:'btn btn-secondary'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160225085636) do
+ActiveRecord::Schema.define(version: 20170224182323) do
 
   create_table "attendances", force: :cascade do |t|
     t.integer  "team_id",    limit: 4
@@ -38,11 +38,13 @@ ActiveRecord::Schema.define(version: 20160225085636) do
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
     t.integer  "penalty_id", limit: 4
+    t.integer  "turn_id",    limit: 4
   end
 
   add_index "events", ["driver_id"], name: "index_events_on_driver_id", using: :btree
   add_index "events", ["penalty_id"], name: "index_events_on_penalty_id", using: :btree
   add_index "events", ["team_id"], name: "index_events_on_team_id", using: :btree
+  add_index "events", ["turn_id"], name: "index_events_on_turn_id", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           limit: 255, null: false
@@ -151,6 +153,7 @@ ActiveRecord::Schema.define(version: 20160225085636) do
   add_foreign_key "events", "drivers"
   add_foreign_key "events", "penalties"
   add_foreign_key "events", "teams"
+  add_foreign_key "events", "turns"
   add_foreign_key "penalties", "drivers"
   add_foreign_key "penalties", "teams"
   add_foreign_key "teams", "races"

@@ -1,0 +1,80 @@
+= render partial:'races/header'
+
+%h1 Event-Details
+
+.row
+  .col-md-4
+    .panel.panel-default.panel-info.panel-compact
+      .panel-heading
+        %h3.panel-title Stammdaten
+      %table.table
+        %colgroup
+          %col{ width:'40%' }
+          %col
+        %tbody
+          %tr
+            %th= Event.human_attribute_name :team_id
+            %td
+              %span.position= @event.team.position
+              = @event.team.name
+          %tr
+            %th= Event.human_attribute_name :driver_id
+            %td= @event.driver.name
+          %tr
+            %th= Event.human_attribute_name :mode
+            %td= t @event.mode, scope:'event.modes'
+          %tr
+            %th Zeitpunkt
+            %td= l @event.created_at
+          %tr
+            %th= Event.human_attribute_name :updated_at
+            %td= l @event.updated_at
+
+  .col-md-4
+    .panel.panel-default.panel-info.panel-compact
+      .panel-heading
+        %h3.panel-title Ablauf
+      %table.table
+        %colgroup
+          %col{ width:'40%' }
+          %col
+        %tbody
+          - if @event.turn.present?
+            %tr
+              %th= Turn.human_attribute_name :duration
+              %td= Time.at(@event.turn.duration).utc.strftime('%H:%M:%S')
+          - else
+            %tr
+              %td{ colspan:2 }
+                %p.text-center Zu diesem Event gibt es keine Ablauf-Daten.
+
+    .panel.panel-default.panel-info.panel-compact
+      .panel-heading
+        %h3.panel-title Strafe
+      %table.table
+        %colgroup
+          %col{ width:'40%' }
+          %col
+        %tbody
+          - if @event.penalty.present?
+            %tr
+              %th= Penalty.human_attribute_name :reason
+              %td= @event.penalty.reason
+          - else
+            %tr
+              %td{ colspan:2 }
+                %p.text-center Zu diesem Event gibt es keine Strafe.
+
+  .col-md-4
+    .panel.panel-secondary.panel-compact
+      .panel-heading
+        %h3.panel-title Anpassung des Zeitpunktes
+
+      = simple_form_for @adjust, url:adjust_race_event_url(@race, @event) do |f|
+        .panel-body
+          .form-group
+            = f.input :new_timestamp, label:'Neuer Zeitpunkt', as: :time
+        .panel-footer
+          = f.submit 'Korrigieren', class:'btn btn-secondary'
+
+= link_to 'Zurück', race_events_path(@race), class:'btn btn-primary'
