@@ -28,7 +28,7 @@ class Events < Grape::API
       return
     end
 
-    attendances = Attendance.where(team_id: race.teams.select(:id))
+    attendances = Attendance.where(team_id: race.teams.select(:id)).order(team_id: :asc, id: :asc)
 
     if a = attendances.where(tag_id: params[:id]).first
       evt = Event.create driver_id: a.driver_id, team_id: a.team_id

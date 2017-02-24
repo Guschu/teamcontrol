@@ -37,6 +37,45 @@ RSpec.describe Events, type: :request do
       expect(a.tag_id).to eq '000000000000'
     end
 
+    it 'assign id to available attendances sorted by ascending team id' do   
+      race = create :race, state: :active
+      teamA = create :team, race: race
+      teamB = create :team, race: race
+      a1 = create :attendance, tag_id: nil, team: teamA
+      a2 = create :attendance, tag_id: nil, team: teamA
+      b1 = create :attendance, tag_id: nil, team: teamB
+      b2 = create :attendance, tag_id: nil, team: teamB
+
+      post '/api/v1/event', { id: '000000000000' }, headers
+      expect(response.status).to eq 201
+      post '/api/v1/event', { id: '000000000001' }, headers
+      expect(response.status).to eq 201
+
+      post '/api/v1/event', { id: '000000000002' }, headers
+      expect(response.status).to eq 201
+
+      a3 = create :attendance, tag_id: nil, team: teamA
+
+      post '/api/v1/event', { id: '000000000003' }, headers
+      expect(response.status).to eq 201
+
+      post '/api/v1/event', { id: '000000000004' }, headers
+      expect(response.status).to eq 201
+
+      a1.reload
+      a2.reload
+      a3.reload
+      b1.reload
+      b2.reload
+
+      expect(a1.tag_id).to eq '000000000000'
+      expect(a2.tag_id).to eq '000000000001'
+      expect(a3.tag_id).to eq '000000000003'
+
+      expect(b1.tag_id).to eq '000000000002'
+      expect(b2.tag_id).to eq '000000000004'
+    end
+
     it 'returns error if no attendance available' do
       race = create :race, state: :active
       team = create :team, race: race
