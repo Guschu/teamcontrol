@@ -3,19 +3,10 @@
     %li= link_to 'API', '/docs/api/' if user_signed_in?
     %li
       Made with
-      = link_to fa_icon('heart'), 'https://software-berater.net/?pk_campaign=TeamControl', target:'_blank'
+      = link_to fa_icon('heart', class: 'animated'), 'https://software-berater.net/?pk_campaign=TeamControl', target:'_blank'
       in Siegburg.
   %ul.footer-links
     %li
       %strong TeamControl
       &copy; 2016 Die Software Berater
       %span.text-muted= Teamcontrol::Application.version
-
-- content_for :bottom do
-  :coffee
-    $(document).on 'timer:heartbeat', (evt, now) ->
-      $('footer .fa-heart').transition
-        scale: 1.25
-        complete: ->
-          $(this).transition
-            scale: 1.0
