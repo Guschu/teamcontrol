@@ -1,5 +1,8 @@
 language: ruby
 services:
   - mysql
+before_install:
+  - mysql -e 'CREATE DATABASE teamcontrol_test;'
+  - cp config/database.yml.example config/database.yml
 rvm:
   - "2.3.3"
