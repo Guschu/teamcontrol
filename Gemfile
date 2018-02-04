@@ -5,7 +5,6 @@ gem 'bootstrap-sass'
 gem 'haml-rails'
 gem 'high_voltage'
 gem 'mysql2', '~> 0.3.18'
-gem 'passenger'
 gem 'simple_form'
 gem 'font-awesome-rails'
 
@@ -58,8 +57,11 @@ group :development do
   gem 'airbrussh', require: false
 end
 
+group :coverage do
+  gem 'coveralls', require: false
+end
+
 group :test do
-  gem 'simplecov', require: false
   gem 'capybara'
   gem 'database_cleaner'
   gem 'launchy'

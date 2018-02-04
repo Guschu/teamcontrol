@@ -1,6 +1,7 @@
 # TeamControl Rennsoftware
 
 [![Build Status](https://travis-ci.org/Race4Hospiz/teamcontrol.svg?branch=master)](https://travis-ci.org/Race4Hospiz/teamcontrol)
+[![Coverage Status](https://coveralls.io/repos/github/Race4Hospiz/teamcontrol/badge.svg?branch=master)](https://coveralls.io/github/Race4Hospiz/teamcontrol?branch=master)
 
 Kartrennen wie das jährliche [race4hospiz](http://race4hospiz.de) Rennen bestehen aus einer Anzahl von Teams, die gegeneinander antreten, um in einer vorgegebenen Gesamtzeit möglichst viele Runden zu fahren. Jedes Team besteht dabei aus einer Anzahl von Fahrern (5-8 Fahrer pro Team). Die Fahrer wechseln sich ab. Es muss überwacht werden, dass
 
@@ -34,7 +35,7 @@ TeamControl besteht aus **einem Server** und **optionalen Lesestationen**. Die S
    * laufende Auswertung über alle Teams und in der individuellen Teamansicht
 5. Ende des Rennens
    * Abschluss aller uU nicht abgeschlossenen Fahrerdaten
-   
+
 Im laufenden Betrieb kann es dabei zu besonderen Aktionen kommen. Diese sind:
 
 * manuelle Buchung vergessener kommen/gehen Daten durch die Rennleitung
@@ -63,19 +64,19 @@ Mehrfache Übermittlungen derselben ID innerhalb eines kurzen Zeitraumes (zB 15 
 
 ## Entitäten
 
-* **Rennen** `race`  
+* **Rennen** `race`
   Stammdaten zum Rennen
-* **Team** `team`  
+* **Team** `team`
   Name und Logo des Teams, gehört zum Rennen
-* **Fahrer** `driver`  
+* **Fahrer** `driver`
   Name des Fahrers
-* **Teilnahme** `attendance`  
+* **Teilnahme** `attendance`
   Gehört zu Team & Fahrer, beinhaltet die NFC ID des Fahrers in diesem Rennen
-* **Ereignis** `event`  
+* **Ereignis** `event`
   Gehört zu Team & Fahrer, beinhaltet kommen/gehen Buchungen und Registrierungen mit einem Zeitstempel
-* **Fahrzeit** `turn`  
+* **Fahrzeit** `turn`
   Gehört zu Team & Fahrer, beinhaltet die Dauer des Einsatzes
-  
+
 ## Auswertung
 
 - Aktueller Fahrer pro Team (nur im kommend/gehend Modus)

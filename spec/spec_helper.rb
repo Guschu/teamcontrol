@@ -1,14 +1,5 @@
-require 'simplecov'
-class LineFilter < SimpleCov::Filter
-  def matches?(source_file)
-    source_file.lines.count < filter_argument
-  end
-end
-SimpleCov.start :rails do
-  add_filter LineFilter.new(2)
-  add_filter '/specs/'
-  add_group "API", "app/api"
-end
+require 'coveralls'
+Coveralls.wear!
 
 # The `.rspec` file also contains a few flags that are not defaults but that
 # users commonly want.
