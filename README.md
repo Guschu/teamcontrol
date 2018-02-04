@@ -19,6 +19,8 @@ Die Dokumentation findet sich [hier](doc/docs.md)
 
 TeamControl besteht aus **einem Server** und **optionalen Lesestationen**. Die Software der Lesestationen findet sich [auf Github](https://github.com/Race4Hospiz/teamcontrol-reader).
 
+[![architektur](doc/Systemarchitektur.png)](doc/Systemarchitektur.pdf)
+
 ## Ablauf eines Rennens
 
 1. Definition der Stammdaten eines Rennens: Dauer, max. Fahrzeiten ua.
