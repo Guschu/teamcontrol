@@ -12,12 +12,14 @@
           %col{ width:110 }
           %col{ width:60 }
           %col{ width:110 }
+          %col{ width:150 }
         %thead
           %tr
             %th= sort_link @q, :position, '#'
             %th= sort_link @q, :name
             %th= sort_link @q, :team_lead
             %th.text-center= sort_link @q, :attendances_count, 'Anzahl Fahrer'
+            %th
             %th
             %th
             %th
@@ -47,6 +49,13 @@
                     = fa_icon 'chevron-down fw'
                 %td.text-right
                   = destroy_link_to [@race, team]
+                %td.text-right
+                  - if @race.registrating_team_id == team.id
+                    = link_to stop_registrating_race_path(@race), method: :post, data:{confirm:'Team auswählen?', ok: t('buttons.ok'), cancel: t('buttons.cancel') }, class:'btn btn-primary' do
+                      = t('Registrierung stoppen')
+                  - else
+                    = link_to set_registrating_race_team_path(@race, team) , method: :post, data:{confirm:'Team auswählen?', ok: t('buttons.ok'), cancel: t('buttons.cancel') }, class:'btn btn-secondary' do
+                      = t('Registrierung starten')
 
         - else
           %tbody

@@ -59,6 +59,10 @@ class Team < ActiveRecord::Base
     attendances.unassigned.any?
   end
 
+  def is_registrating_team?
+    race.registrating_team_id == id
+  end
+
   def logo_delete
     @logo_delete ||= '0'
   end

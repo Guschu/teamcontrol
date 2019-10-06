@@ -2,23 +2,24 @@
 #
 # Table name: races
 #
-#  id              :integer          not null, primary key
-#  name            :string(255)
-#  duration        :integer
-#  max_drive       :integer
-#  max_turn        :integer
-#  break_time      :integer
-#  waiting_period  :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  slug            :string(255)
-#  state           :integer          default(0)
-#  mode            :integer          default(0)
-#  scheduled       :date
-#  started_at      :datetime
-#  finished_at     :datetime
-#  min_turn        :integer
-#  prebooking_open :boolean          default(FALSE)
+#  id                   :integer          not null, primary key
+#  name                 :string(255)
+#  duration             :integer
+#  max_drive            :integer
+#  max_turn             :integer
+#  break_time           :integer
+#  waiting_period       :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  slug                 :string(255)
+#  state                :integer          default(0)
+#  mode                 :integer          default(0)
+#  scheduled            :date
+#  started_at           :datetime
+#  finished_at          :datetime
+#  min_turn             :integer
+#  prebooking_open      :boolean          default(FALSE)
+#  registrating_team_id :integer
 #
 # Indexes
 #

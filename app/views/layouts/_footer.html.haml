@@ -2,14 +2,8 @@
   %ul.footer-links.pull-right
     %li= link_to 'API', '/docs/api/' if user_signed_in?
     %li
-      Made with
-      = link_to fa_icon('heart', class: 'animated'), 'https://software-berater.net/?pk_campaign=r4h&pk_kwd=2017', target:'_blank'
-      in Siegburg.
-      = link_to 'software-berater.net', 'https://software-berater.net/?pk_campaign=r4h&pk_kwd=2017', target:'_blank'
   %ul.footer-links
     %li
       %strong TeamControl
       &copy; #{Time.now.year}
-      = link_to 'Die Software Berater', 'https://software-berater.net/?pk_campaign=r4h&pk_kwd=2017', target:'_blank'
-      &mdash; WIR ENTWICKELN LÜCKENLOS
       %span.text-muted= Teamcontrol::Application.version

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       member do
         post 'move_up'
         post 'move_down'
+        post 'set_registrating'
       end
     end
     resources :events, only: [:index, :create] do
@@ -37,6 +38,7 @@ Rails.application.routes.draw do
       # AASM events
       post 'start'
       post 'finish'
+      post 'stop_registrating'
     end
   end
 

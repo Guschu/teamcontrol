@@ -15,6 +15,12 @@ class TeamsController < ApplicationController
     @teams = @q.result.includes(:attendances).page(page)
   end
 
+  def set_registrating
+    @race.update({:registrating_team_id => params[:id]})
+    flash[:notice] = 'Registrierung wurde gestartet'
+    redirect_to race_teams_url(@race)
+  end
+
   # POST /teams/handle_team_login
   def handle_team_login
     token = params.require(:team).permit(:team_token)[:team_token]

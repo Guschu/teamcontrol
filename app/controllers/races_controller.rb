@@ -38,6 +38,13 @@ class RacesController < ApplicationController
     @races = @q.result.page(page)
   end
 
+  def stop_registrating
+    @race.update(registrating_team_id: nil)
+    flash[:notice] = 'Registrierung wurde gestoppt'
+    redirect_to race_teams_url(@race)
+  end
+
+
   def current
     if c = current_race
       redirect_to c
