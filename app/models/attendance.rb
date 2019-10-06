@@ -21,6 +21,7 @@
 #  fk_rails_4581e8741f  (driver_id => drivers.id)
 #
 
+
 class Attendance < ActiveRecord::Base
   belongs_to :team, counter_cache: true
   belongs_to :driver

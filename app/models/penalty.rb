@@ -20,6 +20,7 @@
 #  fk_rails_4bd86e846b  (driver_id => drivers.id)
 #
 
+
 class Penalty < ActiveRecord::Base
   has_one :event
   belongs_to :team, counter_cache: true

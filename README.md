@@ -15,6 +15,11 @@ Die TeamControl Software unterstützt das durch folgende Funktionen:
 * Protokollierung der Fahrerwechsel
 * Bereitstellen von sekundengenauen Anzeigen für Teams und Rennleitung
 
+## Docker Update
+
+Zur Abwärtskompatibilität wird die Software in Docker Containern gebaut.
+
+Nach dem Auschecken ein "docker-compose up" und ab geht die Post.
 ## API Dokumentation
 Die Dokumentation findet sich [hier](doc/docs.md)
 

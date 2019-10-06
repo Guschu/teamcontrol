@@ -26,6 +26,7 @@
 #  index_races_on_slug  (slug)
 #
 
+
 class Race < ActiveRecord::Base
   extend FriendlyId
   include AASM

@@ -12,6 +12,7 @@
 #  index_stations_on_token  (token)
 #
 
+
 class Station < ActiveRecord::Base
   validates :token, presence: true, format: { with: /\A\h+\z/, message: :hex_only }, length: { is: 12 }, uniqueness: true
   before_validation :convert_token

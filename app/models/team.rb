@@ -27,6 +27,7 @@
 #  fk_rails_4a0c7e1679  (race_id => races.id)
 #
 
+
 class Team < ActiveRecord::Base
   belongs_to :race
   has_many :attendances, dependent: :destroy

@@ -26,6 +26,7 @@
 #  fk_rails_f62361cf64  (team_id => teams.id)
 #
 
+
 class Event < ActiveRecord::Base
   belongs_to :team
   belongs_to :driver

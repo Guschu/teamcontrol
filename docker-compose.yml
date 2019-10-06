@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'teamcontrol_prod'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'root'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: ''
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: ''
+  web:
+    build: .
+    restart: always
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/teamcontrol
+    ports:
+      - "80:3000"
+    depends_on:
+      - db

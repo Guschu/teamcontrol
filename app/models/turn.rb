@@ -20,6 +20,7 @@
 #  fk_rails_d3380a493d  (team_id => teams.id)
 #
 
+
 class Turn < ActiveRecord::Base
   has_one :event
   belongs_to :team
