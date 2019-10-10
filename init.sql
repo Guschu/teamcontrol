@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS teamcontrol_dev;
+CREATE DATABASE IF NOT EXISTS teamcontrol_test;
+CREATE DATABASE IF NOT EXISTS teamcontrol_prod;

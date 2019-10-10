@@ -28,6 +28,7 @@
 #
 
 
+
 class Team < ActiveRecord::Base
   belongs_to :race
   has_many :attendances, dependent: :destroy

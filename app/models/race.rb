@@ -28,6 +28,7 @@
 #
 
 
+
 class Race < ActiveRecord::Base
   extend FriendlyId
   include AASM

@@ -11,13 +11,23 @@ services:
       MYSQL_PASSWORD: 'teamcontrol1337'
       # Password for root access
       MYSQL_ROOT_PASSWORD: 'teamcontrol1337'
+    command: --init-file /data/application/init.sql
+    volumes:
+        - ./init.sql:/data/application/init.sql
+  reverse:
+    container_name: reverse
+    hostname: reverse
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
   web:
     build: .
     restart: always
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && RAILS_ENV=production bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/teamcontrol
     ports:
-      - "80:3000"
+      - "3000:3000"
     depends_on:
       - db
