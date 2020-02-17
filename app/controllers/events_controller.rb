@@ -57,7 +57,10 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
-    @event.destroy
+    @event = Event.find(params[:id])
+    if @event.present?
+      @event.destroy
+    end
     respond_to do |format|
       format.html { redirect_to race_teams_url(@race), notice: I18n.t(:destroy, scope: 'messages.crud', model: Team.model_name.human) }
       format.json { head :no_content }
