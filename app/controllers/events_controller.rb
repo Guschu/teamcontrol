@@ -62,7 +62,7 @@ class EventsController < ApplicationController
       @event.destroy
     end
     respond_to do |format|
-      format.html { redirect_to race_teams_url(@race), notice: I18n.t(:destroy, scope: 'messages.crud', model: Team.model_name.human) }
+      format.html { redirect_to race_events_url(@race), notice: I18n.t(:destroy, scope: 'messages.crud', model: Event.model_name.human) }
       format.json { head :no_content }
     end
   end
