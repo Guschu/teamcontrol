@@ -54,8 +54,6 @@ class EventsController < ApplicationController
     redirect_to details_race_event_path(@race, @event)
   end
 
-  private
-
   def destroy
     @event.destroy
     respond_to do |format|
@@ -63,6 +61,8 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_race
