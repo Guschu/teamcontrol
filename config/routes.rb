@@ -22,7 +22,7 @@ Rails.application.routes.draw do
         post 'set_registrating'
       end
     end
-    resources :events, only: [:index, :create] do
+    resources :events, only: [:index, :create, :destroy] do
       member do
         get 'details'
         post 'adjust'
