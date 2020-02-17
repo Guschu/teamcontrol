@@ -35,6 +35,7 @@
                 %td= l event.created_at
                 %td
                   = link_to 'Korrigieren', details_race_event_path(@race, event)
+                  = destroy_link_to [@race, event]
         - else
           %tbody
             %tr

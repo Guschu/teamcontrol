@@ -56,6 +56,14 @@ class EventsController < ApplicationController
 
   private
 
+  def destroy
+    @event.destroy
+    respond_to do |format|
+      format.html { redirect_to race_teams_url(@race), notice: I18n.t(:destroy, scope: 'messages.crud', model: Team.model_name.human) }
+      format.json { head :no_content }
+    end
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_race
     @race = Race.friendly.find(params[:race_id])
