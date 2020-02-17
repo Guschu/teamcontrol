@@ -54,6 +54,8 @@ class EventsController < ApplicationController
     redirect_to details_race_event_path(@race, @event)
   end
 
+  # DELETE /events/1
+  # DELETE /events/1.json
   def destroy
     @event.destroy
     respond_to do |format|
