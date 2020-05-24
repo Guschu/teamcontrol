@@ -31,7 +31,7 @@ class Event < ActiveRecord::Base
   belongs_to :team
   belongs_to :driver
   belongs_to :turn, dependent: :destroy
-  belongs_to :penalty
+  belongs_to :penalty, dependent: :destroy
 
   enum mode: { arriving: 1, leaving: 2 }
 
