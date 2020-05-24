@@ -59,6 +59,8 @@ class EventsController < ApplicationController
   def destroy
     @event = Event.find(params[:id])
     if @event.present?
+      if @event.turn.present?
+        @event.turn.destroy
       @event.destroy
     end
     respond_to do |format|
