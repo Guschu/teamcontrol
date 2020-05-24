@@ -61,6 +61,7 @@ class EventsController < ApplicationController
     if @event.present?
       if @event.turn.present?
         @event.turn.destroy
+      end
       @event.destroy
     end
     respond_to do |format|
