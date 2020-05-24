@@ -39,7 +39,7 @@
                     = team.name
                 %td= team.team_lead
                 %td.text-center= team.attendances.count
-                %td.text-center= team.events.turns.count
+                %td.text-center= Events.where(team: team).where('turn_id IS NOT NULL').count
                 %td.text-right
                   = link_to edit_race_team_path(@race, team) do
                     = fa_icon 'edit fw'
