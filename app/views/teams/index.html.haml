@@ -19,6 +19,7 @@
             %th= sort_link @q, :name
             %th= sort_link @q, :team_lead
             %th.text-center= sort_link @q, :attendances_count, 'Anzahl Fahrer'
+            %th.text-center= sort_link @q, 0, 'Anzahl Wechsel'
             %th
             %th
             %th
@@ -38,6 +39,7 @@
                     = team.name
                 %td= team.team_lead
                 %td.text-center= team.attendances.count
+                %td.text-center= team.events.turn
                 %td.text-right
                   = link_to edit_race_team_path(@race, team) do
                     = fa_icon 'edit fw'
