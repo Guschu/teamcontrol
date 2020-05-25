@@ -68,6 +68,10 @@ class Team < ActiveRecord::Base
     @logo_delete ||= '0'
   end
 
+  def turns_count
+    [self.events.turns.count]
+  end
+
   attr_writer :logo_delete
 
   def to_stats
