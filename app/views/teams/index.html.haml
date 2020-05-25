@@ -39,7 +39,7 @@
                     = team.name
                 %td= team.team_lead
                 %td.text-center= team.attendances.count
-                %td.text-center= Turns.joins(:events).where('events.team_id' => team).count
+                %td.text-center= team.attendances.driver.events.turn.count
                 %td.text-right
                   = link_to edit_race_team_path(@race, team) do
                     = fa_icon 'edit fw'
