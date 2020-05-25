@@ -69,9 +69,11 @@ class Team < ActiveRecord::Base
   end
   
   def turns_count
-    leaving = self.events.select{|event| event.mode=="leaving" }.size                                                                                                                                                                            arriving = self.events.select{|event| event.mode=="arriving"}.size
+    leaving = self.events.select{|event| event.mode=="leaving" }.size
+    arriving = self.events.select{|event| event.mode=="arriving"}.size
     if arriving == 0
-      arriving                                                                                                                                                                                                                                   else
+      arriving
+    else
       if leaving == arriving 
         leaving - 1
       else
