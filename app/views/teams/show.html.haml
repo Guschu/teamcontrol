@@ -133,7 +133,7 @@
   .col-md-4
     .panel.panel-default.panel-info.panel-compact
       .panel-heading
-        %h3.panel-title Teamzeiten
+        %h3.panel-title Teamzeiten und Fahrerwechsel
       %table.table
         %tbody
           - s = @team.to_stats
@@ -151,7 +151,10 @@
             %td= seconds_format s.minimum_drive_time
           %tr
             %th Max. Fahrzeit
-            %td= seconds_format s.maximum_drive_time
+            %td= seconds_format s.maximum_drive_time          
+          %tr
+            %th Fahrerwechsel
+            %td= @team.turns_count
 
 .form-action
   = link_to 'Team bearbeiten', edit_race_team_path(@race, @team), class:'btn btn-primary'
