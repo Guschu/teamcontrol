@@ -67,9 +67,17 @@ class Team < ActiveRecord::Base
   def logo_delete
     @logo_delete ||= '0'
   end
-
+  
   def turns_count
-    [self.events.turns.count]
+    leaving = self.events.select{|event| event.mode=="leaving" }.size                                                                                                                                                                            arriving = self.events.select{|event| event.mode=="arriving"}.size
+    if arriving == 0
+      arriving                                                                                                                                                                                                                                   else
+      if leaving == arriving 
+        leaving - 1
+      else
+        arriving - 1
+      end
+    end
   end
 
   attr_writer :logo_delete
