@@ -5,29 +5,38 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: 'teamcontrol_prod'
-      # So you don't have to use root, but you can if you like
-      MYSQL_USER: 'root'
-      # You can use whatever password you like
+      MYSQL_USER: 'tc-root'
       MYSQL_PASSWORD: 'teamcontrol1337'
-      # Password for root access
       MYSQL_ROOT_PASSWORD: 'teamcontrol1337'
     command: --init-file /data/application/init.sql
     volumes:
-        - ./init.sql:/data/application/init.sql
+      - ./init.sql:/data/application/init.sql
   reverse:
-    container_name: reverse
+    build:
+      context: .
+      dockerfile: reverseProxy.Dockerfile
+      args:
+        domain: yourdomain.com
+        email: email@email.com
     hostname: reverse
-    image: nginx
     ports:
       - 80:80
       - 443:443
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: web.Dockerfile
     restart: always
-    command: bash -c "rm -f tmp/pids/server.pid && RAILS_ENV=production bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/teamcontrol
     ports:
       - "3000:3000"
+    environment:
+      SECRET_KEY_BASE: 'f5f3d79142dd36b4e85a195834c31a036b3f4a64fecb5765c3a271a196e86c53608039abdd846e0ed14a2d5fb2f297f79fdc7a8d039c3daa89dfb1db2f2fef20'
+      DB_USERNAME: 'tc-root'
+      DB_PASSWORD: 'teamcontrol1337'
+      DB_HOST: 'db'
     depends_on:
       - db

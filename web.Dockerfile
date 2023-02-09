@@ -33,7 +33,7 @@ ENV TZ=Europe/Berlin
 # Update the system clock to the specified timezone
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-EXPOSE 80:3000
+EXPOSE 3000
 # Start the application server
 CMD ["bundle", "exec", "rails", "server", "-p", "3000", "-b", "0.0.0.0"]
 
