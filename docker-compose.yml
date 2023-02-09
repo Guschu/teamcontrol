@@ -11,14 +11,6 @@ services:
     command: --init-file /data/application/init.sql
     volumes:
       - ./init.sql:/data/application/init.sql
-  letsencrypt:
-    image: certbot/certbot
-    command: certonly --standalone --email ${EMAIL} --agree-tos --no-eff-email -d ${DOMAIN}
-    volumes:
-      - ./cert/conf:/etc/letsencrypt
-      - ./cert/www:/var/www/certbot
-    depends_on:
-      - reverse
 
   reverse:
     container_name: reverse
@@ -31,8 +23,8 @@ services:
       DOMAIN: ${DOMAIN}
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./cert/conf:/etc/letsencrypt
-      - ./cert/www:/var/www/certbot
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
   web:
     build:
       context: .
