@@ -9,7 +9,7 @@ COPY Gemfile Gemfile.lock ./
 COPY Rakefile ./
 
 # Set the environment variables
-ENV RAILS_ENV develop
+ENV RAILS_ENV production
 RUN apk add --no-cache build-base
 RUN apk add --no-cache ruby-dev libstdc++
 # Install the required libraries for building the mysql2 gem
