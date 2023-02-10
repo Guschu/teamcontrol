@@ -9,7 +9,7 @@ COPY Gemfile Gemfile.lock ./
 COPY Rakefile ./
 
 # Set the environment variables
-ENV RAILS_ENV production
+ENV RAILS_ENV develop
 RUN apk add --no-cache build-base
 RUN apk add --no-cache ruby-dev libstdc++
 # Install the required libraries for building the mysql2 gem
@@ -31,7 +31,7 @@ RUN apk add --no-cache nodejs
 ENV TZ=Europe/Berlin
 
 # Update the system clock to the specified timezone
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone.env.example
 
 EXPOSE 3000
 # Start the application server
