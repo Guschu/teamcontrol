@@ -44,6 +44,6 @@ services:
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
       DB_USERNAME: 'tc-root'
       DB_PASSWORD: 'teamcontrol1337'
-      DB_HOST: 'db:3306'
+      DB_HOST: 'db'
     depends_on:
       - db
