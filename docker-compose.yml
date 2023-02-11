@@ -27,6 +27,7 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
       - ./cert:/etc/nginx/cert
       - ./logs/nginx:/var/log/nginx/
+      - /var/www/certbot:/var/www/certbot
     depends_on:
       - web
   web:
