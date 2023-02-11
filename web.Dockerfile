@@ -33,7 +33,8 @@ ENV TZ=Europe/Berlin
 # Update the system clock to the specified timezone
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone.env.example
 
-RUN bundle exec rake db:reset
+RUN bundle exec rake db:migrate
+RUN bundle exec rake db:seed
 
 EXPOSE 3000
 # Start the application server
