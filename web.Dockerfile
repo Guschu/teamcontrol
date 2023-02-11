@@ -35,7 +35,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone.e
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
-RUN dos2unix /usr/bin/entrypoint.sh && apt-get --purge remove -y dos2unix && rm -rf /var/lib/apt/lists/*
+
+RUN apk add --no-cache dos2unix
+RUN dos2unix /usr/bin/entrypoint.sh
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["bundle", "exec", "rails", "server", "-p", "3000", "-b", "0.0.0.0"]
