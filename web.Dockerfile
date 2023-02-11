@@ -33,10 +33,10 @@ ENV TZ=Europe/Berlin
 # Update the system clock to the specified timezone
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone.env.example
 
-RUN bundle exec rake db:migrate
-RUN bundle exec rake db:seed
-
-EXPOSE 3000
-# Start the application server
+# Add a script to be executed every time the container starts.
+COPY entrypoint.sh /usr/bin/
+RUN dos2unix /usr/bin/entrypoint.sh && apt-get --purge remove -y dos2unix && rm -rf /var/lib/apt/lists/*
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["bundle", "exec", "rails", "server", "-p", "3000", "-b", "0.0.0.0"]
-
+EXPOSE 3000

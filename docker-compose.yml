@@ -13,6 +13,7 @@ services:
     command: --init-file /data/application/init.sql
     volumes:
       - ./init.sql:/data/application/init.sql
+      - /opt/mysql_data:/var/lib/mysql
 
   reverse:
     container_name: reverse
