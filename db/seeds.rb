@@ -3,5 +3,10 @@
 
 email = Rails.application.secrets.admin_email
 password = Rails.application.secrets.admin_password
-admin = User.create! email:email, password:password, password_confirmation:password
-puts "Admin #{email} mit Passwort #{password} angelegt"
+
+unless User.find_by(email: email)
+  admin = User.create! email: email, password: password, password_confirmation: password
+  puts "Admin #{email} mit Passwort #{password} angelegt"
+else
+  puts "Admin #{email} ist bereits vorhanden"
+end
