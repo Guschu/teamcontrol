@@ -36,7 +36,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone.e
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
 # Convert to unix file endings:
-RUN sed -i -e 's/\r$//' /usr/bin/entrypoint.sh
+RUN apk add dos2unix --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted
+RUN dos2unix /usr/bin/entrypoint.sh
+
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["bundle", "exec", "rails", "server", "-p", "3000", "-b", "0.0.0.0"]
