@@ -19,7 +19,33 @@ Die TeamControl Software unterstützt das durch folgende Funktionen:
 
 Zur Abwärtskompatibilität wird die Software in Docker Containern gebaut.
 
-Nach dem Auschecken ein "docker-compose up" und ab geht die Post.
+Folgende Schritte sind auf einem leeren Unix-basierten Server zu tun:
+
+### URL Weiterleitung
+
+Den DNS A-Record beim Domain-Hoster auf die IP des Servers setzen.
+
+### Let's encrypt Zertifikat besorgen
+
+Mit 
+
+`sudo certbot certonly --standalone`
+
+ein Zertifikat besorgen (der Befehl fährt selber einen Server auf Port 80 hoch).
+
+### Docker und Docker Compose installieren
+
+Hier ein bisschen offizielle Doku lesen, Docker und Docker Compose werden benötigt.
+
+### Umgebungsvariablen
+
+Die .env.example in .env kopieren und die benötigten Werte setzen.
+
+### Start
+
+Mit `docker-compose up -d` das System hochfahren und ab geht die Post.
+
+
 ## API Dokumentation
 Die Dokumentation findet sich [hier](doc/docs.md)
 
