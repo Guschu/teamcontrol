@@ -24,6 +24,9 @@ COPY . .
 # Install the required gems
 RUN bundle install
 
+# Precompile the assets
+RUN bundle exec rake assets:precompile
+
 RUN gem install tzinfo-data
 
 RUN apk add --no-cache nodejs
