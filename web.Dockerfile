@@ -17,6 +17,7 @@ RUN apk add --no-cache mariadb-dev
 RUN apk add --no-cache libxml2-dev libxslt-dev
 RUN apk add --no-cache shared-mime-info
 RUN apk add --no-cache tzdata
+RUN apk add --no-cache nodejs
 
 # Copy the rest of the application files
 COPY . .
@@ -29,7 +30,6 @@ RUN bundle exec rake assets:precompile
 
 RUN gem install tzinfo-data
 
-RUN apk add --no-cache nodejs
 # Set the timezone to America/Los_Angeles
 ENV TZ=Europe/Berlin
 
