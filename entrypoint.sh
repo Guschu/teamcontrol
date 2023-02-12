@@ -2,6 +2,12 @@
 
 source /etc/profile
 set -e
+
+# Source environment variables from .env file
+set -a
+. .env
+set +a
+
 # Remove a potentially pre-existing server.pid for Rails.
 rm -f /teamcontrol/tmp/pids/server.pid
 
