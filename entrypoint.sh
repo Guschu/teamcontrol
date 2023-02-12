@@ -13,6 +13,8 @@ rm -f /teamcontrol/tmp/pids/server.pid
 
 bundle exec rake db:migrate
 bundle exec rake db:seed
+# Precompile the assets
+bundle exec rake assets:precompile
 
 # Then exec the container's main process (what's set as CMD in the web.Dockerfile).
 exec "$@"
