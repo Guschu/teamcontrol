@@ -1,6 +1,7 @@
 #!/bin/bash
-set -e
 
+source /etc/profile
+set -e
 # Remove a potentially pre-existing server.pid for Rails.
 rm -f /teamcontrol/tmp/pids/server.pid
 
