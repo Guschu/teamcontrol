@@ -8,7 +8,9 @@ Rails.application.routes.draw do
     resources :users
   end
 
-  resources :drivers
+  resources :drivers do
+    put 'reset_tag_assignment', on: :collection
+  end
   resources :races do
     resources :teams do
       collection do
