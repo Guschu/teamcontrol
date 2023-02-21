@@ -92,5 +92,7 @@ class DriversController < ApplicationController
     @driver = Driver.find(params[:id])
     @driver.reset_attendance_assignment(params[:attendance_id])
     @driver.save
-  end
+
+    redirect_to request.referer, notice: "Tag-Zuordnung wurde entfernt."
+    end
 end
