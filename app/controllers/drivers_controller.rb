@@ -86,6 +86,7 @@ class DriversController < ApplicationController
     params.require(:driver).permit(:name)
   end
 
+  public
   # Remove tag assignment from given attendance id
   def reset_tag_assignment
     @driver = Driver.find(params[:id])
