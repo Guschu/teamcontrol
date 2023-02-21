@@ -129,7 +129,7 @@
                   %span.label.label-danger{ title:'Tag-Zuordnung fehlt', data:{toggle:'tooltip', placement:'bottom'} } Tag!
                 - else
                   %span.label.label-success OK
-                  <%= link_to "Entfernen", reset_tag_assignment_drivers_path(attendance_id: @attendance.id), method: :put %>
+                  = link_to "Entfernen", reset_tag_assignment_drivers_path(attendance_id: @attendance.id), method: :put
 
   .col-md-4
     .panel.panel-default.panel-info.panel-compact
