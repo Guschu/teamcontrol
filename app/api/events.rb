@@ -42,7 +42,8 @@ class Events < Grape::API
       end
 
     else
-      if a = attendances.unassigned.first
+      attendancesSelectedForRegistration = Attendance.where(team_id: race.registrating_team_id)
+      if a = attendancesSelectedForRegistration.unassigned.first
         logger.info "Assigning tag_id to driver #{a.driver.name}"
         if a.update_attributes tag_id: params[:id]
           present ApiResponse.success 'Karte/Tag registriert', a.driver.name
