@@ -21,8 +21,10 @@ class Driver < ActiveRecord::Base
   end
 
   def reset_attendance_assignment(attendance_id)
-    attendances.where(id: attendance_id).tag_id = ''
-   end
+      attendance = attendances.where(id: attendance_id).first
+      attendance.tag_id = ''
+      attendance.save
+  end
 
   def self.free_for_race(race)
     Driver.where.not(id: Attendance.where(team_id: Team.where(race_id: race.id).select(:id)).pluck(:driver_id))
