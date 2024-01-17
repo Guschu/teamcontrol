@@ -37,9 +37,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone.e
 COPY entrypoint.sh /usr/bin/
 RUN ls -l /usr/bin/entrypoint.sh
 RUN chmod +x /usr/bin/entrypoint.sh
-# Convert to unix file endings:
-RUN apk add dos2unix --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted
-RUN dos2unix /usr/bin/entrypoint.sh
 
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
