@@ -15,31 +15,45 @@ Die TeamControl Software unterstützt das durch folgende Funktionen:
 * Protokollierung der Fahrerwechsel
 * Bereitstellen von sekundengenauen Anzeigen für Teams und Rennleitung
 
-## Docker Update
+## Installation 2024
 
-Zur Abwärtskompatibilität wird die Software in Docker Containern gebaut.
-
-Folgende Schritte sind auf einem leeren Unix-basierten Server zu tun:
-
-### URL Weiterleitung
+### URL Weiterleitung setzen
 
 Den DNS A-Record beim Domain-Hoster auf die IP des Servers setzen.
+
+### Repository auschecken
+
+sudo yum install git
+git clone https://github.com/Guschu/teamcontrol.git
+sudo yum install dos2unix
+dos2unix entrypoint.sh
+cp .env.example .env
+mkdir logs
+mkdir logs/rails
+mkdir logs/nginx
+
+### Env Variablen setzen
+
+Selbsterklärend :)
 
 ### Let's encrypt Zertifikat besorgen
 
 Mit 
 
-`sudo certbot certonly --standalone`
+`sudo docker run -it --rm --name certbot \
+            -v "/etc/letsencrypt:/etc/letsencrypt" \
+            -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
+            -p 80:80 \
+            certbot/certbot certonly`
 
 ein Zertifikat besorgen (der Befehl fährt selber einen Server auf Port 80 hoch).
 
-### Docker und Docker Compose installieren
+### Docker Compose installieren
 
-Hier ein bisschen offizielle Doku lesen, Docker und Docker Compose werden benötigt.
+Aktuelle Version ggf. per URL austauschen:
 
-### Umgebungsvariablen
-
-Die .env.example in .env kopieren und die benötigten Werte setzen.
+`sudo curl -SL https://github.com/docker/compose/releases/download/v2.24.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose`
 
 ### Start
 
