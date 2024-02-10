@@ -70,7 +70,7 @@
       .panel-heading
         %h3.panel-title Anpassung des Zeitpunktes
 
-      = simple_form_for @adjust, url:adjust_race_event_url(@race, @event) do |f|
+      = simple_form_for @adjust, url:adjust_race_event_path(@race, @event) do |f|
         .panel-body
           .form-group
             = f.input :new_timestamp, label:'Neuer Zeitpunkt', as: :time
