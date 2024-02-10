@@ -18,6 +18,7 @@ RUN apk add --no-cache libxml2-dev libxslt-dev
 RUN apk add --no-cache shared-mime-info
 RUN apk add --no-cache tzdata
 RUN apk add --no-cache nodejs
+RUN apk --update add imagemagick
 
 # Copy the rest of the application files
 COPY . .
