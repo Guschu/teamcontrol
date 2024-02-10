@@ -125,7 +125,10 @@
           %tr
             %th= Team.human_attribute_name :team_token
             %td
-              = external_link_to @team
+              = external_link_to @team          
+          %tr
+            %th Anzahl Wechsel
+            %td= @team.turns_count
 
   .col-md-4
     .panel.panel-default.panel-info.panel-compact
