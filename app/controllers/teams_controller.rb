@@ -38,6 +38,7 @@ class TeamsController < ApplicationController
   # GET /teams/1.json
   def show
     @penalties = @team.penalties.includes(:driver)
+    headers['Refresh'] = "30"
     render request_by_team_token? ? 'score' : 'show'
   end
 
