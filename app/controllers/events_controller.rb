@@ -42,7 +42,7 @@ class EventsController < ApplicationController
   def adjust
     @event = @race.events.find(params[:id])
     new_time = params_to_date(adjust_params, :new_timestamp)
-    if new_time<@event.created_at
+    if new_time<Time.current
       if @event.reduce_by(@event.created_at - new_time)
         flash[:notice] = 'Event wurde korrigiert'
       else
