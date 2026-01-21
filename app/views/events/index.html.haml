@@ -32,7 +32,7 @@
                   = event.driver.name
                 %td{ class:(event.arriving? ? 'text-left' : 'text-right') }
                   = t event.mode, scope:'event.modes'
-                %td= l event.created_at.strftime('%H:%M:%S.%L')
+                %td= event.created_at.strftime('%H:%M:%S')
                 %td
                   = link_to 'Korrigieren', details_race_event_path(@race, event)
                   = destroy_link_to [@race, event]
