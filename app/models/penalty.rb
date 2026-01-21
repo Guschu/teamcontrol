@@ -33,9 +33,10 @@ class Penalty < ActiveRecord::Base
     val = { team:evt.team, driver:evt.driver }
     penalty = nil
 
+    s = evt.team.to_stats.group_by_driver[evt.driver_id]
+
     case evt.mode.to_sym
     when :arriving
-      s = evt.team.to_stats.group_by_driver[evt.driver_id]
 
       # Unterschreitung der Pausenzeit
       if s.last_break_time.present? && s.last_break_time < race.break_time * 60
