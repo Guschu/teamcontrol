@@ -26,7 +26,7 @@
                     = penalty.team.name
                 %td= penalty.driver.name
                 %td= penalty.reason
-                %td= l penalty.created_at
+                %td= l penalty.created_at.strftime('%H:%M:%S.%L')
         - else
           %tbody
             %tr

@@ -15,7 +15,7 @@
             %th= sort_link @q, :name
             %th= sort_link @q, :driver_id, 'Name'
             %th= sort_link @q, :mode
-            %th= sort_link @q, :created_at.strftime('%H:%M:%S.%L')
+            %th= sort_link @q, :created_at
             %th
 
         - if @events.any?
@@ -32,7 +32,7 @@
                   = event.driver.name
                 %td{ class:(event.arriving? ? 'text-left' : 'text-right') }
                   = t event.mode, scope:'event.modes'
-                %td= l event.created_at
+                %td= l event.created_at.strftime('%H:%M:%S.%L')
                 %td
                   = link_to 'Korrigieren', details_race_event_path(@race, event)
                   = destroy_link_to [@race, event]
