@@ -62,7 +62,7 @@ class Turn < ActiveRecord::Base
                  else
                    race.started_at
                  end
-      new team_id: evt.team_id, driver_id: evt.driver_id, duration: (race.finished_at.nil ? Time.now : race.finished_at) - start_at.to_time).to_i
+      new team_id: evt.team_id, driver_id: evt.driver_id, duration: ((race.finished_at.nil? ? Time.now : race.finished_at) - start_at.to_time).to_i
     end
   end
 end
