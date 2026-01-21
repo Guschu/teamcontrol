@@ -15,7 +15,7 @@
             %th= sort_link @q, :name
             %th= sort_link @q, :driver_id, 'Name'
             %th= sort_link @q, :mode
-            %th= sort_link @q, :created_at
+            %th= sort_link @q, :created_at.strftime('%H:%M:%S.%L')
             %th
 
         - if @events.any?
