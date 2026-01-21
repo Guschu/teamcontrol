@@ -51,9 +51,10 @@ class Penalty < ActiveRecord::Base
       if evt.turn && evt.turn.duration > (race.max_turn + race.waiting_period) * 60
         penalty = Penalty.new val.merge( reason:"Überschreitung der maximalen Fahrzeit: #{Time.at(evt.turn.duration).utc.strftime('%H:%M:%S')}" )
       end
-      # Überschreitung der Gesamtfahrzeit
+      # Überschreitung der Gesamtfahrzeit - wird nicht am Event gespeichert
       if evt.turn && s.total_drive_time > race.max_drive * 60
-        penalty = Penalty.new val.merge( reason:"Überschreitung der maximalen Gesamtfahrzeit für Fahrer #{evt.driver.name}: #{Time.at(s.total_drive_time).utc.strftime('%H:%M:%S')}" )
+        total_penalty = Penalty.new val.merge( reason:"Überschreitung der maximalen Gesamtfahrzeit: #{Time.at(s.total_drive_time).utc.strftime('%H:%M:%S')} (Maximum #{Time.at(race.max_drive * 60).utc.strftime('%H:%M:%S')})" )
+        total_penalty.save!
       end
     end
 
