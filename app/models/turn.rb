@@ -51,10 +51,10 @@ class Turn < ActiveRecord::Base
                     .first
 
       # falls kein vorheriges leaving Event des gleichen Teams, nehmen wir die Startzeit des Rennens zur Berechnung
-      start_at = evt_start.present? evt_start.created_at : race.started_at
+      start_at = evt_start.present? ? evt_start.created_at : race.started_at
 
       new team_id: evt.team_id, driver_id: evt.driver_id, duration: (Time.now - start_at.to_time).to_i
-      
+
     when :leaving
       # vorletzte gehend-Buchung des gleichen Teams, frühestens/alternativ Rennbeginn
       evt_start = Event
