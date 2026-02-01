@@ -46,7 +46,7 @@ class Turn < ActiveRecord::Base
       # letztes leaving Event des gleichen Teams (idealerweise der vorherige Fahrer)
       evt_start = Event
                     .leaving
-                    .where(team_id: event.team_id)
+                    .where(team_id: evt.team_id)
                     .order('created_at desc')
                     .first
 
