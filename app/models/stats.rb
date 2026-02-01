@@ -67,16 +67,17 @@ class Stats
   def current_drive_time
     return if @mode == :leaving
     return if current_driver_id.nil?
+    return if race.start_time.nil?
 
     now = Time.zone.now.to_i
 
-    evt = @events.reverse_each.find { |e| e[3] == 'leaving' }.first
+    evt = @events.reverse_each.find { |e| e[3] == 'leaving' }
     
     start_time =
       if evt
         evt[2] # timestamp of last leaving event of the team
       else
-        race.start_time.to_i # fallback to race start
+        @events.first
       end
 
     now - start_time
