@@ -76,7 +76,7 @@ class Stats
       if evt
         evt[2] # timestamp of last leaving event of the team
       else
-        @events.first
+        @events.first[2]
       end
 
     now - start_time
