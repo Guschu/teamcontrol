@@ -52,7 +52,7 @@ class Stats
   def current_driver_id
     return if @mode == :leaving
 
-    evt = @events.reverse_each.find { |e| e[3] == 'arriving' }
+    evt = @events.each.find { |e| e[3] == 'arriving' }
     if evt.present?
       # find leaving from same driver later in the events
       later_leaving = @events.select do |e|
