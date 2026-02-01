@@ -37,18 +37,24 @@ class Turn < ActiveRecord::Base
     case race.mode.to_sym
     when :both
       # letzte kommend-Buchung des gleichen Fahrers, frühestens/alternativ Rennbeginn
+      # evt_start = Event
+                  # .arriving
+                  # .where(team_id: evt.team_id, driver_id: evt.driver_id)
+                  # .order('created_at desc')
+                  # .first
+      
+      # letztes leaving Event des gleichen Teams (idealerweise der vorherige Fahrer)
       evt_start = Event
-                  .arriving
-                  .where(team_id: evt.team_id, driver_id: evt.driver_id)
-                  .order('created_at desc')
-                  .first
+                    .leaving
+                    .where(team_id: event.team_id)
+                    .order('created_at desc')
+                    .first
 
-      start_at = if evt_start.present?
-                   evt_start.created_at > race.started_at ? evt_start.created_at : race.started_at
-                 else
-                   race.started_at
-                 end
+      # falls kein vorheriges leaving Event des gleichen Teams, nehmen wir die Startzeit des Rennens zur Berechnung
+      start_at = evt_start.present? evt_start.created_at : race.started_at
+
       new team_id: evt.team_id, driver_id: evt.driver_id, duration: (Time.now - start_at.to_time).to_i
+      
     when :leaving
       # vorletzte gehend-Buchung des gleichen Teams, frühestens/alternativ Rennbeginn
       evt_start = Event
