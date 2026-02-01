@@ -70,7 +70,7 @@ class Stats
 
     now = Time.zone.now.to_i
 
-    evt = @events.reverse_each.find { |e| e[3] == 'leaving' }
+    evt = @events.reverse_each.find { |e| e[3] == 'leaving' }.first
     
     start_time =
       if evt
@@ -80,8 +80,6 @@ class Stats
       end
 
     now - start_time
-    
-    now - evt[2] if evt.present?
   end
 
   def group_by_team
