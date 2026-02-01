@@ -71,7 +71,7 @@ class Stats
     return if id.nil?
 
     now = Time.zone.now.to_i
-    evt = @events.reverse_each.find { |e| e[1] == id && e[3] == 'arriving' }
+    evt = @events.reverse_each.find { |e| e[3] == 'leaving' }
     now - evt[2] if evt.present?
   end
 
