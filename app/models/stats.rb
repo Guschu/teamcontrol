@@ -67,7 +67,6 @@ class Stats
   def current_drive_time
     return if @mode == :leaving
     return if current_driver_id.nil?
-    return if race.start_time.nil?
 
     now = Time.zone.now.to_i
 
