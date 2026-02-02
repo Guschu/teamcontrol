@@ -50,18 +50,18 @@ class Stats
   end
 
   def current_driver_id
-    return if @mode == :leaving
+    return nil if @mode == :leaving
+    active_drivers = []
 
-    evt = @events.reverse_each.find { |e| e[3] == 'arriving' }
-    if evt.present?
-      # find leaving from same driver later in the events
-      later_leaving = @events.select do |e|
-        e[2]>evt[2] && # only where timestamp is greater
-        e[1] == evt[1] && #same driver id
-        e[3] == 'leaving'
+    @events.each do |_, driver_id, _, mode|
+      if mode == 'arriving'
+        active_drivers << driver_id unless active_drivers.include?(driver_id)
+      elsif mode == 'leaving'
+        active_drivers.delete(driver_id)
       end
-      evt[1] unless later_leaving.any?
     end
+
+    active_drivers.first # nil if none, first one if one or more
   end
 
 
