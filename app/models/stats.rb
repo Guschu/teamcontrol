@@ -50,20 +50,21 @@ class Stats
   end
 
   def current_driver_id
-    return if @mode == :leaving
+    return nil if @mode == :leaving
+    return nil if @events.empty?
 
-    active = {}
+    # Find the timestamp of the last leaving event
+    last_leaving = @events.reverse.find { |e| e[3] == 'leaving' }
+    last_leaving_time = last_leaving ? last_leaving[2] : nil
 
-    @events.each do |team_id, driver_id, ts, mode|
-      if mode == 'arriving'
-        active[driver_id] = ts
-      elsif mode == 'leaving'
-        active.delete(driver_id)
-      end
+    # Find the most recent arriving event after that
+    last_arriving = @events.reverse.find do |e|
+      e[3] == 'arriving' && (last_leaving_time.nil? || e[2] > last_leaving_time)
     end
 
-    active.keys.last
+    last_arriving ? last_arriving[1] : nil
   end
+
 
   def current_drive_time
     return if @mode == :leaving
