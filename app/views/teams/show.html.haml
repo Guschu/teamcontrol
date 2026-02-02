@@ -22,7 +22,7 @@
         %th= att.driver.name
         %td.text-right
           - if @race.active? && att.driver_id == st.current_driver_id
-            %span.timer{ data:{ mode:'timer', start:(Time.now - sd.current_drive_time).to_i*1000, warning:@race.max_turn*60, error:(@race.max_turn+@race.waiting_period)*60 } }= seconds_format sd.current_drive_time
+            %span.timer{ data:{ mode:'timer', start:(Time.now - st.current_drive_time).to_i*1000, warning:@race.max_turn*60, error:(@race.max_turn+@race.waiting_period)*60 } }= seconds_format st.current_drive_time
           - else
             –
         %td.text-right
