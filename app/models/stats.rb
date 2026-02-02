@@ -52,16 +52,17 @@ class Stats
   def current_driver_id
     return if @mode == :leaving
 
-    evt = @events.each.find { |e| e[3] == 'arriving' }
-    if evt.present?
-      # find leaving from same driver later in the events
-      later_leaving = @events.select do |e|
-        e[2]>evt[2] && # only where timestamp is greater
-        e[1] == evt[1] && #same driver id
-        e[3] == 'leaving'
+    active = {}
+
+    @events.each do |team_id, driver_id, ts, mode|
+      if mode == 'arriving'
+        active[driver_id] = ts
+      elsif mode == 'leaving'
+        active.delete(driver_id)
       end
-      evt[1] unless later_leaving.any?
     end
+
+    active.keys.last
   end
 
   def current_drive_time
