@@ -55,7 +55,7 @@ class Stats
     # Track each driver's last known state
     state = {}
 
-    @events.reverse_each do |team_id, driver_id, ts, mode|
+    @events.each do |team_id, driver_id, ts, mode|
       state[driver_id] = mode
     end
 
