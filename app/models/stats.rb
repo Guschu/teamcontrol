@@ -59,12 +59,10 @@ class Stats
       state[driver_id] = mode
     end
 
-    # Find the FIRST driver whose last state is arriving
-    @events.each do |team_id, driver_id, ts, mode|
-      return driver_id if state[driver_id] == 'arriving'
-    end
+    # Find all active drivers:
+    active_drivers = state.select { |_, mode| mode == 'arriving'}.keys
 
-    nil
+    active_drivers.first
   end
 
 
