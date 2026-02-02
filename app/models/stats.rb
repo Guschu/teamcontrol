@@ -50,19 +50,18 @@ class Stats
   end
 
   def current_driver_id
-    return nil if @mode == :leaving
+    return if @mode == :leaving
 
-    # Track each driver's last known state
-    state = {}
-
-    @events.each do |team_id, driver_id, ts, mode|
-      state[driver_id] = mode
+    evt = @events.reverse_each.find { |e| e[3] == 'arriving' }
+    if evt.present?
+      # find leaving from same driver later in the events
+      later_leaving = @events.select do |e|
+        e[2]>evt[2] && # only where timestamp is greater
+        e[1] == evt[1] && #same driver id
+        e[3] == 'leaving'
+      end
+      evt[1] unless later_leaving.any?
     end
-
-    # Find all active drivers:
-    active_drivers = state.select { |_, mode| mode == 'arriving'}.keys
-
-    active_drivers.first
   end
 
 
