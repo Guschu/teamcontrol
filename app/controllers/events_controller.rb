@@ -44,17 +44,14 @@ class EventsController < ApplicationController
     new_time = params_to_date(adjust_params, :new_timestamp)
 
     if new_time < Time.current
-      transaction_success = ActiveRecord::Base.transaction do
-        @event.update_column(:created_at, new_time)
-        Event.recalculate_for_team!(@event.team)
-        true
+      begin
+        ActiveRecord::Base.transaction do
+          @event.update_column(:created_at, new_time)
+          Event.recalculate_for_team!(@event.team)
+        end
+        flash[:notice] = 'Event wurde korrigiert'
       rescue ActiveRecord::RecordInvalid => e
         flash[:error] = "Korrektur nicht erfolgreich: #{e.message}"
-        raise ActiveRecord::Rollback
-      end
-
-      if transaction_success
-        flash[:notice] = 'Event wurde korrigiert'
       end
     else
       flash[:notice] = 'Keine kleinere Korrekturzeit angegeben'
