@@ -34,41 +34,32 @@ class Turn < ActiveRecord::Base
   def self.for_event(evt)
     return if evt.nil? || evt.arriving?
     race = evt.team.race
+
     case race.mode.to_sym
     when :both
-      # letzte kommend-Buchung des gleichen Fahrers, frühestens/alternativ Rennbeginn
-      # evt_start = Event
-                  # .arriving
-                  # .where(team_id: evt.team_id, driver_id: evt.driver_id)
-                  # .order('created_at desc')
-                  # .first
-      
-      # letztes leaving Event des gleichen Teams (idealerweise der vorherige Fahrer)
       evt_start = Event
                     .leaving
                     .where(team_id: evt.team_id)
+                    .where('created_at < ?', evt.created_at)
                     .order('created_at desc')
                     .first
-
-      # falls kein vorheriges leaving Event des gleichen Teams, nehmen wir die Startzeit des Rennens zur Berechnung
       start_at = evt_start.present? ? evt_start.created_at : race.started_at
-
-      new team_id: evt.team_id, driver_id: evt.driver_id, duration: (Time.now - start_at.to_time).to_i
+      new team_id: evt.team_id, driver_id: evt.driver_id, duration: (evt.created_at - start_at.to_time).to_i
 
     when :leaving
-      # vorletzte gehend-Buchung des gleichen Teams, frühestens/alternativ Rennbeginn
       evt_start = Event
-                  .leaving
-                  .where(team_id: evt.team_id)
-                  .order('created_at desc')
-                  .first
-
+                    .leaving
+                    .where(team_id: evt.team_id)
+                    .where('created_at < ?', evt.created_at)
+                    .order('created_at desc')
+                    .first
       start_at = if evt_start.present?
-                   evt_start.created_at > race.started_at ? evt_start.created_at : race.started_at
-                 else
-                   race.started_at
-                 end
-      new team_id: evt.team_id, driver_id: evt.driver_id, duration: ((race.finished_at.nil? ? Time.now : race.finished_at) - start_at.to_time).to_i
+                  evt_start.created_at > race.started_at ? evt_start.created_at : race.started_at
+                else
+                  race.started_at
+                end
+      new team_id: evt.team_id, driver_id: evt.driver_id, duration: ((race.finished_at.nil? ? evt.created_at : race.finished_at) - start_at.to_time).to_i
     end
   end
+  
 end
