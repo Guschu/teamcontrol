@@ -59,6 +59,42 @@ class Event < ActiveRecord::Base
     true
   end
 
+  def self.recalculate_for_team!(team)
+    # Process events in chronological order so that Turn.for_event sees
+    # the correct preceding events when recalculating each turn
+    Event.where(team_id: team.id).order(:created_at).each do |event|
+      event.recalculate_turn_and_penalty!
+    end
+  end
+
+  def recalculate_turn_and_penalty!
+    # Destroy existing associations without triggering dependent: :destroy cascade on self
+    if self.turn
+      old_turn = self.turn
+      update_column(:turn_id, nil)
+      old_turn.destroy
+    end
+    if self.penalty
+      old_penalty = self.penalty
+      update_column(:penalty_id, nil)
+      old_penalty.destroy
+    end
+
+    # Recalculate turn
+    if new_turn = Turn.for_event(self)
+      new_turn.save!
+      update_column(:turn_id, new_turn.id)
+      self.turn = new_turn
+    end
+
+    # Recalculate penalty
+    if new_penalty = Penalty.for_event(self)
+      new_penalty.save!
+      update_column(:penalty_id, new_penalty.id)
+      self.penalty = new_penalty
+    end
+  end
+
   def race
     @race ||= Race.joins(:teams).find_by teams:{ id:self.team_id }
   end

@@ -42,15 +42,24 @@ class EventsController < ApplicationController
   def adjust
     @event = @race.events.find(params[:id])
     new_time = params_to_date(adjust_params, :new_timestamp)
-    if new_time<Time.current
-      if @event.reduce_by(@event.created_at - new_time)
+
+    if new_time < Time.current
+      transaction_success = ActiveRecord::Base.transaction do
+        @event.update_column(:created_at, new_time)
+        Event.recalculate_for_team!(@event.team)
+        true
+      rescue ActiveRecord::RecordInvalid => e
+        flash[:error] = "Korrektur nicht erfolgreich: #{e.message}"
+        raise ActiveRecord::Rollback
+      end
+
+      if transaction_success
         flash[:notice] = 'Event wurde korrigiert'
-      else
-        flash[:error] = 'Korrektur nicht erfolgreich'
       end
     else
       flash[:notice] = 'Keine kleinere Korrekturzeit angegeben'
     end
+
     redirect_to details_race_event_path(@race, @event)
   end
 
