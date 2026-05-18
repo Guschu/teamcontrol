@@ -53,6 +53,7 @@ Anwendung vorbereiten:
 git clone https://github.com/Guschu/teamcontrol.git
 apt install dos2unix
 dos2unix entrypoint.sh
+cd teamcontrol
 cp .env.example .env
 mkdir logs
 mkdir logs/rails
