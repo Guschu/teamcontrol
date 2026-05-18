@@ -21,43 +21,70 @@ Die TeamControl Software unterstützt das durch folgende Funktionen:
 
 Den DNS A-Record beim Domain-Hoster auf die IP des Servers setzen.
 
-### Repository auschecken
+### Installation
 
-sudo yum install git
+Docker installieren:
+```
+# Add Docker's official GPG key:
+sudo apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+Anwendung vorbereiten:
+
+```
 git clone https://github.com/Guschu/teamcontrol.git
-sudo yum install dos2unix
+apt install dos2unix
 dos2unix entrypoint.sh
 cp .env.example .env
 mkdir logs
 mkdir logs/rails
 mkdir logs/nginx
+```
 
 ### Env Variablen setzen
 
 Selbsterklärend :)
+```
+vim .env
+```
 
 ### Let's encrypt Zertifikat besorgen
 
 Mit 
 
-`sudo docker run -it --rm --name certbot \
+```
+sudo docker run -it --rm --name certbot \
             -v "/etc/letsencrypt:/etc/letsencrypt" \
             -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
             -p 80:80 \
-            certbot/certbot certonly`
+            certbot/certbot certonly
+```
 
 ein Zertifikat besorgen (der Befehl fährt selber einen Server auf Port 80 hoch).
 
-### Docker Compose installieren
-
-Aktuelle Version ggf. per URL austauschen:
-
-`sudo curl -SL https://github.com/docker/compose/releases/download/v2.24.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose`
-
 ### Start
 
-Mit `docker-compose up -d` das System hochfahren und ab geht die Post.
+```
+docker compose up -d
+```
 
 
 ## API Dokumentation
